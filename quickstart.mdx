@@ -1,0 +1,74 @@
+---
+title: "Quickstart"
+description: "Compile and run your first script through the WebSocket command channel."
+---
+
+The fastest path from a fresh clone to a running script is four steps: build, inject, connect, execute.
+
+<Steps>
+  <Step title="Build">
+
+    From the repo root, build the Release configuration. Output is the DLL that gets injected.
+
+  </Step>
+  <Step title="Inject">
+
+    Load the built DLL into the running game process. Once loaded, the host initializes subsystems — critical section, console, signature scanner, native class bindings, game hooks, overlay, networking — and starts the command server on `127.0.0.1:27015`.
+
+    Every line the host prints is also broadcast to all WebSocket clients.
+
+  </Step>
+  <Step title="Connect a WebSocket client">
+
+    Connect to `ws://127.0.0.1:27015`. The server greets with:
+
+    ```json
+    { "type": "hello", "version": "1.0" }
+    ```
+
+    Anything that speaks WS works — `wscat`, a small Python script, or a custom GUI. Every line you see in the host console will also arrive on this socket.
+
+  </Step>
+  <Step title="Send your first execute">
+
+    Drop a directory containing one or more `.c` / `.ec` files anywhere on disk. Each must define `class <Name> { void Run(); }` — `Run` is the entry point. Example:
+
+    ```enforce
+    // C:\scripts\hello\Hello.c
+    class Hello {
+        void Run() {
+            Console.Log("hello from a script");
+            Console.Log("players = " + Memory.ReadInt(Memory.GameBase() + 0x1234));
+        }
+    }
+    ```
+
+    From the client:
+
+    ```json
+    { "type": "execute", "dir": "C:\\scripts\\hello", "class": "Hello", "entry": "Run" }
+    ```
+
+    The host stages the prelude (so every native class is in scope) plus every `.c`/`.ec` from your dir, compiles, wires up your native calls to the C++ handlers, instantiates your class, and calls `Run`.
+
+    A success reply arrives shortly:
+
+    ```json
+    { "type": "result", "ok": true, "message": "executed" }
+    ```
+
+  </Step>
+</Steps>
+
+## Debugging
+
+- The host console shows every log line. Open it from the process window.
+- A mirror log file captures the same lines for offline review.
+- Errors arrive on the WS as `{"type":"result","ok":false,"message":"…"}`.
+
+## What's next
+
+- [Memory](/reference/memory) — read and write game memory.
+- [Drawing](/reference/drawing) — render an overlay.
+- [Hooking](/reference/hooking) — instrument an engine method.
+- [Net](/reference/net) and [WebSocket](/reference/websocket) — talk to your own backend.

@@ -1,0 +1,67 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "luma",
+  "name": "Reforged Docs",
+  "description": "Script API reference for the Reforged Enforce script runtime.",
+  "colors": {
+    "primary": "#0891B2",
+    "light": "#22D3EE",
+    "dark": "#0891B2"
+  },
+  "favicon": "/favicon.svg",
+  "icons": {
+    "library": "lucide"
+  },
+  "interaction": {
+    "drilldown": false
+  },
+  "navigation": {
+    "groups": [
+      {
+        "group": "Get started",
+        "icon": "rocket",
+        "pages": [
+          "intro",
+          "quickstart"
+        ]
+      },
+      {
+        "group": "Reference",
+        "icon": "book-open",
+        "pages": [
+          "reference/console",
+          "reference/memory",
+          "reference/env",
+          "reference/drawing",
+          "reference/hooking",
+          "reference/net",
+          "reference/websocket",
+          "reference/input",
+          "reference/thread",
+          "reference/workspace",
+          "reference/crypt",
+          "reference/regex",
+          "reference/diag"
+        ]
+      }
+    ]
+  },
+  "appearance": {
+    "default": "system",
+    "strict": false
+  },
+  "fonts": {
+    "family": "Inter",
+    "heading": {
+      "family": "Inter",
+      "weight": 600
+    }
+  },
+  "background": {
+    "decoration": "gradient",
+    "color": {
+      "light": "#F8FAFC",
+      "dark": "#0B1220"
+    }
+  }
+}

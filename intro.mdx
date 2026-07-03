@@ -1,0 +1,47 @@
+---
+title: "Introduction"
+description: "What every script inherits and how the public API is wired in."
+---
+
+The host exposes a fixed set of classes that your scripts can call directly. They are declared by the prelude staged into every script's compile directory, so your code never needs to redeclare or import them — just call the methods.
+
+## What's available
+
+- `Console` — `Log(string)`
+- `Memory` — pointer R/W, AOB scan, allocations, hex utilities
+- `Env` — per-process key/value store that survives across executes
+- `Drawing` — overlay: transient primitives + persistent handle objects
+- `Hooking` — install / read / write instrumented hooks on engine methods
+- `Net` — HTTP + HTTPS
+- `WebSocket` — WS + WSS clients
+- `Input` — keyboard + mouse polling
+- `Thread` — spawn worker threads
+- `Workspace` — sandboxed filesystem
+- `Crypt` — hashes, HMAC, base64, AES
+- `Regex` — ECMAScript regex
+- `Diag` — backtraces, OS state, working set
+
+## Calling conventions
+
+All natives are `static`. There is no implicit `this`. Calls follow the engine's calling convention:
+
+- `int`, `bool` → 32-bit register
+- `float` → `xmm` register
+- `string` → `const char*`; returning a native writes into a process-static buffer that is reused on the next call. Native calls are serialized, so the engine copies the C-string into a script-owned string before the buffer can be mutated
+- `pointer` → 64-bit full-width. Never cast through `int`
+
+## Error handling
+
+Every native wraps its body so that a fault inside it returns a documented safe default rather than crashing the host:
+
+- reads → `0` / `""` / `0.0f`
+- writes → silent no-op
+- string-returning → `""`
+- container access → empty
+
+`Regex` is the exception: its handlers catch C++ exceptions because `std::regex` and `std::string` have destructors.
+
+## Where to go next
+
+- [Quickstart](/quickstart) — get the first script compiled and running.
+- Browse the **Reference** sidebar for per-method documentation of every native class.
