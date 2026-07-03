@@ -1,0 +1,33 @@
+---
+title: "Workspace.NewFolder"
+description: "Create a directory under a parent path."
+---
+
+Creates a new directory inside an existing parent folder. Both arguments are path-validated against the sandbox; the directory is created relative to the workspace root.
+
+## Signature
+
+```enforce
+static proto native int NewFolder(string parentPath, string name);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| parentPath | `string` | Path to the parent directory, relative to the workspace root. |
+| name | `string` | Name of the new folder. Subject to file-name validation rules. |
+
+## Returns
+
+`1` on success, `0` if the parent path doesn't exist, the name is invalid, or the underlying creation fails.
+
+## Behavior
+
+Creates only one level — `parentPath` must already exist. `name` is validated with the same rules as file names (no `< > " | ? * :`, no control chars, no separators, max 200 chars).
+
+## Example
+
+```enforce
+Workspace.NewFolder("logs", "session");
+```

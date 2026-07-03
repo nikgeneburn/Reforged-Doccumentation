@@ -1,0 +1,31 @@
+---
+title: "Diag"
+description: "Native-side introspection: backtraces, OS state, working set, last error."
+---
+
+`Diag` is for native-side introspection. All handlers are fault-tolerant and safe to call from anywhere. String returns go into a shared buffer that the engine copies at the call boundary, so don't hold on to a returned string across another `Diag.*` call.
+
+## Methods
+
+| Method | Returns | Summary |
+|---|---|---|
+| [Diag.Backtrace](./diag/backtrace) | string | Newline-separated hex return addresses for the calling thread |
+| [Diag.BacktraceWithModules](./diag/backtracewithmodules) | string | Backtrace with each frame annotated by module |
+| [Diag.ModuleForAddress](./diag/moduleforaddress) | string | Resolve an address to a `<module>+0x<offset>` string |
+| [Diag.ProcessId](./diag/processid) | int | OS process id |
+| [Diag.ThreadId](./diag/threadid) | int | OS thread id of the calling thread |
+| [Diag.GetTickCount](./diag/gettickcount) | int | Milliseconds since system boot (low 32 bits) |
+| [Diag.MemoryUsageKB](./diag/memoryusagekb) | int | Process working-set size in KiB |
+| [Diag.GetLastError](./diag/getlasterror) | int | The thread-local Win32 last-error value |
+
+## Putting it together
+
+```enforce
+class Demo {
+    void Run() {
+        Console.Log("pid=" + Diag.ProcessId() + " tid=" + Diag.ThreadId());
+        Console.Log("uptime ms=" + Diag.GetTickCount());
+        Console.Log(Diag.BacktraceWithModules(8));
+    }
+}
+```

@@ -1,0 +1,41 @@
+---
+title: "Crypt.Hmac"
+description: "Keyed-hash message authentication code using a named hash algorithm."
+---
+
+Compute a keyed digest (HMAC) of `data` using `key` and the named hash algorithm. Same algorithm set and lowercase-hex output as [Crypt.Hash](./hash). Useful for verifying that a message came from someone holding the shared key without revealing it.
+
+## Signature
+
+```enforce
+static proto native string Hmac(string key, string data, string algo);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| key | string | Secret key. `null` returns `""` early. |
+| data | string | Bytes to authenticate. `null` is treated as 0-length. |
+| algo | string | One of `md5`, `sha1`, `sha256`, `sha384`, `sha512` (case-insensitive). |
+
+## Returns
+
+The lowercase hex HMAC, or `""` on any failure (including unknown `algo`).
+
+## Behavior
+
+Same algorithm set and output format as `Crypt.Hash`. Both `key` and `data` are passed through as script strings; `null` is normalised to empty before the digest is computed.
+
+## Edge cases
+
+- Unknown `algo` returns `""`.
+- `null` for `key` returns `""` immediately, before any hashing work.
+- Return shares the process-wide buffer with other `Crypt.*` string returns.
+
+## Example
+
+```enforce
+string sig = Crypt.Hmac("topsecret", "hello world", "sha256");
+Console.Log("hmac-sha256 = " + sig);
+```

@@ -1,0 +1,43 @@
+---
+title: "Regex.Find"
+description: "Return the byte index of the first regex match at or after startIdx."
+---
+
+Returns the byte index of the first match of `pattern` in `input` whose start position is `>= startIdx`. Returns `-1` if there is no match.
+
+## Signature
+
+```enforce
+static proto native int Find(string pattern, string input, int startIdx);
+```
+
+## Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| pattern | `string` | The ECMAScript regex pattern. |
+| input | `string` | The haystack to search. |
+| startIdx | `int` | The minimum match-start position. Negative values are clamped to `0`. |
+
+## Returns
+
+The byte index of the first match start at or after `startIdx`, relative to the original `input` (not relative to `startIdx` itself). `-1` if no match / on failure.
+
+## Behavior
+
+Index bookkeeping uses the original `input`: if `startIdx == 7` and the first match is at offset `3` past `startIdx`, the returned index is `10` (assuming the match really did start 3 bytes after `startIdx == 7`), not `3`. The pattern is compiled on every call; cache via [Env.SetString](../env/setstring) if you reuse one.
+
+## Edge cases
+
+- `startIdx < 0` is clamped to `0`.
+- `startIdx >= input length` returns `-1`.
+- `pattern == null` or `input == null` returns `-1`.
+- A compile or search exception yields `-1`.
+- The returned index is **relative to the original `input`**, not relative to `startIdx + offset`.
+
+## Example
+
+```enforce
+int i = Regex.Find("[0-9]+", "abc 42 def 7", 0); // 4
+int j = Regex.Find("[0-9]+", "abc 42 def 7", 7); // 10
+```

@@ -1,0 +1,38 @@
+---
+title: "Crypt.RandomBase64"
+description: "Generate cryptographically random bytes and return them base64-encoded."
+---
+
+Generate `bytes` random bytes from the OS RNG and return them as a standard-alphabet base64 string. Useful for tokens, nonces, and session identifiers where you want fewer characters than hex.
+
+## Signature
+
+```enforce
+static proto native string RandomBase64(int bytes);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| bytes | int | Number of random bytes to generate. |
+
+## Returns
+
+A standard-alphabet base64 string, or `""` if `bytes <= 0`. The output length is roughly `ceil(bytes * 4 / 3)`.
+
+## Behavior
+
+Bytes come from the OS cryptographically-secure RNG.
+
+## Edge cases
+
+- `bytes <= 0` returns `""`.
+- Return shares the process-wide buffer with other `Crypt.*` string returns.
+
+## Example
+
+```enforce
+string token = Crypt.RandomBase64(32);  // ~44 chars, URL-host-safe
+Console.Log("session token = " + token);
+```

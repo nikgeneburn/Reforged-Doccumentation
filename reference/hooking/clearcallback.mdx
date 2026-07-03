@@ -1,0 +1,24 @@
+---
+title: "Hooking.ClearCallback"
+description: "Zero the slot's script callback."
+---
+
+Zeros the slot's script callback. Subsequent dispatches fall through to the constant return value set by [SetHookReturnInt](./hooking/sethookreturnint).
+
+## Signature
+
+```enforce
+static proto native void ClearCallback(int hookId);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| hookId | `int` | The slot id. |
+
+## Example
+
+```enforce
+Hooking.ClearCallback(id);
+```

@@ -1,0 +1,36 @@
+---
+title: "Drawing.SetSize"
+description: "Sets the width and height of a persistent Square or Box."
+---
+
+`Drawing.SetSize` configures the dimensions of a Square/Box object.
+
+## Signature
+
+```enforce
+static proto native void SetSize(int handle, int w, int h);
+```
+
+## Parameters
+
+- `handle` — a handle returned by [Drawing.New](new).
+- `w` — width in pixels.
+- `h` — height in pixels.
+
+## Behavior
+
+Width and height in screen-space pixels, measured from the anchor set by [SetPosition](setposition) (top-left for squares).
+
+## Edge cases
+
+- No-op on bad handles.
+- No-op on non-square kinds (`Line`, `Circle`, `Text`).
+- Negative or zero dimensions produce degenerate geometry and are accepted without error.
+
+## Example
+
+```enforce
+int box = Drawing.New("Square");
+Drawing.SetPosition(box, 40, 40);
+Drawing.SetSize(box, 200, 16);
+```

@@ -1,0 +1,39 @@
+---
+title: "Crypt.Hash"
+description: "One-way digest of a string using a named hash algorithm."
+---
+
+Compute a one-way digest of `data` using the algorithm named by `algo`. The result is the lowercase hex-encoded digest. `data` may be empty or null (treated as a zero-length string).
+
+## Signature
+
+```enforce
+static proto native string Hash(string data, string algo);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| data | string | Bytes to digest. `null` is treated as a 0-length string. |
+| algo | string | One of `md5`, `sha1`, `sha256`, `sha384`, `sha512` (case-insensitive). |
+
+## Returns
+
+The lowercase hex digest, or `""` if `algo` is not recognised or the underlying hash step fails.
+
+## Behavior
+
+The hash is computed in a single call into the OS crypto provider; the output is hex-encoded with lowercase letters.
+
+## Edge cases
+
+- Unknown `algo` returns `""` — there is no error code, just an empty string.
+- The return value points into a process-wide buffer that the engine copies at the native-call boundary. If you need to keep the result, capture it into a local string before calling another `Crypt.*` method.
+
+## Example
+
+```enforce
+string h = Crypt.Hash("hello world", "sha256");
+// h = "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
+```

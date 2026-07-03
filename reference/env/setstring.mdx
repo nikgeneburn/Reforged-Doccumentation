@@ -1,0 +1,36 @@
+---
+title: "Env.SetString"
+description: "Set a string value by key in the Env store."
+---
+
+Set the string value for `key`. `v` is truncated to 255 characters. `null` is stored as `""`. Silent no-op if the pool is full (256 entries).
+
+## Signature
+
+```enforce
+static proto native void SetString(string key, string v);
+```
+
+## Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| key | `string` | The key to write. |
+| v | `string` | The string value to store. Truncated to 255 chars; `null` becomes `""`. |
+
+## Behavior
+
+The store is locked. The kind is recorded as String. Overwriting a key of a different kind is allowed; the kind switches. Calling `SetString` on an existing String key invalidates any pointer previously returned by [Env.GetString](./getstring) on that key — make sure callers have already copied the prior string into a script-owned value before you overwrite.
+
+## Edge cases
+
+- Values longer than 255 characters are silently truncated.
+- `null` becomes `""`.
+- Writing past the 256-entry cap is a silent no-op.
+- Cross-kind overwrite invalidates prior `GetString` pointers.
+
+## Example
+
+```enforce
+Env.SetString("user", "admin");
+```

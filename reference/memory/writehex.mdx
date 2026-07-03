@@ -1,0 +1,34 @@
+---
+title: "Memory.WriteHex"
+description: "Write hex-formatted bytes into game memory."
+---
+
+Parses `hex` and writes the resulting bytes at `p`. Flips protection to RWX, writes, restores. Max 1024 output bytes per call.
+
+## Signature
+
+```enforce
+static proto native void WriteHex(pointer p, string hex);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `p` | `pointer` | Target address. |
+| `hex` | `string` | `"48 8B C1"` or `"488BC1"` style. **No wildcards** — that's `AobScan`. |
+
+## Returns
+
+`void`. Silent on bad address / fault.
+
+## Edge cases
+
+- Max **1024 output bytes** per call.
+- Wildcards (`?`) are not accepted.
+
+## Example
+
+```enforce
+Memory.WriteHex(funcAddr, "48 31 C0 C3");  // xor rax,rax; ret
+```

@@ -1,0 +1,38 @@
+---
+title: "Thread.Sleep"
+description: "Sleep the calling thread for a number of milliseconds."
+---
+
+Pause the calling thread for `ms` milliseconds. `ms <= 0` is a no-op.
+
+## Signature
+
+```enforce
+static proto native void Sleep(int ms);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| ms | int | Milliseconds to sleep. `0` or negative values return immediately. |
+
+## Behavior
+
+Sleeps the calling OS thread. In script code that runs on the main thread, this blocks the entire interpreter.
+
+## Edge cases
+
+- `ms <= 0` is a no-op — no sleep at all.
+- Sleeping on the main thread blocks every other queued spawned thread, because they all share the same critical section.
+
+## Example
+
+```enforce
+class Demo {
+    void Run() {
+        Thread.Sleep(50);
+        Console.Log("50ms later");
+    }
+}
+```

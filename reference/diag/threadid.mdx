@@ -1,0 +1,26 @@
+---
+title: "Diag.ThreadId"
+description: "Return the OS thread id of the calling thread."
+---
+
+Return the Win32 thread id of the calling thread. Useful to disambiguate execution across spawned worker threads.
+
+## Signature
+
+```enforce
+static proto native int ThreadId();
+```
+
+## Returns
+
+The OS thread id of the calling thread.
+
+## Behavior
+
+A thin wrapper over `GetCurrentThreadId`. The value differs from script-side tracking only if you also use [Thread.GetId](./thread/getid) (which it matches).
+
+## Example
+
+```enforce
+Console.Log("running on thread " + Diag.ThreadId());
+```

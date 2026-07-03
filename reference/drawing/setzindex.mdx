@@ -1,0 +1,34 @@
+---
+title: "Drawing.SetZIndex"
+description: "Sets the sort order of a persistent object."
+---
+
+`Drawing.SetZIndex` controls draw ordering among visible persistent objects.
+
+## Signature
+
+```enforce
+static proto native void SetZIndex(int handle, int z);
+```
+
+## Parameters
+
+- `handle` — a handle returned by [Drawing.New](new).
+- `z` — sort key.
+
+## Behavior
+
+Lower `z` draws first and appears underneath. Default is 1.
+
+## Edge cases
+
+- No-op on bad handles.
+- Z-index is independent of the global pool ID, so newly-created objects can place themselves anywhere on the stack.
+- Ties are broken by the underlying storage order.
+
+## Example
+
+```enforce
+int box = Drawing.New("Square");
+Drawing.SetZIndex(box, 10);
+```

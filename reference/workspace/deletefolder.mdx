@@ -1,0 +1,33 @@
+---
+title: "Workspace.DeleteFolder"
+description: "Delete a folder. Non-recursive — must be empty."
+---
+
+Deletes the folder at `path`. The folder must be empty for the delete to succeed.
+
+## Signature
+
+```enforce
+static proto native int DeleteFolder(string path);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| path | `string` | Path to the folder, relative to the workspace root. |
+
+## Returns
+
+`1` on success, `0` if the path is missing, not a folder, non-empty, or invalid.
+
+## Edge cases
+
+**Non-recursive.** Windows' delete-folder call requires the folder to be empty; a non-empty folder silently returns `0`. To delete a tree, enumerate its files with [ListFiles](./workspace/listfiles), delete them, then call `DeleteFolder` on the now-empty folder.
+
+## Example
+
+```enforce
+Workspace.DeleteFile("logs/session/today.txt");
+Workspace.DeleteFolder("logs/session");
+```

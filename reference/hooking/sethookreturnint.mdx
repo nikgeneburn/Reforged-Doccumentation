@@ -1,0 +1,25 @@
+---
+title: "Hooking.SetHookReturnInt"
+description: "Set the constant return value pushed by the stub."
+---
+
+Updates the constant return value that the stub pushes when the hook is enabled. For a currently-enabled script-bodied hook, the stub bytecodes are rebuilt with the new constant and patched back into place.
+
+## Signature
+
+```enforce
+static proto native void SetHookReturnInt(int hookId, int value);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| hookId | `int` | The slot id. |
+| value | `int` | The new return value. |
+
+## Example
+
+```enforce
+Hooking.SetHookReturnInt(id, 0);
+```

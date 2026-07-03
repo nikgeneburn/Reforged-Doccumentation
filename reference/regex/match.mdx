@@ -1,0 +1,39 @@
+---
+title: "Regex.Match"
+description: "Return the text of the first regex match in an input string."
+---
+
+Returns the text of the first match (the full match span) of `pattern` in `input`, or `""` if there is no match. The result is a byte-for-byte copy; no encoding conversion is performed.
+
+## Signature
+
+```enforce
+static proto native string Match(string pattern, string input);
+```
+
+## Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| pattern | `string` | The ECMAScript regex pattern. |
+| input | `string` | The haystack to search. |
+
+## Returns
+
+The text of the first match span, or `""` if no match / on failure.
+
+## Behavior
+
+The pattern is compiled on every call; cache via [Env.SetString](../env/setstring) if you reuse one. The return buffer is shared with the rest of `Regex` (4 KiB cap on `Receive`-style buffers; the result here shares the 128 KB result buffer used by `Match` and `Replace` and `Escape`). Copy into a script-owned string at the native-call boundary if you need to keep it.
+
+## Edge cases
+
+- No match returns `""` — indistinguishable from a successful match on empty input.
+- A compile or search exception yields `""`.
+- Multi-byte characters are returned byte-for-byte, with no normalization.
+
+## Example
+
+```enforce
+string m = Regex.Match("[0-9]+", "abc 42 def 7"); // "42"
+```

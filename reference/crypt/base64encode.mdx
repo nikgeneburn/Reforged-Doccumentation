@@ -1,0 +1,38 @@
+---
+title: "Crypt.Base64Encode"
+description: "Encode a string to standard-alphabet base64."
+---
+
+Encode the input string as a standard-alphabet base64 string (no URL-safe variant, no line wrapping).
+
+## Signature
+
+```enforce
+static proto native string Base64Encode(string s);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| s | string | The string to encode. |
+
+## Returns
+
+The base64-encoded form of `s`, or `""` on any encoding failure.
+
+## Behavior
+
+Operates on the raw bytes of the script string. Output uses the standard base64 alphabet with `=` padding as needed.
+
+## Edge cases
+
+- Encoding errors return `""`.
+- Return shares the process-wide buffer with other `Crypt.*` string returns.
+
+## Example
+
+```enforce
+string enc = Crypt.Base64Encode("hello world");
+// enc = "aGVsbG8gd29ybGQ="
+```

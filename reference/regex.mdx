@@ -1,0 +1,29 @@
+---
+title: "Regex"
+description: "ECMAScript regex, five static natives."
+---
+
+`Regex` exposes ECMAScript-flavored pattern matching as five static natives. There are no flags or compile options — you get ECMAScript semantics, that's it. Patterns are compiled on every call, so caching patterns via `Env.SetString` is worthwhile when you reuse them.
+
+## Methods
+
+| Method | Returns | Description |
+| --- | --- | --- |
+| [Regex.Test](./regex/test) | `int` | Returns `1` if the pattern matches anywhere in the input, else `0`. |
+| [Regex.Match](./regex/match) | `string` | Returns the text of the first match span, or `""` if there is no match. |
+| [Regex.Find](./regex/find) | `int` | Returns the byte index of the first match `>= startIdx`, or `-1` if none. |
+| [Regex.Replace](./regex/replace) | `string` | Full regex replace over the input, supporting `$1..$9` back-references. |
+| [Regex.Escape](./regex/escape) | `string` | Returns the input with each ECMAScript metacharacter prefixed by `\`. |
+
+## Putting it together
+
+```enforce
+class Demo {
+    void Run() {
+        if (Regex.Test("[0-9]+", "abc 42 def 7")) {
+            int at = Regex.Find("[0-9]+", "abc 42 def 7", 0);
+            Console.Log("digit at " + at);
+        }
+    }
+}
+```

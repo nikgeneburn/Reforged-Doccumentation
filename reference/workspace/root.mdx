@@ -1,0 +1,26 @@
+---
+title: "Workspace.Root"
+description: "Absolute path of the workspace root."
+---
+
+Returns the absolute path of the workspace root, lazily creating `%APPDATA%\Lemons\Workspace` if it doesn't already exist. The trailing separator is stripped.
+
+## Signature
+
+```enforce
+static proto native string Root();
+```
+
+## Returns
+
+The absolute path of the workspace root as a string, or `""` if the directory chain can't be resolved.
+
+## Behavior
+
+The returned string lives in a process-static buffer. Treat it as transient — copy it into a script-owned string before doing anything else.
+
+## Example
+
+```enforce
+Console.Log("Workspace root: " + Workspace.Root());
+```

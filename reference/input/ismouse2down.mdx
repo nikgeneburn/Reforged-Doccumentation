@@ -1,0 +1,32 @@
+---
+title: "Input.IsMouse2Down"
+description: "Check whether the right mouse button is currently held."
+---
+
+Return `1` while the right mouse button (mouse button 2) is held, otherwise `0`. Wrapper around `IsKeyDown` for the standard right-button virtual-key code.
+
+## Signature
+
+```enforce
+static proto native int IsMouse2Down();
+```
+
+## Returns
+
+`1` while held, otherwise `0`.
+
+## Behavior
+
+Polled at call time. Ignores window focus.
+
+## Edge cases
+
+- Same focus-ignoring semantics as [Input.IsKeyDown](./iskeydown).
+
+## Example
+
+```enforce
+if (Input.IsMouse2Down()) {
+    Console.Log("RMB held");
+}
+```

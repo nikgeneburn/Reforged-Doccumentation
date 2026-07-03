@@ -1,0 +1,89 @@
+---
+title: "Memory"
+description: "Pointer R/W, AOB scans, allocations, hex utilities, and pointer-chaining. Backs every other memory-touching class."
+---
+
+`Memory` is the workhorse. It handles reads, writes, allocations, protection changes, hex paste, AOB scans, and the helper-pointer arithmetic that everything else rests on.
+
+## Pointer ABI
+
+Every `pointer` argument and return is the full 64-bit address. **Never** pass addresses through `int` — `pointer` lives as a full 8-byte qword; truncating to `int` and dereferencing the result points at random memory.
+
+## Sign and overflow semantics
+
+The signed `int delta` passed to `Offset` and `Chain` is sign-extended properly. The unsigned `int rva` passed to the `*RVA` family is **zero-extended to 32 bits** — negative offsets wrap. If you need signed offsets, compute `Memory.GameBase() + offset` instead.
+
+## Categories
+
+- [Building blocks](./memory#building-blocks) — `GameBase`, `Offset`, `Virtual2Native`
+- [Scalar reads and writes](./memory#scalar-reads-and-writes) — `ReadInt`, `WriteInt`, ...
+- [Strings and hex](./memory#strings-and-hex) — `ReadString`, `WriteHex`, ...
+- [Allocation](./memory#allocation) — `Alloc`, `Free`, `Protect`
+- [AOB scanning](./memory#aob-scanning) — `AobScan`, `AobScanModule`, `ModuleBase`, `ModuleSize`
+- [Validation and walking](./memory#validation-and-walking) — `IsValid`, `Chain`, `ResolveRip`
+- [Bulk operations](./memory#bulk-operations) — `MemCopy`, `MemSet`
+- [64-bit split helpers](./memory#64-bit-split-helpers) — `ReadInt64Lo`, `ReadInt64Hi`, `WriteInt64`
+- [RVA variants](./memory#rva-variants) — `ReadIntRVA`, `WriteByteRVA`, ...
+
+## Putting it together
+
+```enforce
+class Demo {
+    void Run() {
+        pointer base = Memory.GameBase();
+        int one = Memory.ReadInt(Memory.Offset(base, 0x1234));
+        Memory.WriteInt(Memory.Offset(base, 0x1234), one + 1);
+        Memory.Nop(Memory.Offset(base, 0x5678), 5);
+    }
+}
+```
+
+## Method index
+
+### Building blocks
+- [`Memory.GameBase`](./memory/gamebase)
+- [`Memory.Offset`](./memory/offset)
+- [`Memory.Virtual2Native`](./memory/virtual2native)
+
+### Scalar reads and writes
+- [`Memory.ReadInt`](./memory/readint) / [`Memory.WriteInt`](./memory/writeint)
+- [`Memory.ReadFloat`](./memory/readfloat) / [`Memory.WriteFloat`](./memory/writefloat)
+- [`Memory.ReadByte`](./memory/readbyte) / [`Memory.WriteByte`](./memory/writebyte)
+- [`Memory.ReadPointer`](./memory/readpointer) / [`Memory.WritePointer`](./memory/writepointer)
+- [`Memory.Nop`](./memory/nop)
+
+### Strings and hex
+- [`Memory.ReadString`](./memory/readstring)
+- [`Memory.WriteString`](./memory/writestring)
+- [`Memory.ReadHex`](./memory/readhex)
+- [`Memory.WriteHex`](./memory/writehex)
+
+### Allocation
+- [`Memory.Alloc`](./memory/alloc)
+- [`Memory.Free`](./memory/free)
+- [`Memory.Protect`](./memory/protect)
+
+### AOB scanning
+- [`Memory.AobScan`](./memory/aobscan)
+- [`Memory.AobScanModule`](./memory/aobscanmodule)
+- [`Memory.ModuleBase`](./memory/modulebase)
+- [`Memory.ModuleSize`](./memory/modulesize)
+
+### Validation and walking
+- [`Memory.IsValid`](./memory/isvalid)
+- [`Memory.Chain`](./memory/chain)
+- [`Memory.ResolveRip`](./memory/resolverip)
+
+### Bulk operations
+- [`Memory.MemCopy`](./memory/memcopy)
+- [`Memory.MemSet`](./memory/memset)
+
+### 64-bit split helpers
+- [`Memory.ReadInt64Lo`](./memory/readint64lo)
+- [`Memory.ReadInt64Hi`](./memory/readint64hi)
+- [`Memory.WriteInt64`](./memory/writeint64)
+
+### RVA variants
+- [`Memory.ReadIntRVA`](./memory/readintrva) / [`Memory.WriteIntRVA`](./memory/writeintrva)
+- [`Memory.ReadFloatRVA`](./memory/readfloatrva)
+- [`Memory.ReadByteRVA`](./memory/readbyterva) / [`Memory.WriteByteRVA`](./memory/writebyterva)

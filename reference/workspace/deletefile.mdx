@@ -1,0 +1,28 @@
+---
+title: "Workspace.DeleteFile"
+description: "Delete a single file."
+---
+
+Deletes the file at `path`.
+
+## Signature
+
+```enforce
+static proto native int DeleteFile(string path);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| path | `string` | Path to the file, relative to the workspace root. |
+
+## Returns
+
+`1` on success, `0` if the path is missing, invalid, or the underlying delete fails.
+
+## Example
+
+```enforce
+Workspace.DeleteFile("logs/session/today.txt");
+```

@@ -1,0 +1,39 @@
+---
+title: "Env.Has"
+description: "Check whether a key exists in the Env store."
+---
+
+Returns whether any value — of any kind — is associated with `key`.
+
+## Signature
+
+```enforce
+static proto native int Has(string key);
+```
+
+## Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| key | `string` | The key to check. |
+
+## Returns
+
+`1` if a value of any kind is associated with `key`, `0` otherwise.
+
+## Behavior
+
+The check is kind-agnostic. `Has` answers "is there anything at this key?", not "is there an Int at this key?". Use it to gate first-run logic without caring about which kind the value holds. Combine with the typed getters (for example [Env.GetInt](./getint)) if you need both existence and kind.
+
+## Edge cases
+
+- Returns `0` after [Env.Erase](./erase) or after the key was removed by [Env.Clear](./clear).
+- After [Env.SetInt](./setint), [Env.SetBool](./setbool), [Env.SetFloatBits](./setfloatbits), or [Env.SetString](./setstring) on a previously-empty pool, returns `1` regardless of which kind was written.
+
+## Example
+
+```enforce
+if (Env.Has("first_run")) {
+    Console.Log("returning user");
+}
+```

@@ -1,0 +1,33 @@
+---
+title: "Drawing.SetColor"
+description: "Sets the ARGB color of a persistent object (base alpha)."
+---
+
+`Drawing.SetColor` stores the base color of a persistent object.
+
+## Signature
+
+```enforce
+static proto native void SetColor(int handle, int argb);
+```
+
+## Parameters
+
+- `handle` — a handle returned by [Drawing.New](new).
+- `argb` — color in `0xAARRGGBB` form.
+
+## Behavior
+
+The color is stored verbatim. The transparency override from [SetTransparency](settransparency) is applied on top at snapshot time, so the alpha you pass here is the *base* alpha — the override, if any, takes precedence for rendering.
+
+## Edge cases
+
+- No-op on bad handles.
+- The stored color is never mutated; a subsequent `SetColor` replaces it entirely.
+
+## Example
+
+```enforce
+int box = Drawing.New("Square");
+Drawing.SetColor(box, 0xCC2266AA);
+```

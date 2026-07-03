@@ -1,0 +1,33 @@
+---
+title: "Memory.ReadInt"
+description: "Read a 32-bit int from game memory."
+---
+
+Reads 4 bytes from `addr` as a signed int. Returns `0` on null / invalid / fault.
+
+## Signature
+
+```enforce
+static proto native int ReadInt(pointer addr);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `addr` | `pointer` | Absolute address. |
+
+## Returns
+
+`int` — 32-bit value at `addr`, or `0` on null / invalid / fault.
+
+## Behavior
+
+- Validates 4 bytes via `IsValidMemoryPtr` before reading.
+- Fault-tolerant — bad addresses return `0`; no host crash.
+
+## Example
+
+```enforce
+int health = Memory.ReadInt(playerAddr + 0x1A0);
+```

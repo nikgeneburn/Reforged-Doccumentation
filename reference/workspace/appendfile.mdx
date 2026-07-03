@@ -1,0 +1,33 @@
+---
+title: "Workspace.AppendFile"
+description: "Append to a file, creating it if missing."
+---
+
+Opens the file at `path` (creating it if it doesn't exist) and appends `contents` to the end.
+
+## Signature
+
+```enforce
+static proto native int AppendFile(string path, string contents);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| path | `string` | Path to the file, relative to the workspace root. |
+| contents | `string` | Data to append. |
+
+## Returns
+
+`1` on a full append, `0` on validation failure or write failure.
+
+## Behavior
+
+The file is held open for the duration of the append and is not shared with reads from other scripts. Use [WriteFile](./workspace/writefile) to truncate and rewrite from scratch.
+
+## Example
+
+```enforce
+Workspace.AppendFile("logs/session/today.txt", "\ncontinued");
+```

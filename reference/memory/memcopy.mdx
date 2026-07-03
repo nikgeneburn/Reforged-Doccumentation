@@ -1,0 +1,28 @@
+---
+title: "Memory.MemCopy"
+description: "Bytewise copy between two regions."
+---
+
+Validates both ranges, flips `dst` to RWX, bytewise copies, restores.
+
+## Signature
+
+```enforce
+static proto native void MemCopy(pointer dst, pointer src, int count);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `dst` | `pointer` | Destination. |
+| `src` | `pointer` | Source. |
+| `count` | `int` | Bytes. |
+
+## Returns
+
+`void`. Silent on `count <= 0` / fault.
+
+## Edge cases
+
+- **Not `memmove`** — overlapping ranges corrupt. Use a temporary buffer if you need to slide memory.

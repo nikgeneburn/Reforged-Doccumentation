@@ -1,0 +1,41 @@
+---
+title: "Net.Get"
+description: "Issue an HTTP GET and return the response body."
+---
+
+Issues an HTTP `GET` to `url`. Returns the response body (capped at 1 MiB), or `""` on any failure. On success the body is returned for any HTTP status in `2xx..5xx`. Check [Net.LastStatus](./laststatus) afterward to inspect the status code.
+
+## Signature
+
+```enforce
+static proto native string Get(string url);
+```
+
+## Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| url | `string` | The URL to fetch. `https://` and `http://` are both supported; redirects are followed. |
+
+## Returns
+
+The response body. `""` on transport failure, on a fault, or for HTTP `0`.
+
+## Behavior
+
+The connect timeout is 5 s; total request timeout is 15 s. TLS works without an external cert bundle and you have no way to pin a custom trust store from script. The body is written into a static buffer that is overwritten by the next [Net.Get](./get) or [Net.Post](./post) call — the engine copies it into a script-owned string at the native-call boundary, so do not stash a raw pointer across another call.
+
+## Edge cases
+
+- Response bodies larger than 1 MiB are silently truncated.
+- Network faults (TLS error, DNS failure, timeout, crash inside the TLS layer) yield `""` and reset status to `0`.
+- Slow server stalls the calling script thread up to the 15 s total timeout.
+- The body buffer is shared across calls.
+
+## Example
+
+```enforce
+string body = Net.Get("https://httpbin.org/json");
+int    code  = Net.LastStatus();
+Console.Log("status=" + code);
+```

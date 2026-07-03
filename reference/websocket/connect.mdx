@@ -1,0 +1,40 @@
+---
+title: "WebSocket.Connect"
+description: "Open a ws:// or wss:// WebSocket connection and return an opaque handle."
+---
+
+Opens a `ws://` or `wss://` connection. Returns an opaque handle in `[1, 8]` on success, or `0` on failure. A dedicated pump thread is spawned for each successful connection; subsequent [WebSocket.Send](./send), [WebSocket.Receive](./receive), [WebSocket.State](./state), and [WebSocket.Close](./close) calls take that handle.
+
+## Signature
+
+```enforce
+static proto native int Connect(string url);
+```
+
+## Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| url | `string` | The WebSocket URL. `ws://` and `wss://` are supported. |
+
+## Returns
+
+An opaque handle in `[1, 8]` for the new connection, or `0` on failure (no free slot, init failure, `null` URL, handshake error).
+
+## Behavior
+
+On success the corresponding slot is marked active and the state flips to `CONNECTING`, then to `OPEN` after the handshake. The handshake has a 5 s connect timeout. `wss://` uses the bundled TLS stack — no external cert bundle is required.
+
+## Edge cases
+
+- The hard cap is 8 concurrent connections per process. The 9th call returns `0`.
+- A `null` URL returns `0`.
+- A handshake that fails within 5 s returns `0`; the slot is freed for reuse.
+- After `Connect` returns, the connection is not yet `OPEN`. Poll [WebSocket.State](./state) until it reports `2`.
+
+## Example
+
+```enforce
+int ws = WebSocket.Connect("wss://echo.websocket.events");
+while (WebSocket.State(ws) != 2) { /* wait for OPEN */ }
+```

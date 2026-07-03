@@ -26,22 +26,318 @@
         ]
       },
       {
-        "group": "Reference",
-        "icon": "book-open",
+        "group": "Console",
+        "icon": "terminal",
         "pages": [
           "reference/console",
+          {
+            "group": "Methods",
+            "root": "reference/console/log",
+            "pages": ["reference/console/log"]
+          }
+        ]
+      },
+      {
+        "group": "Memory",
+        "icon": "memory-stick",
+        "pages": [
           "reference/memory",
+          {
+            "group": "Methods",
+            "root": "reference/memory/gamebase",
+            "pages": [
+              "reference/memory/gamebase",
+              "reference/memory/offset",
+              "reference/memory/virtual2native",
+              "reference/memory/readint",
+              "reference/memory/writeint",
+              "reference/memory/readfloat",
+              "reference/memory/writefloat",
+              "reference/memory/readbyte",
+              "reference/memory/writebyte",
+              "reference/memory/readpointer",
+              "reference/memory/writepointer",
+              "reference/memory/nop",
+              "reference/memory/readstring",
+              "reference/memory/writestring",
+              "reference/memory/readhex",
+              "reference/memory/writehex",
+              "reference/memory/alloc",
+              "reference/memory/free",
+              "reference/memory/protect",
+              "reference/memory/aobscan",
+              "reference/memory/aobscanmodule",
+              "reference/memory/modulebase",
+              "reference/memory/modulesize",
+              "reference/memory/isvalid",
+              "reference/memory/chain",
+              "reference/memory/resolverip",
+              "reference/memory/memcopy",
+              "reference/memory/memset",
+              "reference/memory/readint64lo",
+              "reference/memory/readint64hi",
+              "reference/memory/writeint64",
+              "reference/memory/readintrva",
+              "reference/memory/writeintrva",
+              "reference/memory/readfloatrva",
+              "reference/memory/readbyterva",
+              "reference/memory/writebyterva"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Env",
+        "icon": "database",
+        "pages": [
           "reference/env",
+          {
+            "group": "Methods",
+            "root": "reference/env/getint",
+            "pages": [
+              "reference/env/getint",
+              "reference/env/setint",
+              "reference/env/getbool",
+              "reference/env/setbool",
+              "reference/env/getfloatbits",
+              "reference/env/setfloatbits",
+              "reference/env/getstring",
+              "reference/env/setstring",
+              "reference/env/has",
+              "reference/env/erase",
+              "reference/env/clear",
+              "reference/env/alreadyran"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Drawing",
+        "icon": "paintbrush",
+        "pages": [
           "reference/drawing",
+          {
+            "group": "Transient primitives",
+            "root": "reference/drawing/line",
+            "pages": [
+              "reference/drawing/line",
+              "reference/drawing/box",
+              "reference/drawing/circle",
+              "reference/drawing/text",
+              "reference/drawing/isoverlayready"
+            ]
+          },
+          {
+            "group": "Persistent objects",
+            "root": "reference/drawing/new",
+            "pages": [
+              "reference/drawing/new",
+              "reference/drawing/destroy",
+              "reference/drawing/clearall",
+              "reference/drawing/setvisible",
+              "reference/drawing/setposition",
+              "reference/drawing/setto",
+              "reference/drawing/setsize",
+              "reference/drawing/setradius",
+              "reference/drawing/setcolor",
+              "reference/drawing/setthickness",
+              "reference/drawing/setnumsides",
+              "reference/drawing/setfilled",
+              "reference/drawing/settext",
+              "reference/drawing/settextsize",
+              "reference/drawing/setzindex",
+              "reference/drawing/settransparency"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Hooking",
+        "icon": "anchor",
+        "pages": [
           "reference/hooking",
+          {
+            "group": "Methods",
+            "root": "reference/hooking/hookfunction",
+            "pages": [
+              "reference/hooking/hookfunction",
+              "reference/hooking/unhookfunction",
+              "reference/hooking/calloriginal",
+              "reference/hooking/sethookreturnint",
+              "reference/hooking/sethookenabled",
+              "reference/hooking/gethookinstance",
+              "reference/hooking/gethookparam",
+              "reference/hooking/gethookparamcount",
+              "reference/hooking/ishooknative",
+              "reference/hooking/diaghook",
+              "reference/hooking/setcallbackbyname",
+              "reference/hooking/clearcallback"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Net",
+        "icon": "globe",
+        "pages": [
           "reference/net",
+          {
+            "group": "Methods",
+            "root": "reference/net/get",
+            "pages": [
+              "reference/net/get",
+              "reference/net/post",
+              "reference/net/laststatus"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "WebSocket",
+        "icon": "radio",
+        "pages": [
           "reference/websocket",
+          {
+            "group": "Methods",
+            "root": "reference/websocket/connect",
+            "pages": [
+              "reference/websocket/connect",
+              "reference/websocket/send",
+              "reference/websocket/receive",
+              "reference/websocket/state",
+              "reference/websocket/close"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Input",
+        "icon": "keyboard",
+        "pages": [
           "reference/input",
+          {
+            "group": "Keyboard",
+            "root": "reference/input/iskeydown",
+            "pages": [
+              "reference/input/iskeydown",
+              "reference/input/waskeypressed",
+              "reference/input/vk"
+            ]
+          },
+          {
+            "group": "Mouse",
+            "root": "reference/input/mousex",
+            "pages": [
+              "reference/input/mousex",
+              "reference/input/mousey",
+              "reference/input/ismouse1down",
+              "reference/input/ismouse2down",
+              "reference/input/ismouse3down",
+              "reference/input/ismouse4down",
+              "reference/input/ismouse5down"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Thread",
+        "icon": "gauge",
+        "pages": [
           "reference/thread",
+          {
+            "group": "Methods",
+            "root": "reference/thread/spawn",
+            "pages": [
+              "reference/thread/spawn",
+              "reference/thread/spawnglobal",
+              "reference/thread/sleep",
+              "reference/thread/getid"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Workspace",
+        "icon": "folder",
+        "pages": [
           "reference/workspace",
+          {
+            "group": "Methods",
+            "root": "reference/workspace/newfolder",
+            "pages": [
+              "reference/workspace/newfolder",
+              "reference/workspace/newfile",
+              "reference/workspace/readfile",
+              "reference/workspace/writefile",
+              "reference/workspace/appendfile",
+              "reference/workspace/deletefile",
+              "reference/workspace/deletefolder",
+              "reference/workspace/isfile",
+              "reference/workspace/isfolder",
+              "reference/workspace/listfiles",
+              "reference/workspace/root"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Crypt",
+        "icon": "lock",
+        "pages": [
           "reference/crypt",
+          {
+            "group": "Methods",
+            "root": "reference/crypt/hash",
+            "pages": [
+              "reference/crypt/hash",
+              "reference/crypt/hmac",
+              "reference/crypt/randomhex",
+              "reference/crypt/randombase64",
+              "reference/crypt/base64encode",
+              "reference/crypt/base64decode",
+              "reference/crypt/aesencrypt",
+              "reference/crypt/aesdecrypt"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Regex",
+        "icon": "regex",
+        "pages": [
           "reference/regex",
-          "reference/diag"
+          {
+            "group": "Methods",
+            "root": "reference/regex/test",
+            "pages": [
+              "reference/regex/test",
+              "reference/regex/match",
+              "reference/regex/find",
+              "reference/regex/replace",
+              "reference/regex/escape"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Diag",
+        "icon": "activity",
+        "pages": [
+          "reference/diag",
+          {
+            "group": "Methods",
+            "root": "reference/diag/backtrace",
+            "pages": [
+              "reference/diag/backtrace",
+              "reference/diag/backtracewithmodules",
+              "reference/diag/moduleforaddress",
+              "reference/diag/processid",
+              "reference/diag/threadid",
+              "reference/diag/gettickcount",
+              "reference/diag/memoryusagekb",
+              "reference/diag/getlasterror"
+            ]
+          }
         ]
       }
     ]

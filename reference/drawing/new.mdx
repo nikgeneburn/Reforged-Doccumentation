@@ -1,0 +1,42 @@
+---
+title: "Drawing.New"
+description: "Creates a persistent overlay object and returns its handle."
+---
+
+`Drawing.New` allocates a slot in the persistent object pool for one of the supported kinds.
+
+## Signature
+
+```enforce
+static proto native int New(string kind);
+```
+
+## Parameters
+
+- `kind` — object kind (case-insensitive): `"Line"`, `"Square"`, `"Box"` (alias for `"Square"`), `"Circle"`, or `"Text"`.
+
+## Returns
+
+- A handle `>= 1` identifying the new object.
+- `0` if the kind is unknown or the pool is full (cap is 1024).
+
+## Behavior
+
+The returned handle is opaque to scripts. Newly-created objects default to **hidden** — you must call [SetVisible](setvisible) to render them. Configure with the matching `Set*` calls before flipping visibility; persistent objects are snapshotted each frame.
+
+## Edge cases
+
+- The pool cap is 1024 entries across all kinds. Beyond that, calls return `0`.
+- Handles are monotonic and **never reused** within a session, so a stale handle in a long-running script won't collide with a new one.
+- Unknown kinds return `0` without raising an error.
+
+## Example
+
+```enforce
+int box = Drawing.New("Square");
+Drawing.SetPosition(box, 100, 100);
+Drawing.SetSize(box, 200, 80);
+Drawing.SetColor(box, 0xCC2266AA);
+Drawing.SetFilled(box, 1);
+Drawing.SetVisible(box, 1);
+```

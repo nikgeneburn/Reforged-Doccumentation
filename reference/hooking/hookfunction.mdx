@@ -1,0 +1,37 @@
+---
+title: "Hooking.HookFunction"
+description: "Install a hook on an engine method. Returns the slot id or -1."
+---
+
+Installs a hook on the named method of the named engine class and returns the slot id. There are two install paths, switched by whether the target is native-bodied or script-bodied — both produce the same script-facing surface.
+
+## Signature
+
+```enforce
+static proto native int HookFunction(string className, string funcName);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| className | `string` | Engine class to target. |
+| funcName | `string` | Method on that class to intercept. |
+
+## Returns
+
+The slot id `>= 0`, or `-1` on failure. Failure covers: no free slot, class/func not found, invalid pointers, descriptor not the expected size, no return operand found for script-bodied targets, or a VM crash during install.
+
+## Behavior
+
+The returned id is in `[0, 31]` and stays valid until [UnhookFunction](./hooking/unhookfunction) is called. Disabling via [SetHookEnabled](./hooking/sethookenabled) does not free the slot. Use [IsHookNative](./hooking/ishooknative) after a successful install to learn which path was taken.
+
+## Edge cases
+
+The slot cap is 32. Past that, every install returns `-1`.
+
+## Example
+
+```enforce
+int id = Hooking.HookFunction("PlayerController", "ProcessInput");
+```

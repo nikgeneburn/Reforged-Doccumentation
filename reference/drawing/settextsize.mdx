@@ -1,0 +1,34 @@
+---
+title: "Drawing.SetTextSize"
+description: "Sets the point size of a persistent Text object."
+---
+
+`Drawing.SetTextSize` configures the rendered point size of a persistent Text object.
+
+## Signature
+
+```enforce
+static proto native void SetTextSize(int handle, int size);
+```
+
+## Parameters
+
+- `handle` — a handle returned by [Drawing.New](new) with kind `"Text"`.
+- `size` — point size.
+
+## Behavior
+
+Persistent Text objects share the same deferred rendering path as transient [Drawing.Text](text). Default is 14 if never set.
+
+## Edge cases
+
+- Clamped to >= 1.
+- No-op on bad handles or non-Text kinds.
+- **Currently a deferred path** — see [Drawing.SetText](settext).
+
+## Example
+
+```enforce
+int t = Drawing.New("Text");
+Drawing.SetTextSize(t, 18);
+```

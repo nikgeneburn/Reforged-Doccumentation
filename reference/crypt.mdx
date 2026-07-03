@@ -1,0 +1,34 @@
+---
+title: "Crypt"
+description: "Hashes + HMAC, base64 + random helpers, AES encrypt/decrypt."
+---
+
+`Crypt` is a small, self-contained crypto toolkit. It covers one-way hashes, keyed HMACs, base64 encode/decode, secure random bytes, and AES encrypt/decrypt. Every method is static; just call them directly — there are no objects to instantiate. All string-returning methods write into a shared buffer that the engine copies at the call boundary, so you don't need to worry about lifetimes as long as you don't hold on to a string across another `Crypt.*` call.
+
+## Methods
+
+| Method | Returns | Summary |
+|---|---|---|
+| [Crypt.Hash](./crypt/hash) | string | One-way digest (MD5 / SHA family) as lowercase hex |
+| [Crypt.Hmac](./crypt/hmac) | string | Keyed digest as lowercase hex |
+| [Crypt.RandomHex](./crypt/randomhex) | string | N random bytes encoded as lowercase hex |
+| [Crypt.RandomBase64](./crypt/randombase64) | string | N random bytes encoded as base64 |
+| [Crypt.Base64Encode](./crypt/base64encode) | string | Standard-alphabet base64 of a string |
+| [Crypt.Base64Decode](./crypt/base64decode) | string | Standard-alphabet base64 decoded to a string |
+| [Crypt.AesEncrypt](./crypt/aesencrypt) | string | AES-encrypt; returns hex ciphertext |
+| [Crypt.AesDecrypt](./crypt/aesdecrypt) | string | AES-decrypt a hex ciphertext back to a string |
+
+## Putting it together
+
+```enforce
+class Demo {
+    void Run() {
+        string h     = Crypt.Hash("hello world", "sha256");
+        string token = Crypt.RandomBase64(32);
+        string enc   = Crypt.Base64Encode("hello");
+        string k     = Crypt.RandomHex(16);
+        string v     = Crypt.RandomHex(16);
+        string ct    = Crypt.AesEncrypt(k, v, "secret payload", true);
+    }
+}
+```

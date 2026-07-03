@@ -1,0 +1,29 @@
+---
+title: "Memory.WriteFloat"
+description: "Write a 32-bit float to game memory."
+---
+
+Writes 4 bytes at `addr`. Flips protection to RWX, writes, restores. Silent on bad address.
+
+## Signature
+
+```enforce
+static proto native void WriteFloat(pointer addr, float value);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `addr` | `pointer` | Target address. |
+| `value` | `float` | Value to write. |
+
+## Returns
+
+`void`. Silent no-op on bad address / fault.
+
+## Example
+
+```enforce
+Memory.WriteFloat(playerAddr + 0x44, 0.0);  // zero velocity
+```

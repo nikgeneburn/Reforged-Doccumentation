@@ -1,0 +1,33 @@
+---
+title: "Diag.GetTickCount"
+description: "Milliseconds since system boot, masked to the low 32 bits."
+---
+
+Return the low 32 bits of the system tick counter, in milliseconds. Suitable for elapsed-time arithmetic where you don't care about wrap-around semantics beyond a 32-bit value.
+
+## Signature
+
+```enforce
+static proto native int GetTickCount();
+```
+
+## Returns
+
+Milliseconds since boot, masked to `0xFFFFFFFF`.
+
+## Behavior
+
+Backed by the OS monotonic tick counter, so it does not go backwards across calls.
+
+## Edge cases
+
+- Wraps at `0xFFFFFFFF` (~49.7 days). Use signed-difference arithmetic if your script can run that long.
+
+## Example
+
+```enforce
+int t0 = Diag.GetTickCount();
+// ... do some work ...
+int elapsed = Diag.GetTickCount() - t0;
+Console.Log("elapsed ms = " + elapsed);
+```

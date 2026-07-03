@@ -1,0 +1,37 @@
+---
+title: "Workspace.ListFiles"
+description: "Newline-separated listing; folders end with /."
+---
+
+Lists the entries in a folder as a newline-separated string. Folders are suffixed with `/` so they can be distinguished from files at a glance. `.` and `..` are skipped.
+
+## Signature
+
+```enforce
+static proto native string ListFiles(string path);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| path | `string` | Path to the folder, relative to the workspace root. |
+
+## Returns
+
+A newline-separated string of entry names (with `/` suffix on folders), or `""` if the path is missing, not a folder, or invalid.
+
+## Behavior
+
+The result lives in a process-static buffer. Like [ReadFile](./workspace/readfile), the returned pointer is only valid until the next call that uses the same buffer — copy the entries into your own data structure immediately.
+
+## Edge cases
+
+If the listing doesn't fit in the internal buffer, it silently truncates at the last entry that fits. There is no error signal for truncation.
+
+## Example
+
+```enforce
+string list = Workspace.ListFiles("logs/session");
+// e.g. "today.txt\nnotes.txt\n"
+```

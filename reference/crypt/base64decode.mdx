@@ -1,0 +1,39 @@
+---
+title: "Crypt.Base64Decode"
+description: "Decode a standard-alphabet base64 string back to bytes interpreted as a script string."
+---
+
+Decode a standard-alphabet base64 string. The resulting bytes are then interpreted as a script string (UTF-8 / ASCII).
+
+## Signature
+
+```enforce
+static proto native string Base64Decode(string s);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| s | string | The base64 string to decode. |
+
+## Returns
+
+The decoded string, or `""` if the input is invalid base64.
+
+## Behavior
+
+The decoded bytes are returned as a script string, so binary payloads that are not valid UTF-8 / ASCII may not round-trip cleanly.
+
+## Edge cases
+
+- Invalid base64 (wrong padding, characters outside the alphabet) returns `""`.
+- Return shares the process-wide buffer with other `Crypt.*` string returns.
+
+## Example
+
+```enforce
+string enc = Crypt.Base64Encode("hello world");
+string dec = Crypt.Base64Decode(enc);
+// dec = "hello world"
+```

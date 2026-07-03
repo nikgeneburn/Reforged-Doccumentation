@@ -1,0 +1,36 @@
+---
+title: "Drawing.Box"
+description: "Draws an outlined or filled rectangle once on the next render."
+---
+
+`Drawing.Box` is the transient rectangle primitive — it pushes one rect into the overlay's draw queue for the next frame and then forgets about it.
+
+## Signature
+
+```enforce
+static proto native void Box(int x, int y, int w, int h, int argb, int thickness, int filled);
+```
+
+## Parameters
+
+- `x`, `y` — top-left in screen-space pixels.
+- `w`, `h` — width and height in pixels.
+- `argb` — color in `0xAARRGGBB` form.
+- `thickness` — outline width in pixels.
+- `filled` — non-zero fills the rectangle, `0` draws the outline only.
+
+## Behavior
+
+Transient: the rect is queued for the next frame only. If `filled != 0`, the interior is filled with `argb`; otherwise only the outline is drawn at `thickness` pixels.
+
+## Edge cases
+
+- `thickness <= 0` is clamped to 1 for the outline pass.
+- Negative `w`/`h` are accepted but produce zero-area / flipped geometry.
+- Same coordinate/color conventions as the rest of `Drawing` — see the [overview](..).
+
+## Example
+
+```enforce
+Drawing.Box(50, 50, 200, 80, 0xCC2266AA, 2, 1);
+```

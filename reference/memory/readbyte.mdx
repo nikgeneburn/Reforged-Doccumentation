@@ -1,0 +1,28 @@
+---
+title: "Memory.ReadByte"
+description: "Read a single byte from game memory."
+---
+
+Reads 1 byte at `addr` and zero-extends it to `int`. Returns `0` on null / invalid / fault.
+
+## Signature
+
+```enforce
+static proto native int ReadByte(pointer addr);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `addr` | `pointer` | Absolute address. |
+
+## Returns
+
+`int` — byte value in `[0, 255]`, or `0` on failure.
+
+## Example
+
+```enforce
+int opcode = Memory.ReadByte(ip + 0x10);  // read one x86 opcode byte
+```

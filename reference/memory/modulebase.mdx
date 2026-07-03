@@ -1,0 +1,28 @@
+---
+title: "Memory.ModuleBase"
+description: "Pointer — base address of a loaded module."
+---
+
+`GetModuleHandleA(name)` cast to pointer. Returns `0` if not loaded.
+
+## Signature
+
+```enforce
+static proto native pointer ModuleBase(string name);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `name` | `string` | DLL name. |
+
+## Returns
+
+`pointer` — module base, or `0` if unloaded.
+
+## Example
+
+```enforce
+pointer base = Memory.ModuleBase("game.dll");
+```

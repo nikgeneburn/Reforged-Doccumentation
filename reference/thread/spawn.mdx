@@ -1,0 +1,46 @@
+---
+title: "Thread.Spawn"
+description: "Spawn a thread that instantiates a class and runs one of its methods."
+---
+
+Spawn a new OS thread that instantiates `className` and calls its `methodName`. The thread is **fire-and-forget** — there is no script-side join. Use [Env](./env) to signal completion.
+
+## Signature
+
+```enforce
+static proto native int Spawn(string threadName, string className, string methodName);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| threadName | string | Debugger-visible label. Empty/null defaults to a sensible label. |
+| className | string | Engine class to instantiate. Must be non-empty. |
+| methodName | string | Method on that class. Must be non-empty. |
+
+## Returns
+
+The Win32 thread id (`> 0`) on success, or `0` on any failure (allocation failure, empty `className` or `methodName`, thread spawn failure, or a fault inside the entry).
+
+## Behavior
+
+The thread is queued behind the script's main thread on the same global critical section, so two `Spawn` calls do not run in parallel — each waits its turn.
+
+## Edge cases
+
+- Empty `className` or `methodName` returns `0` and logs a warning.
+- There is no script-side join; use a polled [Env](./env) flag to coordinate.
+
+## Example
+
+```enforce
+class Worker { void Run() { Console.Log("hi from worker"); } }
+
+class Demo {
+    void Run() {
+        int tid = Thread.Spawn("worker-1", "Worker", "Run");
+        Console.Log("spawned thread id = " + tid);
+    }
+}
+```

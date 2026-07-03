@@ -1,0 +1,32 @@
+---
+title: "Input.IsMouse4Down"
+description: "Check whether mouse button 4 (X1) is currently held."
+---
+
+Return `1` while mouse button 4 (X1, the "back" side button) is held, otherwise `0`. Wrapper around `IsKeyDown` for the standard X1-button virtual-key code.
+
+## Signature
+
+```enforce
+static proto native int IsMouse4Down();
+```
+
+## Returns
+
+`1` while held, otherwise `0`.
+
+## Behavior
+
+Polled at call time. Ignores window focus.
+
+## Edge cases
+
+- Same focus-ignoring semantics as [Input.IsKeyDown](./iskeydown).
+
+## Example
+
+```enforce
+if (Input.IsMouse4Down()) {
+    Console.Log("X1 held");
+}
+```

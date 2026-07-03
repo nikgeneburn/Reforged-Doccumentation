@@ -1,0 +1,39 @@
+---
+title: "Env.GetBool"
+description: "Get a bool value (as 0/1) by key from the Env store."
+---
+
+Get the `bool` value associated with `key`, returned as `0` or `1`. Returns `0` if the key is absent or if the key holds a different kind.
+
+## Signature
+
+```enforce
+static proto native int GetBool(string key);
+```
+
+## Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| key | `string` | The key to read. |
+
+## Returns
+
+`1` if the stored bool was non-zero, `0` otherwise. Also `0` if the key is absent or holds a non-Bool kind.
+
+## Behavior
+
+The kind check is strict. A key whose value was written via [Env.SetInt](./setint) returns `0` here even if the underlying int was `1` — Bool is its own kind, separate from Int, even though both surface as `int` in script.
+
+## Edge cases
+
+- Missing keys return `0`.
+- A `key` whose value was set by [Env.SetInt](./setint) returns `0` regardless of the stored value.
+- A `key` whose value was set by [Env.SetString](./setstring) returns `0`.
+
+## Example
+
+```enforce
+Env.SetBool("enabled", 1);
+if (Env.GetBool("enabled")) { Console.Log("on"); }
+```

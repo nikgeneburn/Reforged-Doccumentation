@@ -1,0 +1,34 @@
+---
+title: "Drawing.SetNumSides"
+description: "Sets the polygon tessellation count of a persistent Circle."
+---
+
+`Drawing.SetNumSides` controls how finely a Circle is tessellated.
+
+## Signature
+
+```enforce
+static proto native void SetNumSides(int handle, int n);
+```
+
+## Parameters
+
+- `handle` — a handle returned by [Drawing.New](new).
+- `n` — number of polygon sides.
+
+## Behavior
+
+A Circle is rendered as a regular polygon with `n` sides. Higher values look smoother but cost more vertices.
+
+## Edge cases
+
+- Clamped to `[4, 128]`.
+- No-op on bad handles or non-Circle kinds.
+
+## Example
+
+```enforce
+int c = Drawing.New("Circle");
+Drawing.SetRadius(c, 50);
+Drawing.SetNumSides(c, 32);
+```

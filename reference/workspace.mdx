@@ -1,0 +1,30 @@
+---
+title: "Workspace"
+description: "Sandboxed filesystem rooted at %APPDATA%\\Lemons\\Workspace. Path traversal is rejected natively."
+---
+
+`Workspace` is a small filesystem wrapper that gives your scripts a private directory on disk. Paths are anchored under `%APPDATA%\Lemons\Workspace` and sandboxed — `..`, `:`, leading `/`/`\`, UNC prefixes, control characters, and Windows-reserved chars (`< > " | ? *`) are all rejected before any Win32 call hits the disk. All operations are path-validated and return `0` or `""` on failure — there is no error channel.
+
+## Methods
+
+| Method | Returns | Description |
+|---|---|---|
+| [NewFolder](./workspace/newfolder) | `int` | Create a directory under a parent path. |
+| [NewFile](./workspace/newfile) | `int` | Create or truncate a file and write contents. |
+| [ReadFile](./workspace/readfile) | `string` | Read a file's full contents. |
+| [WriteFile](./workspace/writefile) | `int` | Create or truncate a file and write contents. |
+| [AppendFile](./workspace/appendfile) | `int` | Append to a file, creating it if missing. |
+| [DeleteFile](./workspace/deletefile) | `int` | Delete a single file. |
+| [DeleteFolder](./workspace/deletefolder) | `int` | Delete a folder. Non-recursive — must be empty. |
+| [IsFile](./workspace/isfile) | `int` | Test whether a path is an existing file. |
+| [IsFolder](./workspace/isfolder) | `int` | Test whether a path is an existing folder. |
+| [ListFiles](./workspace/listfiles) | `string` | Newline-separated listing; folders end with `/`. |
+| [Root](./workspace/root) | `string` | Absolute path of the workspace root. |
+
+## Putting it together
+
+```enforce
+Workspace.NewFolder("logs", "session");
+Workspace.NewFile("logs/session", "today.txt", "started");
+string list = Workspace.ListFiles("logs/session");
+```

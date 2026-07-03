@@ -1,0 +1,32 @@
+---
+title: "Memory.Protect"
+description: "Change page protection on a region."
+---
+
+`VirtualProtect` wrapper. Returns the previous protection as a DWORD.
+
+## Signature
+
+```enforce
+static proto native int Protect(pointer p, int size, int newProt);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `p` | `pointer` | Base. |
+| `size` | `int` | Length in bytes. |
+| `newProt` | `int` | `PAGE_*` flags (e.g. `0x40` RWX, `0x20` RX, `0x04` RW). |
+
+## Returns
+
+`int` — the **previous** protection, or `0` on failure.
+
+## Example
+
+```enforce
+int prev = Memory.Protect(codeAddr, 16, 0x40);  // make RX → RWX
+// …patch…
+Memory.Protect(codeAddr, 16, prev);             // restore
+```

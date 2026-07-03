@@ -1,0 +1,28 @@
+---
+title: "Memory.ReadFloat"
+description: "Read a 32-bit float from game memory."
+---
+
+Reads 4 bytes at `addr` and reinterprets as a float. Returns `0.0f` on null / invalid / fault.
+
+## Signature
+
+```enforce
+static proto native float ReadFloat(pointer addr);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `addr` | `pointer` | Absolute address. |
+
+## Returns
+
+`float` — value at `addr`, or `0.0f` on failure.
+
+## Example
+
+```enforce
+float speed = Memory.ReadFloat(playerAddr + 0x44);
+```

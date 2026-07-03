@@ -1,0 +1,40 @@
+---
+title: "WebSocket.Receive"
+description: "Return the next queued inbound text message from a WebSocket connection."
+---
+
+Returns the next queued inbound text message on `handle`, or `""` if the queue is empty. There is no callback path — you must call this periodically from script to drain inbound traffic.
+
+## Signature
+
+```enforce
+static proto native string Receive(int handle);
+```
+
+## Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| handle | `int` | The connection handle from [WebSocket.Connect](./connect). |
+
+## Returns
+
+The next queued inbound text message, or `""` if the queue is empty (including immediately after `Connect`).
+
+## Behavior
+
+Only text frames and the final fragment of continuation frames are surfaced — close frames and pings are handled by the pump internally. If the per-connection ring buffer (16 messages) is full when a new message arrives, the oldest message is dropped head-first to make room. Inbound frames larger than 4 KiB are truncated on enqueue. The result is written into a 4 KiB shared buffer valid until the next `Receive` on any handle; copy it into a script-owned string immediately if you want to retain it.
+
+## Edge cases
+
+- Each handle has its own 16-message ring.
+- Inbound frame cap is 4 KiB; over-cap is silently truncated.
+- No notification path — you must poll.
+- `""` from `Receive` is ambiguous: it can mean "queue empty" or "no messages yet".
+
+## Example
+
+```enforce
+while (WebSocket.Receive(ws) == "") { /* wait for a frame */ }
+Console.Log("got a frame");
+```

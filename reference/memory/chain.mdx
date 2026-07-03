@@ -1,0 +1,36 @@
+---
+title: "Memory.Chain"
+description: "Walk up to 4 pointer indirections starting from a base + offset."
+---
+
+Walks `count` pointer indirections, each adding the corresponding offset.
+
+## Signature
+
+```enforce
+static proto native pointer Chain(pointer base, int count, int o1, int o2, int o3, int o4);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `base` | `pointer` | Start address. |
+| `count` | `int` | Number of indirections. Clamped to `[1, 4]`. |
+| `o1..o4` | `int` | Signed offsets. |
+
+## Returns
+
+`pointer` — the final pointer, or `0` if any dereference hits nullptr / invalid memory.
+
+## Edge cases
+
+- `count > 4` silently clamps to 4.
+- `count <= 0` returns `0` immediately.
+
+## Example
+
+```enforce
+pointer ptr = Memory.Chain(Memory.GameBase(), 3, 0x100, 0x18, 0x4B0, 0);
+// ≡ [base+0x100] → +0x18 → +0x4B0 → +0
+```

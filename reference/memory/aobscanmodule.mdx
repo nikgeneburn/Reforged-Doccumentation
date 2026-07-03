@@ -1,0 +1,34 @@
+---
+title: "Memory.AobScanModule"
+description: "Find the first AOB pattern match inside a specific module."
+---
+
+Same as [`AobScan`](./aobscan) but constrained to one loaded DLL.
+
+## Signature
+
+```enforce
+static proto native pointer AobScanModule(string moduleName, string pattern);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `moduleName` | `string` | DLL name. **Case-sensitive** `GetModuleHandleA` match. |
+| `pattern` | `string` | AOB pattern with `?` / `??` wildcards. Max 256 bytes. |
+
+## Returns
+
+`pointer` — first matching address inside the module, or `0` if the module is unloaded or the pattern missed.
+
+## Edge cases
+
+- Returns `0` if the module is not loaded.
+- Returns only the first match.
+
+## Example
+
+```enforce
+pointer fn = Memory.AobScanModule("game.dll", "48 8B 05 ?? ?? ?? ??");
+```

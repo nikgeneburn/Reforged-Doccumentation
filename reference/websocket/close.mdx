@@ -1,0 +1,34 @@
+---
+title: "WebSocket.Close"
+description: "Send a close control frame and tear down a WebSocket connection."
+---
+
+Sends a close control frame on `handle`. The pump sees the resulting error on its next receive, breaks the loop, sets state to `CLOSED`, and the slot becomes reusable after the pump exits.
+
+## Signature
+
+```enforce
+static proto native void Close(int handle);
+```
+
+## Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| handle | `int` | The connection handle from [WebSocket.Connect](./connect). |
+
+## Behavior
+
+The send of the close control frame is serialized against [WebSocket.Send](./send), so it cannot collide with an in-flight send. Once the pump exits, the slot is freed for a future [WebSocket.Connect](./connect). The state transitions from `open (2)` → `closing (3)` → `closed (0)`; the brief `closing` window is normal.
+
+## Edge cases
+
+- No-op for unknown or out-of-range handles. There is no return value.
+- State may continue to report `2` (open) for a short interval after `Close` returns; poll [WebSocket.State](./state) if you need to wait for the slot to fully free.
+
+## Example
+
+```enforce
+WebSocket.Close(ws);
+while (WebSocket.State(ws) != 0) { /* wait for the pump to exit */ }
+```

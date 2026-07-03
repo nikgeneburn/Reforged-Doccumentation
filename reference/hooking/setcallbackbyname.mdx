@@ -1,0 +1,36 @@
+---
+title: "Hooking.SetCallbackByName"
+description: "Register a script-side static method as the slot's callback."
+---
+
+Resolves `funcName` on the currently-running script class and registers it as the slot's script callback.
+
+## Signature
+
+```enforce
+static proto native void SetCallbackByName(int hookId, string funcName);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| hookId | `int` | The slot id. |
+| funcName | `string` | Name of a `static` method on the currently-running script class. |
+
+## Behavior
+
+`funcName` **must be a `static` method**. Non-static callbacks are silently rejected.
+
+When the engine dispatches the hook, control re-enters the named static method. The script method's declared signature is ignored by the engine — only the int return slot is captured. Use [GetHookInstance](./hooking/gethookinstance) and [GetHookParam](./hooking/gethookparam) inside the callback to read captured registers.
+
+## Edge cases
+
+Requires that a class is currently running, so the host knows what class owns the static method.
+
+## Example
+
+```enforce
+int id = Hooking.HookFunction("PlayerController", "ProcessInput");
+Hooking.SetCallbackByName(id, "OnHookedInput");
+```

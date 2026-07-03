@@ -1,0 +1,24 @@
+---
+title: "Memory.WriteInt64"
+description: "Write a 64-bit value split as two ints."
+---
+
+Builds `((uint64_t)(uint32_t)hi << 32) | (uint32_t)lo` and writes 8 bytes at `p`. Flips protection to RWX, writes, restores.
+
+## Signature
+
+```enforce
+static proto native void WriteInt64(pointer p, int lo, int hi);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `p` | `pointer` | Target. |
+| `lo` | `int` | Low 32 bits. |
+| `hi` | `int` | High 32 bits. |
+
+## Edge cases
+
+- Both `lo` and `hi` are interpreted as their `uint32` bit pattern; sign-extension is **not** performed.

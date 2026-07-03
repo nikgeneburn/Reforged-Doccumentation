@@ -1,0 +1,39 @@
+---
+title: "Env.GetInt"
+description: "Get an int value by key from the Env store."
+---
+
+Get the `int` value associated with `key`. Returns `0` if the key is absent, or if the key holds a different kind (Bool / FloatBits / String) — there is no cross-kind coercion.
+
+## Signature
+
+```enforce
+static proto native int GetInt(string key);
+```
+
+## Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| key | `string` | The key to read. |
+
+## Returns
+
+The stored `int`, or `0` if the key is absent or holds a non-Int kind.
+
+## Behavior
+
+Reads are serialized against writers — the store is locked. The kind check is strict: a key whose value was written with [Env.SetBool](./setbool), [Env.SetFloatBits](./setfloatbits), or [Env.SetString](./setstring) returns `0` here. Use [Env.Has](./has) to ask whether a key exists at all, regardless of kind.
+
+## Edge cases
+
+- Missing keys return `0`, indistinguishable from a legitimately stored `0`.
+- A `key` whose value was set by [Env.SetBool](./setbool) returns `0` — Bool and Int are separate kinds even though both surface as `int` in script.
+- A `key` whose value was set by [Env.SetString](./setstring) returns `0`.
+
+## Example
+
+```enforce
+Env.SetInt("counter", 42);
+int n = Env.GetInt("counter"); // 42
+```

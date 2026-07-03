@@ -1,0 +1,46 @@
+---
+title: "Crypt.AesDecrypt"
+description: "AES-decrypt a hex ciphertext string back to plaintext."
+---
+
+Inverse of [Crypt.AesEncrypt](./aesencrypt). Decrypt the hex ciphertext using `key` and `iv` and return the resulting plaintext as a script string.
+
+## Signature
+
+```enforce
+static proto native string AesDecrypt(string key, string iv, string ciphertext, bool isHex);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| key | string | AES key. Raw bytes or hex depending on `isHex`. |
+| iv | string | AES IV. Raw bytes or hex depending on `isHex`. |
+| ciphertext | string | The hex-encoded ciphertext returned by `AesEncrypt` (or any equivalent). |
+| isHex | bool | `true` if `key` and `iv` are hex-encoded; `false` if they are raw bytes. |
+
+## Returns
+
+The decrypted plaintext as a string, or `""` on any validation, decode, or decryption failure (including tampering with `ciphertext`).
+
+## Behavior
+
+Same key/IV rules as `AesEncrypt`: key must decode to 16/24/32 bytes, IV to exactly 16 bytes.
+
+## Edge cases
+
+- Wrong key/IV size returns `""`.
+- A tampered ciphertext will typically also return `""` rather than throw.
+- Return shares the process-wide buffer with other `Crypt.*` string returns.
+
+## Example
+
+```enforce
+string k  = Crypt.RandomHex(16);
+string v  = Crypt.RandomHex(16);
+string pt = "hello secret";
+string ct = Crypt.AesEncrypt(k, v, pt, true);
+string rt = Crypt.AesDecrypt(k, v, ct, true);
+// rt = "hello secret"
+```

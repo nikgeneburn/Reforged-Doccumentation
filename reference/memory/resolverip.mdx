@@ -1,0 +1,29 @@
+---
+title: "Memory.ResolveRip"
+description: "Resolve a RIP-relative 4-byte displacement."
+---
+
+Reads the int32 at `disp32Addr` and returns `disp32Addr + 4 + value`. Useful for unwinding RIP-relative `LEA` / `MOV`.
+
+## Signature
+
+```enforce
+static proto native pointer ResolveRip(pointer disp32Addr);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `disp32Addr` | `pointer` | Address of the 4-byte displacement. |
+
+## Returns
+
+`pointer` — `disp32Addr + 4 + (intptr_t)*(int32_t*)disp32Addr`.
+
+## Example
+
+```enforce
+pointer target = Memory.AobScan("48 8D 0D ?? ?? ?? ?? E8");  // LEA rcx,[rip+…]
+pointer resolved = Memory.ResolveRip(target + 3);
+```

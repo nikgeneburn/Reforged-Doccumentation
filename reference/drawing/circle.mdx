@@ -1,0 +1,36 @@
+---
+title: "Drawing.Circle"
+description: "Draws an outlined or filled circle once on the next render."
+---
+
+`Drawing.Circle` is the transient circle primitive — tessellates to a polygon and queues it for the next frame.
+
+## Signature
+
+```enforce
+static proto native void Circle(int cx, int cy, int radius, int argb, int segments, int filled);
+```
+
+## Parameters
+
+- `cx`, `cy` — center in screen-space pixels.
+- `radius` — radius in pixels.
+- `argb` — color in `0xAARRGGBB` form.
+- `segments` — polygon tessellation count.
+- `filled` — non-zero fills the disc, `0` draws the outline only.
+
+## Behavior
+
+Transient: queued for the next frame only. Internally tessellates to a regular polygon with `segments` sides.
+
+## Edge cases
+
+- `segments < 4` is clamped to 4.
+- Very high `segments` values silently clamp to 128.
+- Same coordinate/color conventions as the rest of `Drawing` — see the [overview](..).
+
+## Example
+
+```enforce
+Drawing.Circle(640, 360, 50, 0xFF00FF88, 32, 1);
+```

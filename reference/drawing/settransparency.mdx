@@ -1,0 +1,40 @@
+---
+title: "Drawing.SetTransparency"
+description: "Roblox-style transparency override applied at snapshot time."
+---
+
+`Drawing.SetTransparency` applies a transparency override on top of the color set by [SetColor](setcolor).
+
+## Signature
+
+```enforce
+static proto native void SetTransparency(int handle, int t255);
+```
+
+## Parameters
+
+- `handle` — a handle returned by [Drawing.New](new).
+- `t255` — transparency in `0..255`.
+
+## Behavior
+
+**Roblox semantics, not traditional alpha.**
+
+- `255` = fully opaque (the color's own alpha is preserved).
+- `0` = fully invisible (rendering side skips the object).
+
+The value is normalized to `[0, 1]` and applied to the alpha channel of the stored color at snapshot time. The original color you passed to [SetColor](setcolor) is never mutated.
+
+## Edge cases
+
+- The transparent override **takes precedence** over the base alpha of the color at render time.
+- No-op on bad handles.
+- Stored as a normalized float internally; passing anything outside `0..255` is clamped.
+
+## Example
+
+```enforce
+int box = Drawing.New("Square");
+Drawing.SetColor(box, 0xFFFF0000);
+Drawing.SetTransparency(box, 128); // ~50%
+```

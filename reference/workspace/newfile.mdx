@@ -1,0 +1,35 @@
+---
+title: "Workspace.NewFile"
+description: "Create or truncate a file and write contents."
+---
+
+Creates a new file with the given name under `parentPath` and writes `contents` to it. If the file already exists it is truncated before the write.
+
+## Signature
+
+```enforce
+static proto native int NewFile(string parentPath, string name, string contents);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| parentPath | `string` | Path to the parent directory, relative to the workspace root. |
+| name | `string` | Name of the new file. |
+| contents | `string` | Data to write. May be empty. |
+
+## Returns
+
+`1` on a full write, `0` if validation fails, the parent doesn't exist, or the write cannot complete.
+
+## Behavior
+
+`contents` may be `""` — that creates an empty file. The file is opened, written, and closed in a single operation; there is no streaming or append path here. Use [AppendFile](./workspace/appendfile) to grow an existing file.
+
+## Example
+
+```enforce
+Workspace.NewFolder("logs/session");
+Workspace.NewFile("logs/session", "today.txt", "started");
+```

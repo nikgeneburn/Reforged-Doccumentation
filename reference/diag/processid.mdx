@@ -1,0 +1,26 @@
+---
+title: "Diag.ProcessId"
+description: "Return the OS process id of the current process."
+---
+
+Return the OS process id of the current process.
+
+## Signature
+
+```enforce
+static proto native int ProcessId();
+```
+
+## Returns
+
+The OS process id.
+
+## Behavior
+
+A thin wrapper over `GetCurrentProcessId`. The value is stable for the lifetime of the process.
+
+## Example
+
+```enforce
+Console.Log("pid = " + Diag.ProcessId());
+```

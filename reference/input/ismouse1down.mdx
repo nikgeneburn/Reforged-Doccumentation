@@ -1,0 +1,32 @@
+---
+title: "Input.IsMouse1Down"
+description: "Check whether the left mouse button is currently held."
+---
+
+Return `1` while the left mouse button (mouse button 1) is held, otherwise `0`. Wrapper around `IsKeyDown` for the standard left-button virtual-key code.
+
+## Signature
+
+```enforce
+static proto native int IsMouse1Down();
+```
+
+## Returns
+
+`1` while held, otherwise `0`.
+
+## Behavior
+
+Polled at call time. Ignores window focus.
+
+## Edge cases
+
+- Same focus-ignoring semantics as [Input.IsKeyDown](./iskeydown).
+
+## Example
+
+```enforce
+if (Input.IsMouse1Down()) {
+    Console.Log("LMB held at (" + Input.MouseX() + ", " + Input.MouseY() + ")");
+}
+```

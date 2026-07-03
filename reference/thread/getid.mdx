@@ -1,0 +1,34 @@
+---
+title: "Thread.GetId"
+description: "Win32 thread id of the calling thread."
+---
+
+Return the Win32 thread id of the calling OS thread. Useful inside a spawned-thread entry to confirm execution happened on a different thread than the script's main thread.
+
+## Signature
+
+```enforce
+static proto native int GetId();
+```
+
+## Returns
+
+The Win32 thread id of the calling thread, or `0` on crash.
+
+## Behavior
+
+A thin wrapper over `GetCurrentThreadId`. The value matches what the OS shows in debuggers.
+
+## Edge cases
+
+- Returns `0` only on a fault; a normal call always returns a positive id.
+
+## Example
+
+```enforce
+class Worker {
+    void Run() {
+        Console.Log("worker on thread " + Thread.GetId());
+    }
+}
+```

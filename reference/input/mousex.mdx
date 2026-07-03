@@ -1,0 +1,33 @@
+---
+title: "Input.MouseX"
+description: "Cursor X in full virtual-desktop screen coordinates."
+---
+
+Return the cursor's X position in Windows screen coordinates, in the full virtual desktop (i.e. spans all monitors).
+
+## Signature
+
+```enforce
+static proto native int MouseX();
+```
+
+## Returns
+
+The cursor X in screen pixels. Can be negative or larger than a single monitor's resolution on multi-monitor setups.
+
+## Behavior
+
+Polled at call time. Not window-relative, not DPI-normalised, not viewport-mapped.
+
+## Edge cases
+
+- On multi-monitor layouts with mixed DPI, the returned value is raw pixels — divide by your monitor's scale factor if you want DIPs.
+- The cursor coordinate system spans the **full** virtual desktop; it does not stop at your primary monitor.
+
+## Example
+
+```enforce
+int x = Input.MouseX();
+int y = Input.MouseY();
+Drawing.Circle(x, y, 12, 0xFFFFFFFF, 16, 0);
+```

@@ -1,0 +1,46 @@
+---
+title: "Crypt.AesEncrypt"
+description: "AES-encrypt a string; returns lowercase hex ciphertext."
+---
+
+Encrypt `plaintext` with AES using `key` and `iv`, and return the ciphertext as a lowercase hex string. The key and IV are accepted as either raw bytes from the script string (`isHex == false`) or as hex-encoded strings (`isHex == true`).
+
+## Signature
+
+```enforce
+static proto native string AesEncrypt(string key, string iv, string plaintext, bool isHex);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| key | string | AES key. Raw bytes or hex depending on `isHex`. |
+| iv | string | AES IV (initialisation vector). Raw bytes or hex depending on `isHex`. |
+| plaintext | string | Bytes to encrypt. |
+| isHex | bool | `true` if `key` and `iv` are hex-encoded; `false` if they are raw bytes. |
+
+## Returns
+
+Lowercase hex ciphertext, or `""` on any validation or encryption failure.
+
+## Behavior
+
+- `key` must decode to **16, 24, or 32 bytes** (AES-128 / AES-192 / AES-256).
+- `iv` must decode to **exactly 16 bytes** (the AES block size).
+- The function selects the AES key size based on the decoded key length.
+
+## Edge cases
+
+- Wrong key size, wrong IV size, or any internal crypto failure returns `""`.
+- No padding mode is exposed.
+- Return shares the process-wide buffer with other `Crypt.*` string returns.
+
+## Example
+
+```enforce
+string k  = Crypt.RandomHex(16);    // 16 bytes -> AES-128
+string v  = Crypt.RandomHex(16);    // 16 bytes IV
+string ct = Crypt.AesEncrypt(k, v, "hello secret", true);
+Console.Log("ciphertext = " + ct);
+```

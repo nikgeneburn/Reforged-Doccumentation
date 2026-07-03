@@ -1,0 +1,38 @@
+---
+title: "Env.GetFloatBits"
+description: "Get a stored IEEE-754 bit pattern as int by key from the Env store."
+---
+
+Get the `int` bit pattern previously stored for `key` via [Env.SetFloatBits](./setfloatbits). Returns `0` if the key is absent or if the key holds a different kind.
+
+## Signature
+
+```enforce
+static proto native int GetFloatBits(string key);
+```
+
+## Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| key | `string` | The key to read. |
+
+## Returns
+
+The stored int (an IEEE-754 bit pattern by convention), or `0` if the key is absent or holds a non-FloatBits kind.
+
+## Behavior
+
+The kind check is strict. A `key` whose value was written by [Env.SetInt](./setint), [Env.SetBool](./setbool), or [Env.SetString](./setstring) returns `0` here. There is no `Env.GetFloat`; the script-side ABI does not pass `float` through this API, so floats are bit-cast as `int` and read back the same way. Cast the returned int to float in script if you need the scalar value.
+
+## Edge cases
+
+- Exotic float values (NaN / Inf / denormals) round-trip bit-for-bit — lossy behaviour is only a concern if you compare float semantics across `Env` reads and writes.
+- Missing keys or wrong-kind keys return `0`.
+
+## Example
+
+```enforce
+Env.SetFloatBits("scale", 0x3FC00000); // bit pattern of 1.5f
+int bits = Env.GetFloatBits("scale");  // 0x3FC00000
+```

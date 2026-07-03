@@ -1,0 +1,28 @@
+---
+title: "Hooking.UnhookFunction"
+description: "Reverse an install and free the slot."
+---
+
+Reverses the install performed by [HookFunction](./hooking/hookfunction) for the given slot and zeroes the slot so it can be reused. No-fail.
+
+## Signature
+
+```enforce
+static proto native void UnhookFunction(int hookId);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| hookId | `int` | The slot id returned by `HookFunction`. |
+
+## Behavior
+
+After this call the slot is reusable. Calling on an invalid or already-unhooked id is a no-op.
+
+## Example
+
+```enforce
+Hooking.UnhookFunction(id);
+```

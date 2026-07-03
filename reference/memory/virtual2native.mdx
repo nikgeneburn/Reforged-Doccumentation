@@ -1,0 +1,22 @@
+---
+title: "Memory.Virtual2Native"
+description: "Identity cast. No-op."
+---
+
+Pure identity cast. The engine has already unwrapped the script handle by the time the native fires; this exists for explicit documentation at the call site.
+
+## Signature
+
+```enforce
+static proto native pointer Virtual2Native(pointer obj);
+```
+
+## Returns
+
+`pointer` — `obj` unchanged.
+
+## Example
+
+```enforce
+pointer nativePtr = Memory.Virtual2Native(someHandle);
+```

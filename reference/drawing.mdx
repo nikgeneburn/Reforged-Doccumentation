@@ -1,0 +1,81 @@
+---
+title: "Drawing"
+description: "Overlay: transient primitives for one-frame draws and a persistent handle API for tracked objects."
+---
+
+`Drawing` is the visual layer. Two paths converge on the same overlay surface: **transient** primitives (one-shot draws that fire on the next render and vanish) and **persistent** objects (handles you keep across frames).
+
+## Conventions
+
+- **Coordinates** are screen-space pixels. Origin is **top-left**, +X right, +Y down.
+- **Colors** are **ARGB** (`0xAARRGGBB`). The renderer swaps the channels to the GPU's expected layout at upload. Pass colors in ARGB; the renderer converts.
+- **Handles** are monotonic `int >= 1`. `0` is the sentinel "no object". Pool cap is 1024. `Destroy(h)` and `ClearAll()` invalidate. **Handles are not reused within a session.**
+- Invalid handles and bad pointers are caught and translated to safe defaults — they don't crash the host.
+- The overlay isn't ready immediately — wait on `Drawing.IsOverlayReady()` before the first draw.
+
+## Methods
+
+### Transient primitives
+
+| Method | What it does |
+|---|---|
+| [Line](drawing/line) | Draws a line segment once. |
+| [Box](drawing/box) | Draws an outlined or filled rect once. |
+| [Circle](drawing/circle) | Draws an outlined or filled circle once. |
+| [Text](drawing/text) | Draws a text label once (deferred until atlas lands). |
+| [IsOverlayReady](drawing/isoverlayready) | Returns 1 once the overlay is initialized. |
+
+### Persistent objects
+
+| Method | What it does |
+|---|---|
+| [New](drawing/new) | Creates a persistent object handle. |
+| [Destroy](drawing/destroy) | Invalidates a handle. |
+| [ClearAll](drawing/clearall) | Wipes every slot in one pass. |
+| [SetVisible](drawing/setvisible) | Toggles render. |
+| [SetPosition](drawing/setposition) | Anchor for the object. |
+| [SetTo](drawing/setto) | `Line` end point / square size alias. |
+| [SetSize](drawing/setsize) | Square dimensions. |
+| [SetRadius](drawing/setradius) | Circle radius. |
+| [SetColor](drawing/setcolor) | Stored ARGB color (base alpha). |
+| [SetThickness](drawing/setthickness) | Outline width. |
+| [SetNumSides](drawing/setnumsides) | Circle tessellation count. |
+| [SetFilled](drawing/setfilled) | Solid vs outline. |
+| [SetText](drawing/settext) | `Text` object string. |
+| [SetTextSize](drawing/settextsize) | `Text` point size. |
+| [SetZIndex](drawing/setzindex) | Sort key. |
+| [SetTransparency](drawing/settransparency) | Roblox-style transparency override (`255` opaque). |
+
+## Putting it together
+
+A live healthbar:
+
+```enforce
+class Overlay {
+    int _bg;
+    int _fg;
+
+    void Init() {
+        _bg = Drawing.New("Square");
+        Drawing.SetPosition(_bg, 40, 40);
+        Drawing.SetSize(_bg, 200, 16);
+        Drawing.SetColor(_bg, 0xAA000000);
+        Drawing.SetFilled(_bg, 1);
+        Drawing.SetZIndex(_bg, 10);
+        Drawing.SetVisible(_bg, 1);
+
+        _fg = Drawing.New("Square");
+        Drawing.SetPosition(_fg, 40, 40);
+        Drawing.SetSize(_fg, 200, 16);
+        Drawing.SetColor(_fg, 0xFFCC3333);
+        Drawing.SetFilled(_fg, 1);
+        Drawing.SetZIndex(_fg, 11);
+        Drawing.SetVisible(_fg, 1);
+    }
+
+    void SetHealth(float pct) {
+        int w = (int)(200.0 * pct);
+        Drawing.SetSize(_fg, w, 16);
+    }
+}
+```

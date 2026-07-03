@@ -1,0 +1,32 @@
+---
+title: "Hooking.GetHookParamCount"
+description: "Engine-recorded parameter count, snapshotted at install time."
+---
+
+Returns the parameter count that the engine recorded for the hooked method, snapshotted at install time.
+
+## Signature
+
+```enforce
+static proto native int GetHookParamCount(int hookId);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| hookId | `int` | The slot id. |
+
+## Returns
+
+The number of parameters the engine recorded for the target method, or `0` if the slot is invalid or inactive.
+
+## Behavior
+
+This is a static snapshot from install time. It does not reflect runtime register usage — for that, inspect [GetHookParam](./hooking/gethookparam) by index.
+
+## Example
+
+```enforce
+int argc = Hooking.GetHookParamCount(id);
+```

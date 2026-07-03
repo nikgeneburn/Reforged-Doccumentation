@@ -1,0 +1,33 @@
+---
+title: "Drawing.SetThickness"
+description: "Sets the outline width of a persistent object in pixels."
+---
+
+`Drawing.SetThickness` controls how thick the outline of a persistent object is drawn.
+
+## Signature
+
+```enforce
+static proto native void SetThickness(int handle, int thickness);
+```
+
+## Parameters
+
+- `handle` — a handle returned by [Drawing.New](new).
+- `thickness` — outline width in pixels.
+
+## Behavior
+
+Used for outline rendering of `Line`, `Square`/`Box`, and `Circle` objects. Has no visible effect on filled-only square/box draws.
+
+## Edge cases
+
+- `thickness <= 0` is clamped to 1.0.
+- No-op on bad handles.
+
+## Example
+
+```enforce
+int box = Drawing.New("Square");
+Drawing.SetThickness(box, 2);
+```

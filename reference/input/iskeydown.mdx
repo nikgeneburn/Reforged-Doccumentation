@@ -1,0 +1,39 @@
+---
+title: "Input.IsKeyDown"
+description: "Check whether a key (by virtual-key code) is currently held."
+---
+
+Return `1` while the key identified by `vk` is held, otherwise `0`. Polled on every call — there is no per-call edge cache.
+
+## Signature
+
+```enforce
+static proto native int IsKeyDown(int vk);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| vk | int | Virtual-key code (see [Input.VK](./vk) for name lookup). |
+
+## Returns
+
+`1` while held, otherwise `0`. Out-of-range `vk` (`<= 0` or `> 0xFF`) returns `0`.
+
+## Behavior
+
+Queries the OS at the moment of the call. Ignores window focus.
+
+## Edge cases
+
+- Out-of-range VK returns `0`.
+- Reports whatever the OS believes — tabbing away from the game does not change the answer.
+
+## Example
+
+```enforce
+if (Input.IsKeyDown(Input.VK("F1"))) {
+    Console.Log("F1 is held");
+}
+```

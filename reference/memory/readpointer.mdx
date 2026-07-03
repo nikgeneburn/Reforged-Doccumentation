@@ -1,0 +1,34 @@
+---
+title: "Memory.ReadPointer"
+description: "Read a full 64-bit pointer from game memory."
+---
+
+Reads 8 bytes at `addr` as a full-width pointer. Returns `0` on null / invalid / fault.
+
+## Signature
+
+```enforce
+static proto native pointer ReadPointer(pointer addr);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `addr` | `pointer` | Absolute address. |
+
+## Returns
+
+`pointer` — full 64-bit value at `addr`, or `0` on failure.
+
+## Behavior
+
+- Validates 8 bytes via `IsValidMemoryPtr`.
+- Use this for native pointers (vtable entries, object pointers). For 4-byte `int` reads, use [`ReadInt`](./readint).
+
+## Example
+
+```enforce
+pointer vtable = Memory.ReadPointer(objAddr);
+pointer fn     = Memory.ReadPointer(vtable + 0x10);
+```

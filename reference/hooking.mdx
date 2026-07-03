@@ -1,0 +1,31 @@
+---
+title: "Hooking"
+description: "Install, configure, and instrument hooks on engine classes and methods. 32 slots, two bytecode-aware paths."
+---
+
+`Hooking` lets you intercept engine method calls. You install a hook, optionally register a script callback, and either force a constant return value or let the engine's interpreter fall through to your script code. There is a 32-slot global table; once full, installs fail with `-1`. Every slot stays valid until `UnhookFunction` is called — disabling does not free it.
+
+## Methods
+
+| Method | Returns | Description |
+|---|---|---|
+| [HookFunction](./hooking/hookfunction) | `int` | Install a hook on an engine method. Returns the slot id or `-1`. |
+| [UnhookFunction](./hooking/unhookfunction) | `void` | Reverse an install and free the slot. |
+| [CallOriginal](./hooking/calloriginal) | `int` | Re-enter the original implementation and capture its return value. |
+| [SetHookReturnInt](./hooking/sethookreturnint) | `void` | Set the constant return value pushed by the stub. |
+| [SetHookEnabled](./hooking/sethookenabled) | `void` | Enable or disable without freeing the slot. |
+| [GetHookInstance](./hooking/gethookinstance) | `pointer` | First register argument captured on the most recent invocation. |
+| [GetHookParam](./hooking/gethookparam) | `int` | Low 32 bits of a captured register from the invocation. |
+| [GetHookParamCount](./hooking/gethookparamcount) | `int` | Engine-recorded parameter count, snapshotted at install time. |
+| [IsHookNative](./hooking/ishooknative) | `int` | `1` if the target is native-bodied, `0` if script-bodied. |
+| [DiagHook](./hooking/diaghook) | `int` | Mode-specific inspection / diagnostic on a slot. |
+| [SetCallbackByName](./hooking/setcallbackbyname) | `void` | Register a script-side static method as the slot's callback. |
+| [ClearCallback](./hooking/clearcallback) | `void` | Zero the slot's script callback. |
+
+## Putting it together
+
+```enforce
+int id = Hooking.HookFunction("PlayerController", "ProcessInput");
+Hooking.SetHookEnabled(id, 0);   // start frozen
+Hooking.SetHookReturnInt(id, 0);
+```

@@ -1,0 +1,28 @@
+---
+title: "Memory.ModuleSize"
+description: "int — image size of a loaded module."
+---
+
+`OptionalHeader.SizeOfImage` truncated to 32 bits (no game module exceeds 2 GiB).
+
+## Signature
+
+```enforce
+static proto native int ModuleSize(string name);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `name` | `string` | DLL name. |
+
+## Returns
+
+`int` — image size in bytes, or `0` if unloaded.
+
+## Example
+
+```enforce
+int sz = Memory.ModuleSize("game.dll");
+```

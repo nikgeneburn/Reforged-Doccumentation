@@ -1,0 +1,41 @@
+---
+title: "Regex.Test"
+description: "Test whether a pattern matches anywhere in an input string."
+---
+
+Returns `1` if `pattern` matches anywhere in `input`, otherwise `0`. The pattern is compiled on every call as ECMAScript.
+
+## Signature
+
+```enforce
+static proto native int Test(string pattern, string input);
+```
+
+## Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| pattern | `string` | The ECMAScript regex pattern. |
+| input | `string` | The haystack to test. |
+
+## Returns
+
+`1` on any match, `0` otherwise.
+
+## Behavior
+
+The pattern is compiled on every call (no caching at the native layer — cache via [Env.SetString](../env/setstring) if you reuse one). Any compile or search exception is mapped to `0`.
+
+## Edge cases
+
+- `pattern == null` or `input == null` returns `0`.
+- Compilation errors in `pattern` return `0` rather than surfacing.
+- Backtracking-heavy patterns on large inputs can be slow; cache patterns and avoid catastrophic inputs.
+
+## Example
+
+```enforce
+if (Regex.Test("[0-9]+", "abc 42 def 7")) {
+    Console.Log("contains digits");
+}
+```

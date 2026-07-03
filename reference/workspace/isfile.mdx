@@ -1,0 +1,30 @@
+---
+title: "Workspace.IsFile"
+description: "Test whether a path is an existing file."
+---
+
+Returns whether the path exists and is a regular file.
+
+## Signature
+
+```enforce
+static proto native int IsFile(string path);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| path | `string` | Path to test, relative to the workspace root. |
+
+## Returns
+
+`1` if the path exists and is a file, `0` otherwise — including missing paths, folders, validation failures, and access errors.
+
+## Example
+
+```enforce
+if (Workspace.IsFile("logs/session/today.txt")) {
+    Console.Log("present");
+}
+```

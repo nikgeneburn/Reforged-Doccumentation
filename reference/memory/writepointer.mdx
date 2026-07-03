@@ -1,0 +1,29 @@
+---
+title: "Memory.WritePointer"
+description: "Write a full 64-bit pointer to game memory."
+---
+
+Writes 8 bytes (a full-width pointer) at `addr`. Flips protection to RWX, writes, restores.
+
+## Signature
+
+```enforce
+static proto native void WritePointer(pointer addr, pointer value);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `addr` | `pointer` | Target address. |
+| `value` | `pointer` | Value to write. |
+
+## Returns
+
+`void`. Silent no-op on bad address / fault.
+
+## Example
+
+```enforce
+Memory.WritePointer(someField, newPtr);
+```

@@ -1,0 +1,44 @@
+---
+title: "Thread.SpawnGlobal"
+description: "Spawn a thread that runs a file-scope global function."
+---
+
+Like [Thread.Spawn](./spawn) but resolves `methodName` as a file-scope global function in the current script module. There is no `className` parameter.
+
+## Signature
+
+```enforce
+static proto native int SpawnGlobal(string threadName, string methodName);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| threadName | string | Debugger-visible label. Empty/null defaults to a sensible label. |
+| methodName | string | File-scope global function to run. Must be non-empty. |
+
+## Returns
+
+The Win32 thread id (`> 0`) on success, or `0` on any failure.
+
+## Behavior
+
+Same threading model as `Spawn`: queued behind the script's main thread on the shared critical section.
+
+## Edge cases
+
+- Empty `methodName` returns `0`.
+- There is no script-side join; coordinate via [Env](./env).
+
+## Example
+
+```enforce
+void GlobalRunner() { Console.Log("hello from a global"); }
+
+class Demo {
+    void Run() {
+        Thread.SpawnGlobal("global-1", "GlobalRunner");
+    }
+}
+```

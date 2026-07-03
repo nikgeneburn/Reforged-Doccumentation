@@ -1,0 +1,44 @@
+---
+title: "Input.WasKeyPressed"
+description: "Read the OS key-state latch for a virtual-key code."
+---
+
+Read the low bit of the OS key-state query for `vk`. Despite the "pressed" name, this is the standard OS latch — true on every call until the OS has observed the key up at least once between calls.
+
+## Signature
+
+```enforce
+static proto native int WasKeyPressed(int vk);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| vk | int | Virtual-key code (see [Input.VK](./vk) for name lookup). |
+
+## Returns
+
+The low bit of the OS key-state query: `1` if the key has been pressed since the last OS-observed up, otherwise `0`.
+
+## Behavior
+
+There's no per-call "previous state" cache. The latch is the OS's; it stays set across calls until the OS sees the key go up.
+
+## Edge cases
+
+- Out-of-range VK returns `0`.
+- The latch spans multiple script frames — if you need a clean one-shot edge per frame, snapshot and diff yourself using [Input.IsKeyDown](./iskeydown).
+
+## Example
+
+```enforce
+class EdgeDemo {
+    int _prevF1;
+    void Tick() {
+        int cur = Input.IsKeyDown(Input.VK("F1"));
+        if (cur && !_prevF1) Console.Log("F1 down edge");
+        _prevF1 = cur;
+    }
+}
+```

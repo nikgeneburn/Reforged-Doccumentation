@@ -1,0 +1,36 @@
+---
+title: "Console"
+description: "Single Log channel routed through the host console, the debug log file, and every WebSocket client."
+---
+
+The `Console` class exposes one method, `Log`. Two more (`OnInit`, `Ping`) are wired into the C++ binding table but are **not** declared in the prelude — calling them requires re-declaring them in a user script, which is not supported. Documenting them anyway because they show up in the C++ bindings:
+
+| Prelude exposure | Method |
+|---|---|
+| Yes (use this) | [`Console.Log`](./console/log) |
+| No (do not use) | `Console.OnInit`, `Console.Ping` |
+
+## Putting it together
+
+```enforce
+class Demo {
+    void Run() {
+        Console.Log("boot OK");
+        // Useful for tracing into the debug log.
+    }
+}
+```
+
+## Conventions
+
+- The single `Log` method:
+  - Prints with a `[Script] ` prefix.
+  - Mirrors to the debug log file and broadcasts as `{"type":"log","line":"…"}` over the WebSocket.
+  - Max line length is 1024 bytes. Longer strings are truncated.
+  - `msg == ""` is allowed; you'll see `[Script] ` with nothing after it.
+
+## Method index
+
+| Method | Returns | What it does |
+|---|---|---|
+| [`Log`](./console/log) | `void` | Single log channel. The only method the prelude exposes. |

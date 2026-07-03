@@ -1,0 +1,34 @@
+---
+title: "Memory.WriteInt"
+description: "Write a 32-bit int to game memory."
+---
+
+Writes 4 bytes to `addr`. Flips protection to RWX, writes, restores. Silent on bad address.
+
+## Signature
+
+```enforce
+static proto native void WriteInt(pointer addr, int value);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `addr` | `pointer` | Target address. |
+| `value` | `int` | Value to write. |
+
+## Returns
+
+`void`. Silent no-op on bad address / fault.
+
+## Behavior
+
+- Validates 4 bytes via `IsValidMemoryPtr`.
+- `VirtualProtect`s the page to `PAGE_EXECUTE_READWRITE`, writes, restores.
+
+## Example
+
+```enforce
+Memory.WriteInt(playerAddr + 0x1A0, 9999);  // refills health
+```

@@ -1,0 +1,38 @@
+---
+title: "Crypt.RandomHex"
+description: "Generate cryptographically random bytes and return them as lowercase hex."
+---
+
+Generate `bytes` random bytes from the OS RNG and return them as a lowercase hex string (two hex characters per byte).
+
+## Signature
+
+```enforce
+static proto native string RandomHex(int bytes);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| bytes | int | Number of random bytes to generate. |
+
+## Returns
+
+A lowercase hex string of length `bytes * 2`, or `""` if `bytes <= 0`.
+
+## Behavior
+
+The bytes come from the OS cryptographically-secure RNG, not from a script-language PRNG.
+
+## Edge cases
+
+- `bytes <= 0` returns `""`.
+- Return shares the process-wide buffer with other `Crypt.*` string returns.
+
+## Example
+
+```enforce
+string sessionId = Crypt.RandomHex(16);  // 32 hex chars
+string key       = Crypt.RandomHex(32);  // 64 hex chars (AES-256)
+```

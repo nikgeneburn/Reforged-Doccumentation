@@ -1,0 +1,29 @@
+---
+title: "Diag.GetLastError"
+description: "Read the thread-local Win32 last-error value."
+---
+
+Return the thread-local Win32 last-error value.
+
+## Signature
+
+```enforce
+static proto native int GetLastError();
+```
+
+## Returns
+
+The thread-local last-error value at the moment of the call.
+
+## Edge cases
+
+- Read exactly once per call you suspect failed.
+- Many script APIs surface failures via empty-string returns and do not set the Win32 last-error, so a `0` return from `GetLastError` does not always mean "no error happened."
+
+## Example
+
+```enforce
+if (Workspace.WriteFile("nonexistent/folder/x.txt", "x") == 0) {
+    Console.Log("write failed: Win32 error " + Diag.GetLastError());
+}
+```

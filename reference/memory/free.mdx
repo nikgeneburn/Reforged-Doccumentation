@@ -1,0 +1,29 @@
+---
+title: "Memory.Free"
+description: "Release a region previously allocated by Memory.Alloc."
+---
+
+`VirtualFree(p, 0, MEM_RELEASE)` — releases the whole reservation. The `size` arg is accepted but ignored.
+
+## Signature
+
+```enforce
+static proto native void Free(pointer p, int size);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `p` | `pointer` | Base from [`Alloc`](./alloc). |
+| `size` | `int` | Accepted but ignored. |
+
+## Returns
+
+`void`. Silent no-op on bad pointer / fault.
+
+## Example
+
+```enforce
+Memory.Free(p, 0);
+```

@@ -1,0 +1,41 @@
+---
+title: "Regex.Escape"
+description: "Prefix every ECMAScript metacharacter in input with a backslash."
+---
+
+Returns `input` with each ECMAScript metacharacter prefixed by `\`. Useful when you want to take arbitrary user input and match it literally in a regex.
+
+## Signature
+
+```enforce
+static proto native string Escape(string input);
+```
+
+## Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| input | `string` | The string to escape. |
+
+## Returns
+
+`input` with each metacharacter prefixed by `\`. Pure byte walk — no regex compile.
+
+## Behavior
+
+Metacharacters escaped: `. ^ $ | ( ) [ ] { } * + ? \ /`. The result is written into a shared 128 KB buffer; engine copies at the native-call boundary.
+
+## Edge cases
+
+- `input == null` returns `""`.
+- Regular alphanumerics and most punctuation are returned unchanged.
+- The set of escaped characters is the ECMAScript metacharacter set; this is not locale-aware.
+
+## Example
+
+```enforce
+string s = Regex.Escape("a.b*c?");                  // "a\\.b\\*c\\?"
+if (Regex.Test(Regex.Escape(userInput), haystack)) {
+    Console.Log("literal match");
+}
+```

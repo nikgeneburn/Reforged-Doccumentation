@@ -1,0 +1,37 @@
+---
+title: "Drawing.SetVisible"
+description: "Toggles whether a persistent object is rendered."
+---
+
+`Drawing.SetVisible` is the on/off switch for a persistent object — without flipping this on, no amount of configuration matters.
+
+## Signature
+
+```enforce
+static proto native void SetVisible(int handle, int visible);
+```
+
+## Parameters
+
+- `handle` — a handle returned by [Drawing.New](new).
+- `visible` — non-zero to render, `0` to hide.
+
+## Behavior
+
+Newly-created objects are hidden by default; call this once your configuration is in place. The renderer snapshots visible objects each frame, so toggling this on/off is cheap.
+
+## Edge cases
+
+- No-op on bad handles.
+- Hidden objects still occupy pool slots and consume their last-set configuration.
+
+## Example
+
+```enforce
+int box = Drawing.New("Square");
+Drawing.SetPosition(box, 100, 100);
+Drawing.SetSize(box, 200, 80);
+Drawing.SetColor(box, 0xCC2266AA);
+Drawing.SetFilled(box, 1);
+Drawing.SetVisible(box, 1);
+```

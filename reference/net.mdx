@@ -1,0 +1,25 @@
+---
+title: "Net"
+description: "HTTP GET / POST."
+---
+
+`Net` is the outbound HTTP/HTTPS wrapper. Three natives, all static. Every call is one full request: HTTPS works, redirects are followed, and the response body and status code are exposed after each call. The response body buffer and status are shared across calls — the next `Get` or `Post` overwrites them.
+
+## Methods
+
+| Method | Returns | Description |
+| --- | --- | --- |
+| [Net.Get](./net/get) | `string` | Issue an HTTP `GET`. Returns the response body (capped at 1 MiB) or `""` on failure. |
+| [Net.Post](./net/post) | `string` | Issue an HTTP `POST` with a raw body and `Content-Type`. Returns the response body or `""` on failure. |
+| [Net.LastStatus](./net/laststatus) | `int` | Returns the numeric HTTP status code of the most recent `Get` / `Post`. `0` before any call or on transport failure. |
+
+## Putting it together
+
+```enforce
+class Demo {
+    void Run() {
+        string body = Net.Get("https://httpbin.org/json");
+        Console.Log("status=" + Net.LastStatus() + " len=" + body.Length());
+    }
+}
+```

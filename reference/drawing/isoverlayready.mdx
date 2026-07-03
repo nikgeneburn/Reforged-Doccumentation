@@ -1,0 +1,32 @@
+---
+title: "Drawing.IsOverlayReady"
+description: "Returns 1 once the overlay is initialized and ready to draw."
+---
+
+`Drawing.IsOverlayReady` is the gate every script should poll before issuing the first frame of overlay output.
+
+## Signature
+
+```enforce
+static proto native int IsOverlayReady();
+```
+
+## Returns
+
+- `1` once the overlay is initialized and ready to accept draws.
+- `0` otherwise.
+
+## Behavior
+
+Cheap poll: there is a small startup window before the D3D12 present hook is installed and the overlay device is ready, during which primitives are silently dropped.
+
+## Edge cases
+
+- **D3D12 startup race:** until this returns `1`, all transient draws and persistent-object updates are silently dropped — no exception, no error.
+
+## Example
+
+```enforce
+while (!Drawing.IsOverlayReady()) { /* wait */ }
+Drawing.Line(10, 10, 800, 600, 0xFFFF8800, 2);
+```

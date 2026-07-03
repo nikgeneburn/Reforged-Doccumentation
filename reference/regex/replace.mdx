@@ -1,0 +1,43 @@
+---
+title: "Regex.Replace"
+description: "Full regex replace with ECMAScript back-references."
+---
+
+Performs a full regex replace over the entire `input`, replacing every match of `pattern` with `replacement`. Supports ECMAScript back-references `$1..$9`.
+
+## Signature
+
+```enforce
+static proto native string Replace(string pattern, string input, string replacement);
+```
+
+## Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| pattern | `string` | The ECMAScript regex pattern. |
+| input | `string` | The haystack to replace within. |
+| replacement | `string` | The replacement text. `$1..$9` refer to captured groups in `pattern`. |
+
+## Returns
+
+The result of the replace. Truncated to 128 KiB − 1 (one byte reserved for the NUL) if needed.
+
+## Behavior
+
+Iterates all non-overlapping matches in `input` and substitutes `replacement`. `replacement` is processed for `$1..$9` back-references — anything else is a literal. The result is written into a shared 128 KB buffer; engine copies at the native-call boundary.
+
+## Edge cases
+
+- Result longer than 128 KiB − 1 is silently truncated.
+- A compile or search exception yields `""`.
+- `pattern == null`, `input == null`, or `replacement == null` yields `""`.
+- Back-references beyond `$9` are not supported (ECMAScript semantics).
+- Compiling one pattern in a tight loop is more expensive than running it — cache patterns.
+
+## Example
+
+```enforce
+string out  = Regex.Replace("[0-9]+", "abc 42 def 7", "N");        // "abc N def N"
+string swap = Regex.Replace("(foo)(bar)", "foobar", "$2$1");         // "barfoo"
+```

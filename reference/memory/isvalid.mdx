@@ -1,0 +1,35 @@
+---
+title: "Memory.IsValid"
+description: "int — is this many bytes at this address readable?"
+---
+
+`1` if `size` bytes at `p` are readable, else `0`. Uses `IsValidMemoryPtr` plus fault handling.
+
+## Signature
+
+```enforce
+static proto native int IsValid(pointer p, int size);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `p` | `pointer` | Address to test. |
+| `size` | `int` | Bytes. |
+
+## Returns
+
+`int` — `1` if readable, `0` otherwise.
+
+## Edge cases
+
+- `p == 0` or `size <= 0` returns `0`.
+
+## Example
+
+```enforce
+if (Memory.IsValid(somePtr, 4)) {
+    int v = Memory.ReadInt(somePtr);
+}
+```

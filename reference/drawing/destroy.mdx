@@ -1,0 +1,34 @@
+---
+title: "Drawing.Destroy"
+description: "Invalidates a persistent object handle."
+---
+
+`Drawing.Destroy` frees a single slot in the persistent object pool.
+
+## Signature
+
+```enforce
+static proto native void Destroy(int handle);
+```
+
+## Parameters
+
+- `handle` — a handle returned by [Drawing.New](new).
+
+## Behavior
+
+Marks the slot invalid. Any further setter calls on this handle become safe no-ops. The slot is not backfilled — see the edge-case note on handle reuse.
+
+## Edge cases
+
+- No-op on a bad id (`0`, unknown handle, or already-destroyed handle).
+- The slot is **not** reused for a new object — handles are monotonic within a session. Use [ClearAll](clearall) for a hard reset.
+- Other script-side references to the destroyed handle do not crash the host.
+
+## Example
+
+```enforce
+int box = Drawing.New("Square");
+Drawing.SetVisible(box, 1);
+Drawing.Destroy(box);
+```

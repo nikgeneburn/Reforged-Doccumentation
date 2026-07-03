@@ -1,0 +1,27 @@
+---
+title: "Drawing.ClearAll"
+description: "Wipes every persistent object slot in one pass."
+---
+
+`Drawing.ClearAll` resets the entire persistent object pool.
+
+## Signature
+
+```enforce
+static proto native void ClearAll();
+```
+
+## Behavior
+
+Single-pass wipe: every slot is invalidated in one call. After this returns, no persistent object is visible — every handle from before this call is treated as dead.
+
+## Edge cases
+
+- Intended for hard resets (level change, script restart) when you want every object gone without enumerating them.
+- After `ClearAll`, any cached handles in your script should be re-acquired via [Drawing.New](new) before reuse.
+
+## Example
+
+```enforce
+Drawing.ClearAll();
+```

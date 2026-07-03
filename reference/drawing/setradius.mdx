@@ -1,0 +1,35 @@
+---
+title: "Drawing.SetRadius"
+description: "Sets the radius of a persistent Circle in pixels."
+---
+
+`Drawing.SetRadius` configures the radius of a Circle object.
+
+## Signature
+
+```enforce
+static proto native void SetRadius(int handle, int radius);
+```
+
+## Parameters
+
+- `handle` — a handle returned by [Drawing.New](new).
+- `radius` — radius in screen-space pixels.
+
+## Behavior
+
+The Circle is centered on the anchor set by [SetPosition](setposition). The tessellation count comes from [SetNumSides](setnumsides).
+
+## Edge cases
+
+- No-op on bad handles.
+- No-op on non-Circle kinds.
+- Default radius is 50 if never set.
+
+## Example
+
+```enforce
+int c = Drawing.New("Circle");
+Drawing.SetPosition(c, 640, 360);
+Drawing.SetRadius(c, 80);
+```

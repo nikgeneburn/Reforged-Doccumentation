@@ -1,0 +1,44 @@
+---
+title: "WebSocket.State"
+description: "Return the state of a WebSocket connection."
+---
+
+Returns the connection state for `handle`.
+
+## Signature
+
+```enforce
+static proto native int State(int handle);
+```
+
+## Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| handle | `int` | The connection handle from [WebSocket.Connect](./connect). |
+
+## Returns
+
+The integer state code:
+
+| Code | State | Meaning |
+| --- | --- | --- |
+| `0` | closed | The pump thread has exited, the slot is free, or `handle` is invalid. |
+| `1` | connecting | The handshake is in progress. |
+| `2` | open | The handshake completed; sending and receiving are valid. |
+| `3` | closing | [WebSocket.Close](./close) was called; the close handshake is in progress. |
+
+## Behavior
+
+`CLOSED` is observed only when the pump thread has actually exited, so brief delays between calling [WebSocket.Close](./close) and seeing `0` are normal. `0` is also returned for out-of-range or inactive handles, so you cannot use this call to disambiguate "still alive but pumping down" from "this handle never existed".
+
+## Edge cases
+
+- A handle that was never issued by [WebSocket.Connect](./connect) (including `0`) returns `0`.
+- Between [WebSocket.Close](./close) and the pump exiting, the slot reports `3` (closing), not `0`.
+
+## Example
+
+```enforce
+while (WebSocket.State(ws) != 2) { /* spin until OPEN */ }
+```

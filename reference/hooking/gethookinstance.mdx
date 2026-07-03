@@ -1,0 +1,32 @@
+---
+title: "Hooking.GetHookInstance"
+description: "First register argument captured on the most recent invocation."
+---
+
+Returns the first register argument captured on the most recent invocation of the hook. Combine with [GetHookParam](./hooking/gethookparam) if you need the full argument register set.
+
+## Signature
+
+```enforce
+static proto native pointer GetHookInstance(int hookId);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| hookId | `int` | The slot id. |
+
+## Returns
+
+A `pointer` (8-byte qword) — the first register argument from the most recent invocation, or `0` if the slot is invalid or inactive.
+
+## Behavior
+
+The value is updated on every dispatch. It stays valid until the next invocation on the same slot.
+
+## Example
+
+```enforce
+pointer inst = Hooking.GetHookInstance(id);
+```

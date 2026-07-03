@@ -1,0 +1,46 @@
+---
+title: "Net.Post"
+description: "Issue an HTTP POST with a raw body and Content-Type, return the response body."
+---
+
+Issues an HTTP `POST` to `url` with `body` as the raw payload and `contentType` as the `Content-Type:` header. Returns the response body (capped at 1 MiB), or `""` on failure.
+
+## Signature
+
+```enforce
+static proto native string Post(string url, string body, string contentType);
+```
+
+## Parameters
+
+| Name | Type | Description |
+| --- | --- | --- |
+| url | `string` | The URL to post to. |
+| body | `string` | The raw POST payload. Sent as-is, no URL encoding. `null` becomes `""`. |
+| contentType | `string` | The `Content-Type:` header value. Empty / `null` ⇒ no header is sent. |
+
+## Returns
+
+The response body. `""` on transport failure or fault.
+
+## Behavior
+
+Same transport behaviour as [Net.Get](./get): 5 s connect timeout, 15 s total timeout, HTTPS supported, redirects followed, 1 MiB body cap. URL-encode `body` yourself for `application/x-www-form-urlencoded` — there is no automatic encoding. The body buffer is shared across calls; the engine copies into a script-owned string at the call boundary.
+
+## Edge cases
+
+- Response bodies larger than 1 MiB are silently truncated.
+- No `Content-Type:` header is sent when `contentType` is empty or `null`.
+- Transport faults yield `""` and reset [Net.LastStatus](./laststatus) to `0`.
+- Slow server stalls the calling script thread up to the 15 s total timeout.
+
+## Example
+
+```enforce
+string reply = Net.Post(
+    "https://httpbin.org/post",
+    "{\"msg\":\"hi\"}",
+    "application/json"
+);
+if (Net.LastStatus() == 200) { Console.Log("ok"); }
+```

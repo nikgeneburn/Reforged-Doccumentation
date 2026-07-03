@@ -1,0 +1,33 @@
+---
+title: "Hooking.GetHookParam"
+description: "Low 32 bits of a captured register from the invocation."
+---
+
+Returns the low 32 bits of the register captured at the given parameter index during the most recent invocation of the hook.
+
+## Signature
+
+```enforce
+static proto native int GetHookParam(int hookId, int paramIndex);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| hookId | `int` | The slot id. |
+| paramIndex | `int` | `0`→reg 2, `1`→reg 3, `2`→reg 4, `3`→first stack-passed arg. |
+
+## Returns
+
+The low 32 bits of the captured register, or `0` if the slot is invalid / inactive / out of range. Bool / flag values riding in the low bit are preserved.
+
+## Edge cases
+
+Only the low 32 bits are exposed — full 64-bit pointers in non-first registers cannot be recovered directly. For those, reconstruct manually from the saved instance and parameter order.
+
+## Example
+
+```enforce
+int reg3 = Hooking.GetHookParam(id, 1);
+```

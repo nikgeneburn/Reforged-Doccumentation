@@ -1,0 +1,19 @@
+---
+title: "Memory.ReadIntRVA"
+description: "int — read an int at g_GameBase + rva."
+---
+
+`ReadInt(g_GameBase + (uint32_t)rva)`. RVA is **zero-extended**; negative offsets wrap. For signed offsets, compute `Memory.GameBase() + offset` instead.
+
+## Signature
+
+```enforce
+static proto native int ReadIntRVA(int rva);
+```
+
+## Example
+
+```enforce
+int v = Memory.ReadIntRVA(0x1234);  // rva is unsigned
+int signedV = Memory.ReadInt(Memory.GameBase() + (-0x100));  // sign-safe
+```

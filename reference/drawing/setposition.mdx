@@ -1,0 +1,38 @@
+---
+title: "Drawing.SetPosition"
+description: "Sets the anchor of a persistent object in screen-space pixels."
+---
+
+`Drawing.SetPosition` places a persistent object's anchor point.
+
+## Signature
+
+```enforce
+static proto native void SetPosition(int handle, int x, int y);
+```
+
+## Parameters
+
+- `handle` — a handle returned by [Drawing.New](new).
+- `x`, `y` — anchor in screen-space pixels.
+
+## Behavior
+
+How the anchor is interpreted depends on the object kind:
+
+- `Line` — start point (paired with [SetTo](setto) for the end).
+- `Square` / `Box` — top-left.
+- `Circle` — center.
+- `Text` — top-left.
+
+## Edge cases
+
+- No-op on bad handles.
+- Coordinates are top-left screen pixels, not world space — see the [overview](..).
+
+## Example
+
+```enforce
+int box = Drawing.New("Square");
+Drawing.SetPosition(box, 40, 40);
+```

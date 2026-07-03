@@ -1,0 +1,38 @@
+---
+title: "Diag.ModuleForAddress"
+description: "Resolve an absolute address to a module-relative offset string."
+---
+
+Return `"<moduleFilename>+0x<offset>"` if `addr` lies inside a loaded module, or `"0x<hex>"` if it doesn't.
+
+## Signature
+
+```enforce
+static proto native string ModuleForAddress(pointer addr);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| addr | pointer | Absolute address to resolve. |
+
+## Returns
+
+`"<moduleFilename>+0x<offset>"` if the address is inside a known module; otherwise `"0x<hex>"`.
+
+## Behavior
+
+Useful when you've just disassembled or dumped an address and want to know which DLL it came from.
+
+## Edge cases
+
+- An address outside every loaded module falls through to a bare `"0x<hex>"` rendering.
+- Return shares the process-wide buffer with other `Diag.*` string returns.
+
+## Example
+
+```enforce
+string here = Diag.ModuleForAddress(Memory.GameBase());
+// "reforger.exe+0x1234000"
+```

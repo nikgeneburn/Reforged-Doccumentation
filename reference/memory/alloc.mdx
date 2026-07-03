@@ -1,0 +1,36 @@
+---
+title: "Memory.Alloc"
+description: "Allocate a private region of memory."
+---
+
+`VirtualAlloc(nullptr, size, MEM_COMMIT|MEM_RESERVE, PAGE_READWRITE)`.
+
+## Signature
+
+```enforce
+static proto native pointer Alloc(int size);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `size` | `int` | Bytes to allocate. Must be `> 0`. |
+
+## Returns
+
+`pointer` — base of the new region, or `0` on failure (including `size <= 0`).
+
+## Behavior
+
+- Pages are **RW (not RWX)**. If you need exec, follow up with [`Protect`](./protect).
+
+## Example
+
+```enforce
+pointer p = Memory.Alloc(4096);
+if (p == 0) { Console.Log("alloc failed"); return; }
+Memory.Protect(p, 4096, 0x40);  // RWX
+// …
+Memory.Free(p, 0);
+```

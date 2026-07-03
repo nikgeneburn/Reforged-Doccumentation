@@ -1,0 +1,28 @@
+---
+title: "Memory.GameBase"
+description: "Pointer — the resolved game module base."
+---
+
+Returns the resolved `g_GameBase`. Used as the anchor for `Offset` and the `*RVA` family.
+
+## Signature
+
+```enforce
+static proto native pointer GameBase();
+```
+
+## Returns
+
+`pointer` — full 64-bit base address of the game module.
+
+## Behavior
+
+- Trivial — no fault handling required.
+- Same value across the process; mirrors the `Game_Offset` base used by other classes.
+
+## Example
+
+```enforce
+pointer base = Memory.GameBase();
+int v = Memory.ReadInt(Memory.Offset(base, 0x1234));
+```

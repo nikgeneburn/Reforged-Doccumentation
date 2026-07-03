@@ -1,0 +1,31 @@
+---
+title: "Diag.MemoryUsageKB"
+description: "Process working-set size in KiB."
+---
+
+Return the current process's working-set size in KiB.
+
+## Signature
+
+```enforce
+static proto native int MemoryUsageKB();
+```
+
+## Returns
+
+The working-set size in KiB, or `0` if the OS query fails.
+
+## Behavior
+
+Reports the **working set** (pages currently resident), not private bytes or commit charge.
+
+## Edge cases
+
+- Returns `0` on a failed OS query rather than throwing.
+
+## Example
+
+```enforce
+int kb = Diag.MemoryUsageKB();
+Console.Log("working set = " + kb + " KiB");
+```

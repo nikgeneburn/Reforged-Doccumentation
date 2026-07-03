@@ -1,0 +1,36 @@
+---
+title: "Hooking.CallOriginal"
+description: "Re-enter the original implementation and capture its return value."
+---
+
+Re-enters the original implementation of a hooked method and returns its captured return value. The path taken depends on whether the target was native-bodied or script-bodied.
+
+## Signature
+
+```enforce
+static proto native int CallOriginal(int hookId);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| hookId | `int` | The slot id whose original implementation should be invoked. |
+
+## Returns
+
+The captured return value from the original implementation, or `0` on failure.
+
+## Behavior
+
+For native-bodied hooks, the saved engine handler pointer is re-entered with the captured register set. For script-bodied hooks, the saved bytecodes are temporarily restored, the method is re-executed, the int return slot is read, and the stub is patched back. Use [IsHookNative](./hooking/ishooknative) to learn which path will be taken.
+
+## Edge cases
+
+Calling `CallOriginal` from inside a script callback that re-enters the same code path can race with the stub patch.
+
+## Example
+
+```enforce
+int ret = Hooking.CallOriginal(id);
+```

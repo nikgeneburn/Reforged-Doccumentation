@@ -1,0 +1,30 @@
+---
+title: "WebSocket"
+description: "WebSocket client with WS / WSS support, one pump thread per connection, and a small ring of inbound messages."
+---
+
+`WebSocket` is the WebSocket client. Up to 8 concurrent connections can be open at once, each with its own pump thread. There is no callback path — scripts poll `Receive`. States are `0` closed, `1` connecting, `2` open, `3` closing.
+
+## Methods
+
+| Method | Returns | Description |
+| --- | --- | --- |
+| [WebSocket.Connect](./websocket/connect) | `int` | Open a `ws://` or `wss://` connection. Returns an opaque handle in `[1, 8]`, or `0` on failure. |
+| [WebSocket.Send](./websocket/send) | `int` | Send a text frame. `1` on success, `0` on failure (bad handle, not `OPEN`, null msg, send error). |
+| [WebSocket.Receive](./websocket/receive) | `string` | Return the next queued inbound text message, or `""` if the queue is empty. |
+| [WebSocket.State](./websocket/state) | `int` | Return the connection state for a handle (`0` closed, `1` connecting, `2` open, `3` closing). |
+| [WebSocket.Close](./websocket/close) | `void` | Send a close control frame and tear down the connection. |
+
+## Putting it together
+
+```enforce
+class WsDemo {
+    void Run() {
+        int ws = WebSocket.Connect("wss://echo.websocket.events");
+        while (WebSocket.State(ws) != 2) { /* wait for OPEN */ }
+        WebSocket.Send(ws, "hello");
+        while (WebSocket.Receive(ws) == "") { /* wait for a frame */ }
+        WebSocket.Close(ws);
+    }
+}
+```

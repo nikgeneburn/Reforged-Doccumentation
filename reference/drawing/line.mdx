@@ -1,0 +1,35 @@
+---
+title: "Drawing.Line"
+description: "Draws a line segment once on the next render."
+---
+
+`Drawing.Line` is the transient line primitive — it pushes a single segment into the overlay's draw queue for the next frame and then forgets about it.
+
+## Signature
+
+```enforce
+static proto native void Line(int x1, int y1, int x2, int y2, int argb, int thickness);
+```
+
+## Parameters
+
+- `x1`, `y1` — start point in screen-space pixels (top-left origin).
+- `x2`, `y2` — end point in screen-space pixels.
+- `argb` — color in `0xAARRGGBB` form.
+- `thickness` — outline width in pixels.
+
+## Behavior
+
+Transient: the segment is queued for the next frame only. No handle, no retained state. Same color/coord semantics as the rest of `Drawing` — see the [overview](..).
+
+## Edge cases
+
+- `thickness <= 0` is clamped to 1.
+- Coordinates are top-left screen pixels, not world space.
+- If the overlay isn't ready, the call is silently dropped — gate on [Drawing.IsOverlayReady](isoverlayready).
+
+## Example
+
+```enforce
+Drawing.Line(10, 10, 800, 600, 0xFFFF8800, 2);
+```

@@ -1,0 +1,29 @@
+---
+title: "Memory.WriteByte"
+description: "Write a single byte to game memory."
+---
+
+Writes the low 8 bits of `value` at `addr`. Flips protection to RWX, writes, restores.
+
+## Signature
+
+```enforce
+static proto native void WriteByte(pointer addr, int value);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `addr` | `pointer` | Target address. |
+| `value` | `int` | Value to write; only the low 8 bits matter. |
+
+## Returns
+
+`void`. Silent no-op on bad address / fault.
+
+## Example
+
+```enforce
+Memory.WriteByte(funcAddr, 0xC3);  // single-byte RET
+```

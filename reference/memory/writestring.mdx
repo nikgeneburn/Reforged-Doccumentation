@@ -1,0 +1,29 @@
+---
+title: "Memory.WriteString"
+description: "Write a NUL-terminated string into game memory."
+---
+
+Writes `s` (including NUL) at `p`. Flips protection to RWX, copies, restores. Silent on null / invalid.
+
+## Signature
+
+```enforce
+static proto native void WriteString(pointer p, string s);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `p` | `pointer` | Target address. |
+| `s` | `string` | NUL-terminated source. Null `s` is a no-op. |
+
+## Returns
+
+`void`.
+
+## Example
+
+```enforce
+Memory.WriteString(playerNameSlot, "Player One");
+```

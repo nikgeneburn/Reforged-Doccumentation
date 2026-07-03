@@ -1,0 +1,35 @@
+---
+title: "Drawing.SetText"
+description: "Sets the string of a persistent Text object."
+---
+
+`Drawing.SetText` stores the rendered string of a persistent Text object.
+
+## Signature
+
+```enforce
+static proto native void SetText(int handle, string text);
+```
+
+## Parameters
+
+- `handle` — a handle returned by [Drawing.New](new) with kind `"Text"`.
+- `text` — string to render.
+
+## Behavior
+
+Stored in a fixed internal buffer. The persistent Text object shares the same deferred rendering path as transient [Drawing.Text](text).
+
+## Edge cases
+
+- Strings `>= 127` characters are truncated.
+- Pass `""` to clear.
+- No-op on bad handles or non-Text kinds.
+- **Currently a deferred path** — geometry packer skips Text until a font atlas is wired up. Nothing renders until that lands.
+
+## Example
+
+```enforce
+int t = Drawing.New("Text");
+Drawing.SetText(t, "Hello, world");
+```

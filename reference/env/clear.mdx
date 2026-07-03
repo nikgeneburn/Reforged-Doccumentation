@@ -1,0 +1,30 @@
+---
+title: "Env.Clear"
+description: "Empty the entire Env store."
+---
+
+Zero-fills the entire pool. Every key is removed; every kind-specific slot is wiped. After `Clear`, all prior pointers returned by [Env.GetString](./getstring) are invalid, and [Env.Has](./has) returns `0` for any key.
+
+## Signature
+
+```enforce
+static proto native void Clear();
+```
+
+## Behavior
+
+The store is locked for the duration of the clear. Use between unrelated scripts to reset state. The store itself is not torn down — it is reused for subsequent writes and reads.
+
+## Edge cases
+
+- All prior `GetString` pointers become invalid. Do not cache a raw pointer across a `Clear`.
+- The pool cap (256 entries) is unchanged after `Clear` — it is the same store, freshly emptied.
+
+## Example
+
+```enforce
+Env.SetString("a", "x");
+Env.SetString("b", "y");
+Env.Clear();
+Env.Has("a"); // 0
+```

@@ -1,0 +1,37 @@
+---
+title: "Memory.AobScan"
+description: "Find the first AOB pattern match inside the game module."
+---
+
+Walks the game module's accessible memory regions and returns the **first** match for `pattern`. Returns `0` on miss or invalid pattern.
+
+## Signature
+
+```enforce
+static proto native pointer AobScan(string pattern);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `pattern` | `string` | AOB pattern with `?` / `??` wildcards. Max **256 bytes**. |
+
+## Returns
+
+`pointer` — first matching address, or `0` on miss.
+
+## Behavior
+
+- Skips `PAGE_NOACCESS` and `PAGE_GUARD` regions.
+
+## Edge cases
+
+- Max pattern length is **256 bytes**.
+- Returns only the first match. For multiple matches, write a custom walker.
+
+## Example
+
+```enforce
+pointer fn = Memory.AobScan("48 8B 05 ?? ?? ?? ?? 48 85 C0 74 ?? 48 8B 40 ??");
+```
