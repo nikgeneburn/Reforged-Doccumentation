@@ -1,54 +1,54 @@
 ---
 title: "Drawing"
-description: "Overlay: transient primitives for one-frame draws and a persistent handle API for tracked objects."
+description: "Overlay primitives and persistent drawing objects."
 ---
 
-`Drawing` is the visual layer. Two paths converge on the same overlay surface: **transient** primitives (one-shot draws that fire on the next render and vanish) and **persistent** objects (handles you keep across frames).
+`Drawing` is the overlay API. It supports transient primitives for one-frame output and persistent objects that keep a handle across frames.
 
 ## Conventions
 
-- **Coordinates** are screen-space pixels. Origin is **top-left**, +X right, +Y down.
-- **Colors** are **ARGB** (`0xAARRGGBB`). The renderer swaps the channels to the GPU's expected layout at upload. Pass colors in ARGB; the renderer converts.
-- **Handles** are monotonic `int >= 1`. `0` is the sentinel "no object". Pool cap is 1024. `Destroy(h)` and `ClearAll()` invalidate. **Handles are not reused within a session.**
-- Invalid handles and bad pointers are caught and translated to safe defaults — they don't crash the host.
-- The overlay isn't ready immediately — wait on `Drawing.IsOverlayReady()` before the first draw.
+- Coordinates use screen-space pixels. The origin is top-left, +X moves right, and +Y moves down.
+- Colors use ARGB format: `0xAARRGGBB`.
+- Persistent handles are monotonic integers starting at `1`. `0` means no object.
+- The persistent object pool holds up to 1024 objects.
+- `Destroy(handle)` and `ClearAll()` invalidate handles. Handles are not reused during a session.
+- Invalid handles and invalid pointers return safe defaults instead of stopping the host process.
+- Wait for `Drawing.IsOverlayReady()` before drawing the first frame.
 
 ## Methods
 
 ### Transient primitives
 
-| Method | What it does |
+| Method | Description |
 |---|---|
-| [Line](drawing/line) | Draws a line segment once. |
-| [Box](drawing/box) | Draws an outlined or filled rect once. |
-| [Circle](drawing/circle) | Draws an outlined or filled circle once. |
-| [Text](drawing/text) | Draws a text label once (deferred until atlas lands). |
-| [IsOverlayReady](drawing/isoverlayready) | Returns 1 once the overlay is initialized. |
+| [Line](drawing/line) | Draw a line segment for one frame. |
+| [Box](drawing/box) | Draw an outlined or filled rectangle for one frame. |
+| [Circle](drawing/circle) | Draw an outlined or filled circle for one frame. |
+| [Text](drawing/text) | Draw a text label for one frame. Text rendering is currently deferred. |
+| [IsOverlayReady](drawing/isoverlayready) | Return `1` once the overlay is initialized. |
 
 ### Persistent objects
 
-| Method | What it does |
+| Method | Description |
 |---|---|
-| [New](drawing/new) | Creates a persistent object handle. |
-| [Destroy](drawing/destroy) | Invalidates a handle. |
-| [ClearAll](drawing/clearall) | Wipes every slot in one pass. |
-| [SetVisible](drawing/setvisible) | Toggles render. |
-| [SetPosition](drawing/setposition) | Anchor for the object. |
-| [SetTo](drawing/setto) | `Line` end point / square size alias. |
-| [SetSize](drawing/setsize) | Square dimensions. |
-| [SetRadius](drawing/setradius) | Circle radius. |
-| [SetColor](drawing/setcolor) | Stored ARGB color (base alpha). |
-| [SetThickness](drawing/setthickness) | Outline width. |
-| [SetNumSides](drawing/setnumsides) | Circle tessellation count. |
-| [SetFilled](drawing/setfilled) | Solid vs outline. |
-| [SetText](drawing/settext) | `Text` object string. |
-| [SetTextSize](drawing/settextsize) | `Text` point size. |
-| [SetZIndex](drawing/setzindex) | Sort key. |
-| [SetTransparency](drawing/settransparency) | Roblox-style transparency override (`255` opaque). |
+| [New](drawing/new) | Create a persistent object and return its handle. |
+| [Destroy](drawing/destroy) | Invalidate a persistent object handle. |
+| [ClearAll](drawing/clearall) | Invalidate every persistent object. |
+| [SetVisible](drawing/setvisible) | Show or hide an object. |
+| [SetPosition](drawing/setposition) | Set an object's anchor position. |
+| [SetTo](drawing/setto) | Set a line endpoint or the size of a square or box. |
+| [SetSize](drawing/setsize) | Set square or box dimensions. |
+| [SetRadius](drawing/setradius) | Set circle radius. |
+| [SetColor](drawing/setcolor) | Set stored ARGB color. |
+| [SetThickness](drawing/setthickness) | Set outline thickness. |
+| [SetNumSides](drawing/setnumsides) | Set circle tessellation count. |
+| [SetFilled](drawing/setfilled) | Choose filled or outlined rendering. |
+| [SetText](drawing/settext) | Set a text object's string. |
+| [SetTextSize](drawing/settextsize) | Set a text object's point size. |
+| [SetZIndex](drawing/setzindex) | Set the object's sort key. |
+| [SetTransparency](drawing/settransparency) | Set the transparency override, where `255` is opaque. |
 
-## Putting it together
-
-A live healthbar:
+## Example
 
 ```enforce
 class Overlay {

@@ -14,7 +14,7 @@ static proto native int State(int handle);
 ## Parameters
 
 | Name | Type | Description |
-| --- | --- | --- |
+|---|---|---|
 | handle | `int` | The connection handle from [WebSocket.Connect](./connect). |
 
 ## Returns
@@ -22,7 +22,7 @@ static proto native int State(int handle);
 The integer state code:
 
 | Code | State | Meaning |
-| --- | --- | --- |
+|---|---|---|
 | `0` | closed | The pump thread has exited, the slot is free, or `handle` is invalid. |
 | `1` | connecting | The handshake is in progress. |
 | `2` | open | The handshake completed; sending and receiving are valid. |

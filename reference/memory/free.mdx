@@ -3,7 +3,7 @@ title: "Memory.Free"
 description: "Release a region previously allocated by Memory.Alloc."
 ---
 
-`VirtualFree(p, 0, MEM_RELEASE)` — releases the whole reservation. The `size` arg is accepted but ignored.
+`VirtualFree(p, 0, MEM_RELEASE)`: releases the whole reservation. The `size` argument is accepted for API compatibility and ignored.
 
 ## Signature
 
@@ -20,7 +20,7 @@ static proto native void Free(pointer p, int size);
 
 ## Returns
 
-`void`. Silent no-op on bad pointer / fault.
+`void`. Has no effect when the pointer is invalid or the operation faults.
 
 ## Example
 

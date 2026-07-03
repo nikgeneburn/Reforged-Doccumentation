@@ -21,11 +21,11 @@ static proto native int NewFile(string parentPath, string name, string contents)
 
 ## Returns
 
-`1` on a full write, `0` if validation fails, the parent doesn't exist, or the write cannot complete.
+`1` on a full write, `0` if validation fails, the parent does not exist, or the write cannot complete.
 
 ## Behavior
 
-`contents` may be `""` — that creates an empty file. The file is opened, written, and closed in a single operation; there is no streaming or append path here. Use [AppendFile](./workspace/appendfile) to grow an existing file.
+`contents` may be `""`: that creates an empty file. The file is opened, written, and closed in a single operation; there is no streaming or append path here. Use [AppendFile](./appendfile) to grow an existing file.
 
 ## Example
 

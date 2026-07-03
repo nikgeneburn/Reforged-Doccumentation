@@ -14,14 +14,14 @@ static proto native int Find(string pattern, string input, int startIdx);
 ## Parameters
 
 | Name | Type | Description |
-| --- | --- | --- |
+|---|---|---|
 | pattern | `string` | The ECMAScript regex pattern. |
 | input | `string` | The haystack to search. |
 | startIdx | `int` | The minimum match-start position. Negative values are clamped to `0`. |
 
 ## Returns
 
-The byte index of the first match start at or after `startIdx`, relative to the original `input` (not relative to `startIdx` itself). `-1` if no match / on failure.
+The byte index of the first match start at or after `startIdx`, relative to the original `input` (not relative to `startIdx` itself). `-1` if no match or on failure.
 
 ## Behavior
 

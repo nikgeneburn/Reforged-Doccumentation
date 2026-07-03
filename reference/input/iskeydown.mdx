@@ -3,7 +3,7 @@ title: "Input.IsKeyDown"
 description: "Check whether a key (by virtual-key code) is currently held."
 ---
 
-Return `1` while the key identified by `vk` is held, otherwise `0`. Polled on every call — there is no per-call edge cache.
+Return `1` while the key identified by `vk` is held, otherwise `0`. Polled on every call: there is no per-call edge cache.
 
 ## Signature
 
@@ -28,7 +28,7 @@ Queries the OS at the moment of the call. Ignores window focus.
 ## Edge cases
 
 - Out-of-range VK returns `0`.
-- Reports whatever the OS believes — tabbing away from the game does not change the answer.
+- Reports whatever the OS believes: tabbing away from the game does not change the answer.
 
 ## Example
 

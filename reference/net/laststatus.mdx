@@ -1,6 +1,6 @@
 ---
 title: "Net.LastStatus"
-description: "Get the numeric HTTP status of the most recent Net.Get / Net.Post call."
+description: "Get the numeric HTTP status of the most recent Net.Get or Net.Post call."
 ---
 
 Returns the numeric HTTP status code of the most recent [Net.Get](./get) or [Net.Post](./post) call. `0` before any call, on transport failure, or on a fault.
@@ -13,7 +13,7 @@ static proto native int LastStatus();
 
 ## Returns
 
-The integer HTTP status code (for example `200`, `404`, `503`) of the most recent `Net.Get` / `Net.Post`. Returns `0` if no request has run, or if the most recent request failed at the transport layer.
+The integer HTTP status code (for example `200`, `404`, `503`) of the most recent `Net.Get` or `Net.Post`. Returns `0` if no request has run, or if the most recent request failed at the transport layer.
 
 ## Behavior
 
@@ -21,7 +21,7 @@ The status is held in a single static slot, overwritten by the next [Net.Get](./
 
 ## Edge cases
 
-- `0` is not a valid HTTP status — observing it means the most recent request did not produce an HTTP response (transport failure, timeout, TLS error, pre-first-call, fault).
+- `0` is not a valid HTTP status: observing it means the most recent request did not produce an HTTP response (transport failure, timeout, TLS error, pre-first-call, fault).
 - 1xx-5xx are all returned for the corresponding response. The body is returned for any HTTP status; status and body together are how you tell success from failure.
 
 ## Example

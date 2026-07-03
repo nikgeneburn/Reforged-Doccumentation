@@ -13,8 +13,8 @@ static proto native void SetThickness(int handle, int thickness);
 
 ## Parameters
 
-- `handle` — a handle returned by [Drawing.New](new).
-- `thickness` — outline width in pixels.
+- `handle`: a handle returned by [Drawing.New](new).
+- `thickness`: outline width in pixels.
 
 ## Behavior
 
@@ -23,7 +23,7 @@ Used for outline rendering of `Line`, `Square`/`Box`, and `Circle` objects. Has 
 ## Edge cases
 
 - `thickness <= 0` is clamped to 1.0.
-- No-op on bad handles.
+- Has no effect when the handle is invalid.
 
 ## Example
 

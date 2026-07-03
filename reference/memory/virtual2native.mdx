@@ -1,9 +1,9 @@
 ---
 title: "Memory.Virtual2Native"
-description: "Identity cast. No-op."
+description: "Return the pointer unchanged."
 ---
 
-Pure identity cast. The engine has already unwrapped the script handle by the time the native fires; this exists for explicit documentation at the call site.
+Returns the supplied pointer unchanged. The engine has already unwrapped the script handle by the time the native call runs; this exists for explicit documentation at the call site.
 
 ## Signature
 
@@ -13,7 +13,7 @@ static proto native pointer Virtual2Native(pointer obj);
 
 ## Returns
 
-`pointer` — `obj` unchanged.
+`pointer`: `obj` unchanged.
 
 ## Example
 

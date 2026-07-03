@@ -13,8 +13,8 @@ static proto native void SetText(int handle, string text);
 
 ## Parameters
 
-- `handle` — a handle returned by [Drawing.New](new) with kind `"Text"`.
-- `text` — string to render.
+- `handle`: a handle returned by [Drawing.New](new) with kind `"Text"`.
+- `text`: string to render.
 
 ## Behavior
 
@@ -24,8 +24,8 @@ Stored in a fixed internal buffer. The persistent Text object shares the same de
 
 - Strings `>= 127` characters are truncated.
 - Pass `""` to clear.
-- No-op on bad handles or non-Text kinds.
-- **Currently a deferred path** — geometry packer skips Text until a font atlas is wired up. Nothing renders until that lands.
+- Has no effect when the handle is invalid or the object is not `Text`.
+- **Currently deferred.** Text rendering is disabled until font atlas support is available.
 
 ## Example
 

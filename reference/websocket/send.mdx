@@ -3,7 +3,7 @@ title: "WebSocket.Send"
 description: "Send a text frame on an open WebSocket connection."
 ---
 
-Sends `msg` on `handle` as a single text frame. Returns `1` on success, `0` on failure (bad handle, connection not `OPEN`, `null` msg, send error).
+Sends `msg` on `handle` as a single text frame. Returns `1` on success, `0` on failure (invalid handle, connection not `OPEN`, `null` msg, send error).
 
 ## Signature
 
@@ -14,13 +14,13 @@ static proto native int Send(int handle, string msg);
 ## Parameters
 
 | Name | Type | Description |
-| --- | --- | --- |
+|---|---|---|
 | handle | `int` | The connection handle from [WebSocket.Connect](./connect). |
-| msg | `string` | The text payload to send. Capped at 1 MiB — over-cap is silently truncated. |
+| msg | `string` | The text payload to send. Payloads are capped at 1 MiB. |
 
 ## Returns
 
-`1` if the send succeeded; `0` on bad handle, non-`OPEN` state, `null` msg, or transport error.
+`1` if the send succeeded; `0` on invalid handle, non-`OPEN` state, `null` msg, or transport error.
 
 ## Behavior
 
@@ -31,7 +31,7 @@ Sends serialize against the pump thread's close path so a `Close` racing against
 - Send before the connection is `OPEN` (state `1` connecting, `3` closing, `0` closed) returns `0`.
 - `handle == 0` or out-of-range returns `0`.
 - `msg == null` returns `0`.
-- Payload > 1 MiB is silently truncated.
+- Payloads larger than 1 MiB are truncated without an error.
 
 ## Example
 

@@ -1,6 +1,30 @@
 ---
 title: "Memory.ReadFloatRVA"
-description: "float — read a float at g_GameBase + rva."
+description: "Read a float at g_GameBase + rva."
 ---
 
-Same RVA semantics as [`ReadIntRVA`](./readintrva).
+Reads four bytes at `Memory.GameBase() + (uint32_t)rva` and interprets them as a 32-bit float.
+
+This method uses the same unsigned RVA semantics as [`Memory.ReadIntRVA`](./readintrva). Negative `rva` values wrap because the argument is zero-extended to 32 bits.
+
+## Signature
+
+```enforce
+static proto native float ReadFloatRVA(int rva);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `rva` | `int` | Unsigned offset from `Memory.GameBase()`. |
+
+## Returns
+
+`float`. The value at the resolved address, or `0.0f` on failure.
+
+## Example
+
+```enforce
+float speed = Memory.ReadFloatRVA(0x1234);
+```

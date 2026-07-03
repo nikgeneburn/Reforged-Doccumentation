@@ -21,11 +21,11 @@ static proto native pointer Chain(pointer base, int count, int o1, int o2, int o
 
 ## Returns
 
-`pointer` — the final pointer, or `0` if any dereference hits nullptr / invalid memory.
+`pointer`: the final pointer, or `0` if any dereference hits nullptr or invalid memory.
 
 ## Edge cases
 
-- `count > 4` silently clamps to 4.
+- `count > 4` clamp without an errors to 4.
 - `count <= 0` returns `0` immediately.
 
 ## Example

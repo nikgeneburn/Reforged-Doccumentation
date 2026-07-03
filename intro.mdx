@@ -1,47 +1,53 @@
 ---
 title: "Introduction"
-description: "What every script inherits and how the public API is wired in."
+description: "Core runtime concepts and available API classes."
 ---
 
-The host exposes a fixed set of classes that your scripts can call directly. They are declared by the prelude staged into every script's compile directory, so your code never needs to redeclare or import them — just call the methods.
+Reforged exposes a fixed set of static API classes to every script. The runtime prelude includes these declarations during compilation, so scripts can call the API without extra imports or local redeclarations.
 
-## What's available
+## Available API classes
 
-- `Console` — `Log(string)`
-- `Memory` — pointer R/W, AOB scan, allocations, hex utilities
-- `Env` — per-process key/value store that survives across executes
-- `Drawing` — overlay: transient primitives + persistent handle objects
-- `Hooking` — install / read / write instrumented hooks on engine methods
-- `Net` — HTTP + HTTPS
-- `WebSocket` — WS + WSS clients
-- `Input` — keyboard + mouse polling
-- `Thread` — spawn worker threads
-- `Workspace` — sandboxed filesystem
-- `Crypt` — hashes, HMAC, base64, AES
-- `Regex` — ECMAScript regex
-- `Diag` — backtraces, OS state, working set
+| Class | Purpose |
+|---|---|
+| `Console` | Script logging through `Log(string)`. |
+| `Memory` | Pointer reads and writes, AOB scans, allocations, and hex helpers. |
+| `Env` | Per-process key and value storage that survives across execute commands. |
+| `Drawing` | Overlay primitives and persistent drawing objects. |
+| `Hooking` | Install and manage hooks on supported engine methods. |
+| `Net` | HTTP and HTTPS requests. |
+| `WebSocket` | WS and WSS client connections. |
+| `Input` | Keyboard and mouse polling. |
+| `Thread` | Worker thread creation. |
+| `Workspace` | Sandboxed filesystem access. |
+| `Crypt` | Hashes, HMAC, base64, random bytes, and AES helpers. |
+| `Regex` | ECMAScript regular expressions. |
+| `Diag` | Backtraces, process state, thread state, and memory usage diagnostics. |
 
 ## Calling conventions
 
-All natives are `static`. There is no implicit `this`. Calls follow the engine's calling convention:
+All API methods are static. There is no implicit `this`, and pointer values should stay in the `pointer` type.
 
-- `int`, `bool` → 32-bit register
-- `float` → `xmm` register
-- `string` → `const char*`; returning a native writes into a process-static buffer that is reused on the next call. Native calls are serialized, so the engine copies the C-string into a script-owned string before the buffer can be mutated
-- `pointer` → 64-bit full-width. Never cast through `int`
+| Script type | Native representation | Notes |
+|---|---|---|
+| `int`, `bool` | 32-bit register | `bool` values are represented as `0` or `1`. |
+| `float` | `xmm` register | Values are passed as 32-bit floating point numbers. |
+| `string` | `const char*` | Returned strings are copied into script-owned strings at the call boundary. |
+| `pointer` | Full 64-bit address | Do not cast pointers through `int`; doing so truncates the address. |
 
 ## Error handling
 
-Every native wraps its body so that a fault inside it returns a documented safe default rather than crashing the host:
+Native calls are fault tolerant. Invalid input or a native fault returns the documented safe default instead of stopping the host process.
 
-- reads → `0` / `""` / `0.0f`
-- writes → silent no-op
-- string-returning → `""`
-- container access → empty
+| Operation type | Failure result |
+|---|---|
+| Reads | `0`, `""`, or `0.0f`, depending on return type. |
+| Writes | No effect. |
+| String-returning calls | `""`. |
+| Container access | Empty result. |
 
-`Regex` is the exception: its handlers catch C++ exceptions because `std::regex` and `std::string` have destructors.
+`Regex` additionally catches pattern and string exceptions so invalid expressions return documented defaults.
 
-## Where to go next
+## Next steps
 
-- [Quickstart](/quickstart) — get the first script compiled and running.
-- Browse the **Reference** sidebar for per-method documentation of every native class.
+- [Quickstart](/quickstart): compile and run your first script.
+- Use the **Reference** sidebar for per-method documentation for each API class.

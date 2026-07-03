@@ -1,6 +1,6 @@
 ---
 title: "Memory.ModuleBase"
-description: "Pointer — base address of a loaded module."
+description: "Pointer to the base address of a loaded module."
 ---
 
 `GetModuleHandleA(name)` cast to pointer. Returns `0` if not loaded.
@@ -19,7 +19,7 @@ static proto native pointer ModuleBase(string name);
 
 ## Returns
 
-`pointer` — module base, or `0` if unloaded.
+`pointer`: module base, or `0` if unloaded.
 
 ## Example
 

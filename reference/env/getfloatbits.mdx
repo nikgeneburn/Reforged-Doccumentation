@@ -14,7 +14,7 @@ static proto native int GetFloatBits(string key);
 ## Parameters
 
 | Name | Type | Description |
-| --- | --- | --- |
+|---|---|---|
 | key | `string` | The key to read. |
 
 ## Returns
@@ -27,7 +27,7 @@ The kind check is strict. A `key` whose value was written by [Env.SetInt](./seti
 
 ## Edge cases
 
-- Exotic float values (NaN / Inf / denormals) round-trip bit-for-bit — lossy behaviour is only a concern if you compare float semantics across `Env` reads and writes.
+- Exotic float values (NaN or Inf or denormals) round-trip bit-for-bit: lossy behaviour is only a concern if you compare float semantics across `Env` reads and writes.
 - Missing keys or wrong-kind keys return `0`.
 
 ## Example

@@ -3,7 +3,7 @@ title: "Memory.Nop"
 description: "Write 0x90 (x86 NOP) over a region."
 ---
 
-Writes `0x90` for `count` bytes at `addr`. Flips protection to RWX, writes, restores.
+Writes `0x90` for `count` bytes at `addr`. Temporarily updates page protection, writes the value, and restores the previous protection.
 
 ## Signature
 
@@ -16,15 +16,15 @@ static proto native void Nop(pointer addr, int count);
 | Name | Type | Description |
 |---|---|---|
 | `addr` | `pointer` | Target address. |
-| `count` | `int` | Number of NOP bytes to write. **Hard-capped at 256**; over-cap is silently clamped. |
+| `count` | `int` | Number of NOP bytes to write. **Hard-capped at 256**; over-cap is clamp without an errored. |
 
 ## Returns
 
-`void`. Silent on bad address / fault.
+`void`. The call has no effect when the address is invalid or the operation faults.
 
 ## Edge cases
 
-- `count > 256` is silently clamped to 256. Choose a smaller patch size.
+- `count > 256` is clamp without an errored to 256. Choose a smaller patch size.
 
 ## Example
 

@@ -1,20 +1,22 @@
 ---
 title: "Thread"
-description: "Spawn worker threads through the engine's thread wrapper. Single critical section governs native execution."
+description: "Spawn detached worker threads through the script runtime."
 ---
 
-`Thread` spawns OS threads that re-enter the engine's interpreter at a class method or a global function. Threads run under the same global critical section as the script's main thread, so they're "fire-and-forget" — they queue on the lock, then run one at a time. There is no script-side join; coordinate work via [Env](./env).
+`Thread` starts OS worker threads that enter the script runtime through a class method or a file-scope function. Worker threads share the same native-call lock as the main script thread, so native calls run one at a time.
+
+There is no script-side join. Coordinate completion and state through [Env](./env) or another script-visible mechanism.
 
 ## Methods
 
 | Method | Returns | Summary |
 |---|---|---|
-| [Thread.Spawn](./thread/spawn) | int | Spawn a thread that instantiates a class and runs one of its methods |
-| [Thread.SpawnGlobal](./thread/spawnglobal) | int | Spawn a thread that runs a file-scope global function |
-| [Thread.Sleep](./thread/sleep) | void | Sleep the calling thread for N milliseconds |
-| [Thread.GetId](./thread/getid) | int | Win32 thread id of the calling thread |
+| [Thread.Spawn](./thread/spawn) | `int` | Spawn a thread that instantiates a class and calls one method. |
+| [Thread.SpawnGlobal](./thread/spawnglobal) | `int` | Spawn a thread that calls a file-scope global function. |
+| [Thread.Sleep](./thread/sleep) | `void` | Sleep the calling thread for a number of milliseconds. |
+| [Thread.GetId](./thread/getid) | `int` | Return the Win32 thread id of the calling thread. |
 
-## Putting it together
+## Example
 
 ```enforce
 class Worker { void Run() { Console.Log("hi from worker"); } }

@@ -18,11 +18,11 @@ static proto native int IsOverlayReady();
 
 ## Behavior
 
-Cheap poll: there is a small startup window before the D3D12 present hook is installed and the overlay device is ready, during which primitives are silently dropped.
+This is a lightweight readiness check. During early startup, overlay initialization may still be in progress. Draw calls made before readiness are dropped without an error.
 
 ## Edge cases
 
-- **D3D12 startup race:** until this returns `1`, all transient draws and persistent-object updates are silently dropped — no exception, no error.
+- **Overlay startup:** until this returns `1`, transient draws and persistent-object updates are dropped without an error.
 
 ## Example
 

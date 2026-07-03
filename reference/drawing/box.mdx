@@ -3,7 +3,7 @@ title: "Drawing.Box"
 description: "Draws an outlined or filled rectangle once on the next render."
 ---
 
-`Drawing.Box` is the transient rectangle primitive — it pushes one rect into the overlay's draw queue for the next frame and then forgets about it.
+`Drawing.Box` queues one transient rectangle for the next overlay frame. It does not create a persistent handle or retain state after that frame.
 
 ## Signature
 
@@ -13,21 +13,21 @@ static proto native void Box(int x, int y, int w, int h, int argb, int thickness
 
 ## Parameters
 
-- `x`, `y` — top-left in screen-space pixels.
-- `w`, `h` — width and height in pixels.
-- `argb` — color in `0xAARRGGBB` form.
-- `thickness` — outline width in pixels.
-- `filled` — non-zero fills the rectangle, `0` draws the outline only.
+- `x`, `y`: top-left in screen-space pixels.
+- `w`, `h`: width and height in pixels.
+- `argb`: color in `0xAARRGGBB` form.
+- `thickness`: outline width in pixels.
+- `filled`: non-zero fills the rectangle, `0` draws the outline only.
 
 ## Behavior
 
-Transient: the rect is queued for the next frame only. If `filled != 0`, the interior is filled with `argb`; otherwise only the outline is drawn at `thickness` pixels.
+Transient: the rectangle is queued for the next frame only. If `filled != 0`, the interior is filled with `argb`; otherwise only the outline is drawn at `thickness` pixels.
 
 ## Edge cases
 
 - `thickness <= 0` is clamped to 1 for the outline pass.
-- Negative `w`/`h` are accepted but produce zero-area / flipped geometry.
-- Same coordinate/color conventions as the rest of `Drawing` — see the [overview](..).
+- Negative `w`/`h` are accepted but produce zero-area or flipped geometry.
+- Uses the same coordinate and color conventions as the rest of `Drawing`. See the [overview](../drawing).
 
 ## Example
 

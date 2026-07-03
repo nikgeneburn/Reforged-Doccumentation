@@ -14,7 +14,7 @@ static proto native int AlreadyRan(string key);
 ## Parameters
 
 | Name | Type | Description |
-| --- | --- | --- |
+|---|---|---|
 | key | `string` | The key to gate on. |
 
 ## Returns
@@ -23,14 +23,14 @@ static proto native int AlreadyRan(string key);
 
 ## Behavior
 
-Atomic against other writers — the operation is performed under the store lock and is not subject to read-modify-write races between executes. The native only treats an `Int`-typed non-zero value as "already ran". A prior [Env.SetString](./setstring) for the same key is ignored — `AlreadyRan` will still take the first-call path and store `Int=1`, replacing the kind.
+Atomic against other writers: the operation is performed under the store lock and is not subject to read-modify-write races between executes. The native only treats an `Int`-typed non-zero value as "already ran". A prior [Env.SetString](./setstring) for the same key is ignored: `AlreadyRan` will still take the first-call path and store `Int=1`, replacing the kind.
 
 ## Edge cases
 
-- A prior [Env.SetString](./setstring) on the same key does not count as "already ran" — the call still writes `Int=1`, replacing the kind.
-- A prior [Env.SetBool](./setbool) / [Env.SetFloatBits](./setfloatbits) on the same key does not count either.
+- A prior [Env.SetString](./setstring) on the same key does not count as "already ran": the call still writes `Int=1`, replacing the kind.
+- A prior [Env.SetBool](./setbool) or [Env.SetFloatBits](./setfloatbits) on the same key does not count either.
 - Returns `0` on the first call; the key is then set to `Int=1`. The gate is satisfied for every subsequent call regardless of intervening [Env.Erase](./erase) (which would clear the gate).
-- Writing past the 256-entry cap on the first call is a silent no-op, so the gate would not actually be set. The next call would also report `0`. There is no diagnostic.
+- If the 256-entry cap is reached on the first call, the gate is not set. The next call also returns `0`. There is no diagnostic.
 
 ## Example
 
@@ -38,10 +38,10 @@ Atomic against other writers — the operation is performed under the store lock
 class Demo {
     void Run() {
         if (Env.AlreadyRan("init")) {
-            Console.Log("already ran, skipping the slow thing");
+            Console.Log("already ran, skipping initialization");
             return;
         }
-        // …do the slow thing…
+        // ...run initialization...
     }
 }
 ```

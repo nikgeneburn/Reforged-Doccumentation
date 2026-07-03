@@ -1,21 +1,21 @@
 ---
 title: "Regex"
-description: "ECMAScript regex, five static natives."
+description: "ECMAScript regular expression helpers."
 ---
 
-`Regex` exposes ECMAScript-flavored pattern matching as five static natives. There are no flags or compile options — you get ECMAScript semantics, that's it. Patterns are compiled on every call, so caching patterns via `Env.SetString` is worthwhile when you reuse them.
+`Regex` exposes ECMAScript pattern matching through five static methods. Patterns are compiled on each call. Store reused patterns in script state or `Env` when that makes the calling code clearer.
 
 ## Methods
 
 | Method | Returns | Description |
-| --- | --- | --- |
-| [Regex.Test](./regex/test) | `int` | Returns `1` if the pattern matches anywhere in the input, else `0`. |
-| [Regex.Match](./regex/match) | `string` | Returns the text of the first match span, or `""` if there is no match. |
-| [Regex.Find](./regex/find) | `int` | Returns the byte index of the first match `>= startIdx`, or `-1` if none. |
-| [Regex.Replace](./regex/replace) | `string` | Full regex replace over the input, supporting `$1..$9` back-references. |
-| [Regex.Escape](./regex/escape) | `string` | Returns the input with each ECMAScript metacharacter prefixed by `\`. |
+|---|---|---|
+| [Regex.Test](./regex/test) | `int` | Return `1` if the pattern matches anywhere in the input. |
+| [Regex.Match](./regex/match) | `string` | Return the first matched span, or `""` if there is no match. |
+| [Regex.Find](./regex/find) | `int` | Return the byte index of the first match at or after `startIdx`, or `-1`. |
+| [Regex.Replace](./regex/replace) | `string` | Replace all matches and support `$1..$9` back-references. |
+| [Regex.Escape](./regex/escape) | `string` | Escape ECMAScript metacharacters so the input can be matched literally. |
 
-## Putting it together
+## Example
 
 ```enforce
 class Demo {

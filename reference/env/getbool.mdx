@@ -14,7 +14,7 @@ static proto native int GetBool(string key);
 ## Parameters
 
 | Name | Type | Description |
-| --- | --- | --- |
+|---|---|---|
 | key | `string` | The key to read. |
 
 ## Returns
@@ -23,7 +23,7 @@ static proto native int GetBool(string key);
 
 ## Behavior
 
-The kind check is strict. A key whose value was written via [Env.SetInt](./setint) returns `0` here even if the underlying int was `1` — Bool is its own kind, separate from Int, even though both surface as `int` in script.
+The kind check is strict. A key whose value was written via [Env.SetInt](./setint) returns `0` here even if the underlying int was `1`: Bool is its own kind, separate from Int, even though both surface as `int` in script.
 
 ## Edge cases
 

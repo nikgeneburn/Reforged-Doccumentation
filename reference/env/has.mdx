@@ -3,7 +3,7 @@ title: "Env.Has"
 description: "Check whether a key exists in the Env store."
 ---
 
-Returns whether any value — of any kind — is associated with `key`.
+Returns whether any value: of any kind: is associated with `key`.
 
 ## Signature
 
@@ -14,7 +14,7 @@ static proto native int Has(string key);
 ## Parameters
 
 | Name | Type | Description |
-| --- | --- | --- |
+|---|---|---|
 | key | `string` | The key to check. |
 
 ## Returns
@@ -23,7 +23,7 @@ static proto native int Has(string key);
 
 ## Behavior
 
-The check is kind-agnostic. `Has` answers "is there anything at this key?", not "is there an Int at this key?". Use it to gate first-run logic without caring about which kind the value holds. Combine with the typed getters (for example [Env.GetInt](./getint)) if you need both existence and kind.
+The check is kind-agnostic. `Has` answers whether any value exists for the key, not whether the value has a specific kind. Use it to gate first-run logic when the stored kind does not matter. Combine it with a typed getter, such as [Env.GetInt](./getint), when you need both existence and kind.
 
 ## Edge cases
 

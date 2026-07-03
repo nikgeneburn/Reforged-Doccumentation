@@ -19,7 +19,7 @@ static proto native pointer Alloc(int size);
 
 ## Returns
 
-`pointer` — base of the new region, or `0` on failure (including `size <= 0`).
+`pointer`: base of the new region, or `0` on failure (including `size <= 0`).
 
 ## Behavior
 
@@ -31,6 +31,6 @@ static proto native pointer Alloc(int size);
 pointer p = Memory.Alloc(4096);
 if (p == 0) { Console.Log("alloc failed"); return; }
 Memory.Protect(p, 4096, 0x40);  // RWX
-// …
+// ...
 Memory.Free(p, 0);
 ```

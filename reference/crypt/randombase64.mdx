@@ -19,7 +19,7 @@ static proto native string RandomBase64(int bytes);
 
 ## Returns
 
-A standard-alphabet base64 string, or `""` if `bytes <= 0`. The output length is roughly `ceil(bytes * 4 / 3)`.
+A standard-alphabet base64 string, or `""` if `bytes <= 0`. The output length is roughly `ceil(bytes * 4 or 3)`.
 
 ## Behavior
 
@@ -33,6 +33,6 @@ Bytes come from the OS cryptographically-secure RNG.
 ## Example
 
 ```enforce
-string token = Crypt.RandomBase64(32);  // ~44 chars, URL-host-safe
+string token = Crypt.RandomBase64(32);  // ~44 characters, URL-host-safe
 Console.Log("session token = " + token);
 ```

@@ -1,9 +1,9 @@
 ---
 title: "Memory.MemSet"
-description: "Fill a region with a byte."
+description: "Fill a region with one byte value."
 ---
 
-Fills `count` bytes at `dst` with `(byteVal & 0xFF)`. Flips protection to RWX, fills, restores.
+Fills `count` bytes at `dst` with `(byteVal & 0xFF)`.
 
 ## Signature
 
@@ -15,10 +15,10 @@ static proto native void MemSet(pointer dst, int byteVal, int count);
 
 | Name | Type | Description |
 |---|---|---|
-| `dst` | `pointer` | Destination. |
-| `byteVal` | `int` | Low 8 bits used. |
-| `count` | `int` | Bytes. |
+| `dst` | `pointer` | Destination address. |
+| `byteVal` | `int` | Value to write. Only the low 8 bits are used. |
+| `count` | `int` | Number of bytes to fill. |
 
 ## Returns
 
-`void`. Silent on `count <= 0` / invalid `dst` / fault.
+`void`. The call does nothing when `count <= 0`, `dst` is invalid, or the write faults.

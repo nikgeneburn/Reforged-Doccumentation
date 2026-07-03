@@ -13,8 +13,8 @@ static proto native void SetZIndex(int handle, int z);
 
 ## Parameters
 
-- `handle` — a handle returned by [Drawing.New](new).
-- `z` — sort key.
+- `handle`: a handle returned by [Drawing.New](new).
+- `z`: sort key.
 
 ## Behavior
 
@@ -22,7 +22,7 @@ Lower `z` draws first and appears underneath. Default is 1.
 
 ## Edge cases
 
-- No-op on bad handles.
+- Has no effect when the handle is invalid.
 - Z-index is independent of the global pool ID, so newly-created objects can place themselves anywhere on the stack.
 - Ties are broken by the underlying storage order.
 

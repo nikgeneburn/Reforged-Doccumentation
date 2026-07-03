@@ -1,6 +1,6 @@
 ---
 title: "Memory.ModuleSize"
-description: "int — image size of a loaded module."
+description: "Return the image size of a loaded module."
 ---
 
 `OptionalHeader.SizeOfImage` truncated to 32 bits (no game module exceeds 2 GiB).
@@ -19,7 +19,7 @@ static proto native int ModuleSize(string name);
 
 ## Returns
 
-`int` — image size in bytes, or `0` if unloaded.
+`int`: image size in bytes, or `0` if unloaded.
 
 ## Example
 

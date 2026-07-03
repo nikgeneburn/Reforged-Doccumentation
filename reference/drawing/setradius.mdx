@@ -13,8 +13,8 @@ static proto native void SetRadius(int handle, int radius);
 
 ## Parameters
 
-- `handle` — a handle returned by [Drawing.New](new).
-- `radius` — radius in screen-space pixels.
+- `handle`: a handle returned by [Drawing.New](new).
+- `radius`: radius in screen-space pixels.
 
 ## Behavior
 
@@ -22,8 +22,8 @@ The Circle is centered on the anchor set by [SetPosition](setposition). The tess
 
 ## Edge cases
 
-- No-op on bad handles.
-- No-op on non-Circle kinds.
+- Has no effect when the handle is invalid.
+- Has no effect when the object is not a `Circle`.
 - Default radius is 50 if never set.
 
 ## Example

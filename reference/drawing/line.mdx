@@ -3,7 +3,7 @@ title: "Drawing.Line"
 description: "Draws a line segment once on the next render."
 ---
 
-`Drawing.Line` is the transient line primitive — it pushes a single segment into the overlay's draw queue for the next frame and then forgets about it.
+`Drawing.Line` queues one transient line segment for the next overlay frame. It does not create a persistent handle or retain state after that frame.
 
 ## Signature
 
@@ -13,20 +13,20 @@ static proto native void Line(int x1, int y1, int x2, int y2, int argb, int thic
 
 ## Parameters
 
-- `x1`, `y1` — start point in screen-space pixels (top-left origin).
-- `x2`, `y2` — end point in screen-space pixels.
-- `argb` — color in `0xAARRGGBB` form.
-- `thickness` — outline width in pixels.
+- `x1`, `y1`: start point in screen-space pixels (top-left origin).
+- `x2`, `y2`: end point in screen-space pixels.
+- `argb`: color in `0xAARRGGBB` form.
+- `thickness`: outline width in pixels.
 
 ## Behavior
 
-Transient: the segment is queued for the next frame only. No handle, no retained state. Same color/coord semantics as the rest of `Drawing` — see the [overview](..).
+The segment is queued for the next frame only. The call does not return a handle or retain state. It uses the same coordinate and color conventions as the rest of `Drawing`. See the [overview](../drawing).
 
 ## Edge cases
 
 - `thickness <= 0` is clamped to 1.
 - Coordinates are top-left screen pixels, not world space.
-- If the overlay isn't ready, the call is silently dropped — gate on [Drawing.IsOverlayReady](isoverlayready).
+- If the overlay is not ready, the call is dropped without an error. Gate drawing on [Drawing.IsOverlayReady](isoverlayready).
 
 ## Example
 

@@ -13,12 +13,12 @@ static proto native void Clear();
 
 ## Behavior
 
-The store is locked for the duration of the clear. Use between unrelated scripts to reset state. The store itself is not torn down — it is reused for subsequent writes and reads.
+The store is locked for the duration of the clear. Use between unrelated scripts to reset state. The store itself is not torn down: it is reused for subsequent writes and reads.
 
 ## Edge cases
 
 - All prior `GetString` pointers become invalid. Do not cache a raw pointer across a `Clear`.
-- The pool cap (256 entries) is unchanged after `Clear` — it is the same store, freshly emptied.
+- The pool cap (256 entries) is unchanged after `Clear`: it is the same store, freshly emptied.
 
 ## Example
 

@@ -14,13 +14,13 @@ static proto native string Match(string pattern, string input);
 ## Parameters
 
 | Name | Type | Description |
-| --- | --- | --- |
+|---|---|---|
 | pattern | `string` | The ECMAScript regex pattern. |
 | input | `string` | The haystack to search. |
 
 ## Returns
 
-The text of the first match span, or `""` if no match / on failure.
+The text of the first match span, or `""` if no match or on failure.
 
 ## Behavior
 
@@ -28,7 +28,7 @@ The pattern is compiled on every call; cache via [Env.SetString](../env/setstrin
 
 ## Edge cases
 
-- No match returns `""` — indistinguishable from a successful match on empty input.
+- No match returns `""`: indistinguishable from a successful match on empty input.
 - A compile or search exception yields `""`.
 - Multi-byte characters are returned byte-for-byte, with no normalization.
 

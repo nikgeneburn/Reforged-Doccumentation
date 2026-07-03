@@ -3,7 +3,7 @@ title: "Crypt.Base64Decode"
 description: "Decode a standard-alphabet base64 string back to bytes interpreted as a script string."
 ---
 
-Decode a standard-alphabet base64 string. The resulting bytes are then interpreted as a script string (UTF-8 / ASCII).
+Decode a standard-alphabet base64 string. The resulting bytes are then interpreted as a script string (UTF-8 or ASCII).
 
 ## Signature
 
@@ -23,7 +23,7 @@ The decoded string, or `""` if the input is invalid base64.
 
 ## Behavior
 
-The decoded bytes are returned as a script string, so binary payloads that are not valid UTF-8 / ASCII may not round-trip cleanly.
+The decoded bytes are returned as a script string, so binary payloads that are not valid UTF-8 or ASCII may not round-trip cleanly.
 
 ## Edge cases
 

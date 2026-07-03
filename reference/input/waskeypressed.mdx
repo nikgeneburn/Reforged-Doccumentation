@@ -3,7 +3,7 @@ title: "Input.WasKeyPressed"
 description: "Read the OS key-state latch for a virtual-key code."
 ---
 
-Read the low bit of the OS key-state query for `vk`. Despite the "pressed" name, this is the standard OS latch — true on every call until the OS has observed the key up at least once between calls.
+Read the low bit of the OS key-state query for `vk`. Despite the "pressed" name, this is the standard OS latch: true on every call until the OS has observed the key up at least once between calls.
 
 ## Signature
 
@@ -28,7 +28,7 @@ There's no per-call "previous state" cache. The latch is the OS's; it stays set 
 ## Edge cases
 
 - Out-of-range VK returns `0`.
-- The latch spans multiple script frames — if you need a clean one-shot edge per frame, snapshot and diff yourself using [Input.IsKeyDown](./iskeydown).
+- The latch spans multiple script frames: if you need a clean one-shot edge per frame, snapshot and diff yourself using [Input.IsKeyDown](./iskeydown).
 
 ## Example
 

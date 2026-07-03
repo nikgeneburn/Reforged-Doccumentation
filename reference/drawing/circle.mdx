@@ -3,7 +3,7 @@ title: "Drawing.Circle"
 description: "Draws an outlined or filled circle once on the next render."
 ---
 
-`Drawing.Circle` is the transient circle primitive — tessellates to a polygon and queues it for the next frame.
+`Drawing.Circle` queues one transient circle for the next overlay frame. Internally, the circle is tessellated to a polygon.
 
 ## Signature
 
@@ -13,11 +13,11 @@ static proto native void Circle(int cx, int cy, int radius, int argb, int segmen
 
 ## Parameters
 
-- `cx`, `cy` — center in screen-space pixels.
-- `radius` — radius in pixels.
-- `argb` — color in `0xAARRGGBB` form.
-- `segments` — polygon tessellation count.
-- `filled` — non-zero fills the disc, `0` draws the outline only.
+- `cx`, `cy`: center in screen-space pixels.
+- `radius`: radius in pixels.
+- `argb`: color in `0xAARRGGBB` form.
+- `segments`: polygon tessellation count.
+- `filled`: non-zero fills the circle, `0` draws the outline only.
 
 ## Behavior
 
@@ -26,8 +26,8 @@ Transient: queued for the next frame only. Internally tessellates to a regular p
 ## Edge cases
 
 - `segments < 4` is clamped to 4.
-- Very high `segments` values silently clamp to 128.
-- Same coordinate/color conventions as the rest of `Drawing` — see the [overview](..).
+- Very high `segments` values clamp without an error to 128.
+- Uses the same coordinate and color conventions as the rest of `Drawing`. See the [overview](../drawing).
 
 ## Example
 

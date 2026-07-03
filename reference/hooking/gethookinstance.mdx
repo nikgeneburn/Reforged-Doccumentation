@@ -3,7 +3,7 @@ title: "Hooking.GetHookInstance"
 description: "First register argument captured on the most recent invocation."
 ---
 
-Returns the first register argument captured on the most recent invocation of the hook. Combine with [GetHookParam](./hooking/gethookparam) if you need the full argument register set.
+Returns the first register argument captured on the most recent invocation of the hook. Combine with [GetHookParam](./gethookparam) if you need the full argument register set.
 
 ## Signature
 
@@ -19,7 +19,7 @@ static proto native pointer GetHookInstance(int hookId);
 
 ## Returns
 
-A `pointer` (8-byte qword) — the first register argument from the most recent invocation, or `0` if the slot is invalid or inactive.
+A `pointer` (8-byte qword): the first register argument from the most recent invocation, or `0` if the slot is invalid or inactive.
 
 ## Behavior
 

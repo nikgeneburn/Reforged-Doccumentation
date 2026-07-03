@@ -3,7 +3,7 @@ title: "Workspace.Root"
 description: "Absolute path of the workspace root."
 ---
 
-Returns the absolute path of the workspace root, lazily creating `%APPDATA%\Lemons\Workspace` if it doesn't already exist. The trailing separator is stripped.
+Returns the absolute path of the workspace root. The call creates `%APPDATA%\Lemons\Workspace` if it does not already exist. The trailing separator is stripped.
 
 ## Signature
 
@@ -13,11 +13,11 @@ static proto native string Root();
 
 ## Returns
 
-The absolute path of the workspace root as a string, or `""` if the directory chain can't be resolved.
+The absolute path of the workspace root as a string, or `""` if the directory chain cannot be resolved.
 
 ## Behavior
 
-The returned string lives in a process-static buffer. Treat it as transient — copy it into a script-owned string before doing anything else.
+The returned string lives in a process-static buffer. Treat it as transient. Copy it into a script-owned string before calling another method that may reuse the same buffer.
 
 ## Example
 

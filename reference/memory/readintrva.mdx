@@ -1,6 +1,6 @@
 ---
 title: "Memory.ReadIntRVA"
-description: "int — read an int at g_GameBase + rva."
+description: "Read an int at g_GameBase + rva."
 ---
 
 `ReadInt(g_GameBase + (uint32_t)rva)`. RVA is **zero-extended**; negative offsets wrap. For signed offsets, compute `Memory.GameBase() + offset` instead.

@@ -3,7 +3,7 @@ title: "Drawing.Text"
 description: "Draws a text label once on the next render (currently deferred)."
 ---
 
-`Drawing.Text` is the transient text primitive — intended to push a string into the overlay for the next frame.
+`Drawing.Text` is the transient text primitive: intended to push a string into the overlay for the next frame.
 
 ## Signature
 
@@ -13,10 +13,10 @@ static proto native void Text(int x, int y, string text, int argb, int size);
 
 ## Parameters
 
-- `x`, `y` — top-left in screen-space pixels.
-- `text` — string to render.
-- `argb` — color in `0xAARRGGBB` form.
-- `size` — point size.
+- `x`, `y`: top-left in screen-space pixels.
+- `text`: string to render.
+- `argb`: color in `0xAARRGGBB` form.
+- `size`: point size.
 
 ## Behavior
 
@@ -24,9 +24,9 @@ Transient: queued for the next frame only. Persistent `Text` objects (configured
 
 ## Edge cases
 
-- **Currently a deferred path** — the geometry packer skips text until a font atlas is wired up. Neither this nor persistent `Text` objects will render until that lands.
+- **Currently deferred.** Text rendering is disabled until font atlas support is available. This affects both transient text and persistent `Text` objects.
 - `size <= 0` defaults to 14.
-- Coordinates are top-left screen pixels — see the [overview](..).
+- Coordinates use top-left screen pixels. See the [overview](../drawing).
 
 ## Example
 

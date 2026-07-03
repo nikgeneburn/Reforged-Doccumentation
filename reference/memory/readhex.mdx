@@ -3,7 +3,7 @@ title: "Memory.ReadHex"
 description: "Read bytes from game memory as a hex string."
 ---
 
-Reads `count` bytes at `p` into a hex string `"XX XX XX"` (uppercase) into a 64 KiB static buffer. Returns `""` on null / invalid / fault.
+Reads `count` bytes at `p` into a hex string `"XX XX XX"` (uppercase) into a 64 KiB static buffer. Returns `""` on null, invalid, or faulting input.
 
 ## Signature
 
@@ -20,7 +20,7 @@ static proto native string ReadHex(pointer p, int count);
 
 ## Returns
 
-`string` — hex bytes, or `""` on failure.
+`string`: hex bytes, or `""` on failure.
 
 ## Example
 

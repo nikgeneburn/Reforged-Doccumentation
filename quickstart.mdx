@@ -1,37 +1,37 @@
 ---
 title: "Quickstart"
-description: "Compile and run your first script through the WebSocket command channel."
+description: "Run your first script through the WebSocket command channel."
 ---
 
-The fastest path from a fresh clone to a running script is four steps: build, inject, connect, execute.
+A typical Reforged session has four steps: prepare the host, load it into the target process, connect to the local command server, and execute a script.
 
 <Steps>
-  <Step title="Build">
+  <Step title="Prepare the host">
 
-    From the repo root, build the Release configuration. Output is the DLL that gets injected.
+    Use the supplied Reforged release package for your environment. The host component is loaded into the target process and exposes the script runtime.
 
   </Step>
-  <Step title="Inject">
+  <Step title="Load Reforged">
 
-    Load the built DLL into the running game process. Once loaded, the host initializes subsystems — critical section, console, signature scanner, native class bindings, game hooks, overlay, networking — and starts the command server on `127.0.0.1:27015`.
+    Load the host component into the running game process. After startup, Reforged initializes the runtime services and starts the command server on `127.0.0.1:27015`.
 
-    Every line the host prints is also broadcast to all WebSocket clients.
+    Host console output is also broadcast to connected WebSocket clients.
 
   </Step>
   <Step title="Connect a WebSocket client">
 
-    Connect to `ws://127.0.0.1:27015`. The server greets with:
+    Connect to `ws://127.0.0.1:27015`. The server responds with:
 
     ```json
     { "type": "hello", "version": "1.0" }
     ```
 
-    Anything that speaks WS works — `wscat`, a small Python script, or a custom GUI. Every line you see in the host console will also arrive on this socket.
+    Any standard WebSocket client can connect, including `wscat`, a small Python client, or a custom GUI.
 
   </Step>
-  <Step title="Send your first execute">
+  <Step title="Execute a script">
 
-    Drop a directory containing one or more `.c` / `.ec` files anywhere on disk. Each must define `class <Name> { void Run(); }` — `Run` is the entry point. Example:
+    Create a directory containing one or more `.c` or `.ec` files. The entry class must define `void Run();`. Example:
 
     ```enforce
     // C:\scripts\hello\Hello.c
@@ -43,15 +43,15 @@ The fastest path from a fresh clone to a running script is four steps: build, in
     }
     ```
 
-    From the client:
+    Send an execute command from the client:
 
     ```json
     { "type": "execute", "dir": "C:\\scripts\\hello", "class": "Hello", "entry": "Run" }
     ```
 
-    The host stages the prelude (so every native class is in scope) plus every `.c`/`.ec` from your dir, compiles, wires up your native calls to the C++ handlers, instantiates your class, and calls `Run`.
+    The host stages the runtime prelude, loads the `.c` and `.ec` files from the directory, compiles the script, binds native calls, instantiates the class, and calls the entry method.
 
-    A success reply arrives shortly:
+    A successful execution returns:
 
     ```json
     { "type": "result", "ok": true, "message": "executed" }
@@ -62,13 +62,13 @@ The fastest path from a fresh clone to a running script is four steps: build, in
 
 ## Debugging
 
-- The host console shows every log line. Open it from the process window.
-- A mirror log file captures the same lines for offline review.
-- Errors arrive on the WS as `{"type":"result","ok":false,"message":"…"}`.
+- The host console shows every log line.
+- The mirror log file captures the same output for offline review.
+- WebSocket errors use the result format: `{"type":"result","ok":false,"message":"..."}`.
 
-## What's next
+## Next steps
 
-- [Memory](/reference/memory) — read and write game memory.
-- [Drawing](/reference/drawing) — render an overlay.
-- [Hooking](/reference/hooking) — instrument an engine method.
-- [Net](/reference/net) and [WebSocket](/reference/websocket) — talk to your own backend.
+- [Memory](/reference/memory): read and write process memory.
+- [Drawing](/reference/drawing): render overlay primitives and persistent objects.
+- [Hooking](/reference/hooking): instrument supported engine methods.
+- [Net](/reference/net) and [WebSocket](/reference/websocket): connect scripts to external services.

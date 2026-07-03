@@ -20,7 +20,7 @@ static proto native void SetHookEnabled(int hookId, int enabled);
 
 ## Behavior
 
-On enable of a native hook, the per-slot trampoline is written back. On enable of a script-bodied hook, the stub is rebuilt and patched. On disable, the original code is restored so the engine runs through.
+When enabled, the hook is restored for the selected slot. When disabled, the original implementation is restored so calls pass through normally.
 
 ## Example
 

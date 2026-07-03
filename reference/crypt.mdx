@@ -1,24 +1,26 @@
 ---
 title: "Crypt"
-description: "Hashes + HMAC, base64 + random helpers, AES encrypt/decrypt."
+description: "Hashes, HMAC, base64, random bytes, and AES helpers."
 ---
 
-`Crypt` is a small, self-contained crypto toolkit. It covers one-way hashes, keyed HMACs, base64 encode/decode, secure random bytes, and AES encrypt/decrypt. Every method is static; just call them directly — there are no objects to instantiate. All string-returning methods write into a shared buffer that the engine copies at the call boundary, so you don't need to worry about lifetimes as long as you don't hold on to a string across another `Crypt.*` call.
+`Crypt` provides static helpers for common encoding and cryptographic operations. It includes one-way hashes, keyed HMACs, secure random bytes, base64 encoding and decoding, and AES encryption and decryption.
+
+String-returning methods are copied into script-owned strings at the call boundary. Treat returned strings as normal script values, but avoid relying on the native backing buffer after another `Crypt.*` call.
 
 ## Methods
 
 | Method | Returns | Summary |
 |---|---|---|
-| [Crypt.Hash](./crypt/hash) | string | One-way digest (MD5 / SHA family) as lowercase hex |
-| [Crypt.Hmac](./crypt/hmac) | string | Keyed digest as lowercase hex |
-| [Crypt.RandomHex](./crypt/randomhex) | string | N random bytes encoded as lowercase hex |
-| [Crypt.RandomBase64](./crypt/randombase64) | string | N random bytes encoded as base64 |
-| [Crypt.Base64Encode](./crypt/base64encode) | string | Standard-alphabet base64 of a string |
-| [Crypt.Base64Decode](./crypt/base64decode) | string | Standard-alphabet base64 decoded to a string |
-| [Crypt.AesEncrypt](./crypt/aesencrypt) | string | AES-encrypt; returns hex ciphertext |
-| [Crypt.AesDecrypt](./crypt/aesdecrypt) | string | AES-decrypt a hex ciphertext back to a string |
+| [Crypt.Hash](./crypt/hash) | `string` | One-way digest as lowercase hex. |
+| [Crypt.Hmac](./crypt/hmac) | `string` | Keyed digest as lowercase hex. |
+| [Crypt.RandomHex](./crypt/randomhex) | `string` | Random bytes encoded as lowercase hex. |
+| [Crypt.RandomBase64](./crypt/randombase64) | `string` | Random bytes encoded as base64. |
+| [Crypt.Base64Encode](./crypt/base64encode) | `string` | Standard base64 encoding for a string. |
+| [Crypt.Base64Decode](./crypt/base64decode) | `string` | Standard base64 decoding to a string. |
+| [Crypt.AesEncrypt](./crypt/aesencrypt) | `string` | AES encryption that returns hex ciphertext. |
+| [Crypt.AesDecrypt](./crypt/aesdecrypt) | `string` | AES decryption from hex ciphertext to plaintext. |
 
-## Putting it together
+## Example
 
 ```enforce
 class Demo {

@@ -13,11 +13,11 @@ static proto native void ClearAll();
 
 ## Behavior
 
-Single-pass wipe: every slot is invalidated in one call. After this returns, no persistent object is visible — every handle from before this call is treated as dead.
+Invalidates every persistent object slot in one call. After this returns, no persistent object is visible, and every handle from before the call is invalid.
 
 ## Edge cases
 
-- Intended for hard resets (level change, script restart) when you want every object gone without enumerating them.
+- Intended for full resets, such as a level change or script restart, when every object should be removed without enumerating handles.
 - After `ClearAll`, any cached handles in your script should be re-acquired via [Drawing.New](new) before reuse.
 
 ## Example

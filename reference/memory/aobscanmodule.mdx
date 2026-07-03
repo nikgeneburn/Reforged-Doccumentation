@@ -16,11 +16,11 @@ static proto native pointer AobScanModule(string moduleName, string pattern);
 | Name | Type | Description |
 |---|---|---|
 | `moduleName` | `string` | DLL name. **Case-sensitive** `GetModuleHandleA` match. |
-| `pattern` | `string` | AOB pattern with `?` / `??` wildcards. Max 256 bytes. |
+| `pattern` | `string` | AOB pattern with `?` or `??` wildcards. Max 256 bytes. |
 
 ## Returns
 
-`pointer` — first matching address inside the module, or `0` if the module is unloaded or the pattern missed.
+`pointer`: first matching address inside the module, or `0` if the module is unloaded or the pattern missed.
 
 ## Edge cases
 

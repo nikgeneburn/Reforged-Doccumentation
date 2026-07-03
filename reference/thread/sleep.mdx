@@ -3,7 +3,7 @@ title: "Thread.Sleep"
 description: "Sleep the calling thread for a number of milliseconds."
 ---
 
-Pause the calling thread for `ms` milliseconds. `ms <= 0` is a no-op.
+Pause the calling thread for `ms` milliseconds. If `ms <= 0`, the call has no effect.
 
 ## Signature
 
@@ -23,7 +23,7 @@ Sleeps the calling OS thread. In script code that runs on the main thread, this 
 
 ## Edge cases
 
-- `ms <= 0` is a no-op — no sleep at all.
+- If `ms <= 0`, the call returns immediately.
 - Sleeping on the main thread blocks every other queued spawned thread, because they all share the same critical section.
 
 ## Example

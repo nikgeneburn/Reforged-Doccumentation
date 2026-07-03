@@ -3,7 +3,7 @@ title: "Thread.Spawn"
 description: "Spawn a thread that instantiates a class and runs one of its methods."
 ---
 
-Spawn a new OS thread that instantiates `className` and calls its `methodName`. The thread is **fire-and-forget** — there is no script-side join. Use [Env](./env) to signal completion.
+Spawn a new OS thread that instantiates `className` and calls its `methodName`. The thread is **detached**: there is no script-side join. Use [Env](../env) to signal completion.
 
 ## Signature
 
@@ -25,12 +25,12 @@ The Win32 thread id (`> 0`) on success, or `0` on any failure (allocation failur
 
 ## Behavior
 
-The thread is queued behind the script's main thread on the same global critical section, so two `Spawn` calls do not run in parallel — each waits its turn.
+The thread is queued behind the script's main thread on the same global critical section, so two `Spawn` calls do not run in parallel: each waits its turn.
 
 ## Edge cases
 
 - Empty `className` or `methodName` returns `0` and logs a warning.
-- There is no script-side join; use a polled [Env](./env) flag to coordinate.
+- There is no script-side join; use a polled [Env](../env) flag to coordinate.
 
 ## Example
 

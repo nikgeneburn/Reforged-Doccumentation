@@ -3,7 +3,7 @@ title: "Memory.ReadFloat"
 description: "Read a 32-bit float from game memory."
 ---
 
-Reads 4 bytes at `addr` and reinterprets as a float. Returns `0.0f` on null / invalid / fault.
+Reads 4 bytes at `addr` and reinterprets as a float. Returns `0.0f` on null, invalid, or faulting input.
 
 ## Signature
 
@@ -19,7 +19,7 @@ static proto native float ReadFloat(pointer addr);
 
 ## Returns
 
-`float` — value at `addr`, or `0.0f` on failure.
+`float`: value at `addr`, or `0.0f` on failure.
 
 ## Example
 

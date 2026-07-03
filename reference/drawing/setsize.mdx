@@ -13,9 +13,9 @@ static proto native void SetSize(int handle, int w, int h);
 
 ## Parameters
 
-- `handle` — a handle returned by [Drawing.New](new).
-- `w` — width in pixels.
-- `h` — height in pixels.
+- `handle`: a handle returned by [Drawing.New](new).
+- `w`: width in pixels.
+- `h`: height in pixels.
 
 ## Behavior
 
@@ -23,8 +23,8 @@ Width and height in screen-space pixels, measured from the anchor set by [SetPos
 
 ## Edge cases
 
-- No-op on bad handles.
-- No-op on non-square kinds (`Line`, `Circle`, `Text`).
+- Has no effect when the handle is invalid.
+- Has no effect when the object is not a `Square` or `Box`.
 - Negative or zero dimensions produce degenerate geometry and are accepted without error.
 
 ## Example

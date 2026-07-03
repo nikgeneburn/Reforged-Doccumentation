@@ -1,24 +1,26 @@
 ---
 title: "Diag"
-description: "Native-side introspection: backtraces, OS state, working set, last error."
+description: "Backtraces, process state, thread state, memory usage, and last-error diagnostics."
 ---
 
-`Diag` is for native-side introspection. All handlers are fault-tolerant and safe to call from anywhere. String returns go into a shared buffer that the engine copies at the call boundary, so don't hold on to a returned string across another `Diag.*` call.
+`Diag` provides static diagnostic helpers for the current process and calling thread. The methods are fault tolerant and return documented defaults on failure.
+
+String-returning methods are copied into script-owned strings at the call boundary. Avoid depending on the native backing buffer after another `Diag.*` call.
 
 ## Methods
 
 | Method | Returns | Summary |
 |---|---|---|
-| [Diag.Backtrace](./diag/backtrace) | string | Newline-separated hex return addresses for the calling thread |
-| [Diag.BacktraceWithModules](./diag/backtracewithmodules) | string | Backtrace with each frame annotated by module |
-| [Diag.ModuleForAddress](./diag/moduleforaddress) | string | Resolve an address to a `<module>+0x<offset>` string |
-| [Diag.ProcessId](./diag/processid) | int | OS process id |
-| [Diag.ThreadId](./diag/threadid) | int | OS thread id of the calling thread |
-| [Diag.GetTickCount](./diag/gettickcount) | int | Milliseconds since system boot (low 32 bits) |
-| [Diag.MemoryUsageKB](./diag/memoryusagekb) | int | Process working-set size in KiB |
-| [Diag.GetLastError](./diag/getlasterror) | int | The thread-local Win32 last-error value |
+| [Diag.Backtrace](./diag/backtrace) | `string` | Newline-separated hex return addresses for the calling thread. |
+| [Diag.BacktraceWithModules](./diag/backtracewithmodules) | `string` | Backtrace lines annotated with module names. |
+| [Diag.ModuleForAddress](./diag/moduleforaddress) | `string` | Resolve an address to `<module>+0x<offset>`. |
+| [Diag.ProcessId](./diag/processid) | `int` | OS process id. |
+| [Diag.ThreadId](./diag/threadid) | `int` | OS thread id for the calling thread. |
+| [Diag.GetTickCount](./diag/gettickcount) | `int` | Low 32 bits of milliseconds since system boot. |
+| [Diag.MemoryUsageKB](./diag/memoryusagekb) | `int` | Process working-set size in KiB. |
+| [Diag.GetLastError](./diag/getlasterror) | `int` | Thread-local Win32 last-error value. |
 
-## Putting it together
+## Example
 
 ```enforce
 class Demo {

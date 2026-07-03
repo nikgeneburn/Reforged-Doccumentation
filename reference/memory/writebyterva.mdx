@@ -1,6 +1,31 @@
 ---
 title: "Memory.WriteByteRVA"
-description: "Write a byte at g_GameBase + rva."
+description: "Write one byte at g_GameBase + rva."
 ---
 
-Same RVA semantics as [`ReadIntRVA`](./readintrva).
+Writes the low 8 bits of `value` at `Memory.GameBase() + (uint32_t)rva`.
+
+This method uses the same unsigned RVA semantics as [`Memory.ReadIntRVA`](./readintrva). Negative `rva` values wrap because the argument is zero-extended to 32 bits.
+
+## Signature
+
+```enforce
+static proto native void WriteByteRVA(int rva, int value);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `rva` | `int` | Unsigned offset from `Memory.GameBase()`. |
+| `value` | `int` | Value to write. Only the low 8 bits are used. |
+
+## Returns
+
+`void`. The call does nothing if the resolved address is invalid or the write faults.
+
+## Example
+
+```enforce
+Memory.WriteByteRVA(0x1234, 0x90);
+```

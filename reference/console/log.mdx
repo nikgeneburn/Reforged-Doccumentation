@@ -3,7 +3,7 @@ title: "Console.Log"
 description: "Print a line with a [Script] prefix to the host console, the debug log file, and every connected WebSocket client."
 ---
 
-`Console.Log` is the only method on `Console` exposed by the prelude. It writes through `SafeConsoleWrite`, mirrors to a debug log file, and broadcasts as `{"type":"log","line":"…"}` to all connected WebSocket clients.
+`Console.Log` is the only method on `Console` exposed by the prelude. It writes to the host console, mirrors to the debug log file, and broadcasts `{"type":"log","line":"..."}` to connected WebSocket clients.
 
 ## Signature
 
@@ -25,14 +25,14 @@ static proto native void Log(string msg);
 
 - Prefixes the line with `[Script] `.
 - Writes to the host console. Mirrors to the debug log file. Broadcasts to all WS clients.
-- Serialized under the global critical section — concurrent native calls don't interleave.
+- Serialized under the global critical section: concurrent native calls do not interleave.
 - No back-pressure on slow WS consumers; a stalled consumer will block this writer.
 
 ## Edge cases
 
-- `msg == ""` is allowed; you'll see `[Script] ` with nothing after it.
+- `msg == ""` is allowed; you will see `[Script] ` with nothing after it.
 - `msg == null` or invalid pointer → line prints as `[Script] (null)`.
-- Max line length is **1024 bytes**. Longer strings are truncated.
+- Maximum line length is **1024 bytes**. Longer strings are truncated.
 
 ## Example
 

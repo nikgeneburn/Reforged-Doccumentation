@@ -1,9 +1,9 @@
 ---
 title: "Memory.ReadInt64Lo"
-description: "int — low 32 bits of a 64-bit value at p."
+description: "Read the low 32 bits of a 64-bit value."
 ---
 
-Reads 8 bytes at `p` and returns the **low** 32 bits as an int. Useful when the engine's `int` doesn't have a 64-bit path.
+Reads 8 bytes at `p` and returns the **low** 32 bits as an int. Useful when the engine's `int` does not have a 64-bit path.
 
 ## Signature
 
@@ -16,5 +16,5 @@ static proto native int ReadInt64Lo(pointer p);
 ```enforce
 int lo = Memory.ReadInt64Lo(addr);
 int hi = Memory.ReadInt64Hi(addr);
-pointer full = hi * 0x100000000 + (lo < 0 ? lo + 0x100000000 : lo);  // sign-fixup
+pointer full = hi * 0x100000000 + (lo < 0 ? lo + 0x100000000: lo);  // sign-fixup
 ```

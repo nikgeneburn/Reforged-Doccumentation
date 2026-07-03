@@ -20,11 +20,11 @@ static proto native int NewFolder(string parentPath, string name);
 
 ## Returns
 
-`1` on success, `0` if the parent path doesn't exist, the name is invalid, or the underlying creation fails.
+`1` on success, `0` if the parent path does not exist, the name is invalid, or the underlying creation fails.
 
 ## Behavior
 
-Creates only one level — `parentPath` must already exist. `name` is validated with the same rules as file names (no `< > " | ? * :`, no control chars, no separators, max 200 chars).
+Creates only one level: `parentPath` must already exist. `name` is validated with the same rules as file names (no `< > " | ? *:`, no control characters, no separators, max 200 characters).
 
 ## Example
 

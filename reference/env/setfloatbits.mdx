@@ -14,17 +14,17 @@ static proto native void SetFloatBits(string key, int bits);
 ## Parameters
 
 | Name | Type | Description |
-| --- | --- | --- |
+|---|---|---|
 | key | `string` | The key to write. |
 | bits | `int` | The IEEE-754 bit pattern to store. |
 
 ## Behavior
 
-The store is locked; the kind is recorded as FloatBits. Reads via [Env.GetInt](./getint), [Env.GetBool](./getbool), or [Env.GetString](./getstring) on the same key return `0` / `""` because FloatBits is its own kind. The 32-bit `int` capping is the only lossiness — passing the bit pattern of a `float` is bit-exact; passing a value that needs more bits is not.
+The store is locked; the kind is recorded as FloatBits. Reads via [Env.GetInt](./getint), [Env.GetBool](./getbool), or [Env.GetString](./getstring) on the same key return `0` or `""` because FloatBits is its own kind. The 32-bit `int` capping is the only lossiness: passing the bit pattern of a `float` is bit-exact; passing a value that needs more bits is not.
 
 ## Edge cases
 
-- Writing past the 256-entry cap is a silent no-op.
+- Writing past the 256-entry cap has no effect.
 - The kind is fixed at write time. Pick FloatBits on the first write or the existing kind wins and your bit pattern never gets stored.
 
 ## Example

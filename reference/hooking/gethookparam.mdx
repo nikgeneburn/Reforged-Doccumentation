@@ -20,11 +20,11 @@ static proto native int GetHookParam(int hookId, int paramIndex);
 
 ## Returns
 
-The low 32 bits of the captured register, or `0` if the slot is invalid / inactive / out of range. Bool / flag values riding in the low bit are preserved.
+The low 32 bits of the captured register, or `0` if the slot is invalid or inactive or out of range. Bool or flag values riding in the low bit are preserved.
 
 ## Edge cases
 
-Only the low 32 bits are exposed — full 64-bit pointers in non-first registers cannot be recovered directly. For those, reconstruct manually from the saved instance and parameter order.
+Only the low 32 bits are exposed: full 64-bit pointers in non-first registers cannot be recovered directly. For those, reconstruct manually from the saved instance and parameter order.
 
 ## Example
 

@@ -3,7 +3,7 @@ title: "Workspace.WriteFile"
 description: "Create or truncate a file and write contents."
 ---
 
-Creates or truncates the file at `path` and writes `contents` to it. The path may include a file name that doesn't yet exist.
+Creates or truncates the file at `path` and writes `contents` to it. The path may include a file name that does not yet exist.
 
 ## Signature
 
@@ -24,7 +24,7 @@ static proto native int WriteFile(string path, string contents);
 
 ## Behavior
 
-`path` is a full relative path — including the file name. Unlike [NewFile](./workspace/newfile), this does not split the parent path from the name. The file is opened, written, and closed in a single operation.
+`path` is a full relative path: including the file name. Unlike [NewFile](./newfile), this does not split the parent path from the name. The file is opened, written, and closed in a single operation.
 
 ## Example
 

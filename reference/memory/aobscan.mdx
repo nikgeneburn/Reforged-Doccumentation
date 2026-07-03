@@ -15,11 +15,11 @@ static proto native pointer AobScan(string pattern);
 
 | Name | Type | Description |
 |---|---|---|
-| `pattern` | `string` | AOB pattern with `?` / `??` wildcards. Max **256 bytes**. |
+| `pattern` | `string` | AOB pattern with `?` or `??` wildcards. Max **256 bytes**. |
 
 ## Returns
 
-`pointer` — first matching address, or `0` on miss.
+`pointer`: first matching address, or `0` on miss.
 
 ## Behavior
 

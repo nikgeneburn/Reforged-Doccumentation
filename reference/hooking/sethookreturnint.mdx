@@ -1,9 +1,9 @@
 ---
 title: "Hooking.SetHookReturnInt"
-description: "Set the constant return value pushed by the stub."
+description: "Set the constant integer return value for a hook."
 ---
 
-Updates the constant return value that the stub pushes when the hook is enabled. For a currently-enabled script-bodied hook, the stub bytecodes are rebuilt with the new constant and patched back into place.
+Updates the constant integer return value used by the hook. If the hook is currently enabled, the active hook state is updated with the new value.
 
 ## Signature
 

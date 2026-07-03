@@ -14,7 +14,7 @@ static proto native string GetString(string key);
 ## Parameters
 
 | Name | Type | Description |
-| --- | --- | --- |
+|---|---|---|
 | key | `string` | The key to read. |
 
 ## Returns
@@ -23,7 +23,7 @@ The stored string. If `key` is absent or holds a non-String kind, returns `""`.
 
 ## Behavior
 
-The result is a pointer into the pool's string storage. The engine copies it into a script-owned string at the native-call boundary, so you can read it like any other script string. After a subsequent [Env.SetString](./setstring) on the same key, or any [Env.Clear](./clear), the underlying buffer is invalidated — so don't stash a raw pointer across another write.
+The result is a pointer into the pool's string storage. The engine copies it into a script-owned string at the native-call boundary, so you can read it like any other script string. After a subsequent [Env.SetString](./setstring) on the same key, or any [Env.Clear](./clear), the underlying buffer is invalidated: so do not stash a raw pointer across another write.
 
 ## Edge cases
 

@@ -13,8 +13,8 @@ static proto native void SetFilled(int handle, int filled);
 
 ## Parameters
 
-- `handle` — a handle returned by [Drawing.New](new).
-- `filled` — non-zero fills the interior, `0` draws the outline only.
+- `handle`: a handle returned by [Drawing.New](new).
+- `filled`: non-zero fills the interior, `0` draws the outline only.
 
 ## Behavior
 
@@ -22,7 +22,7 @@ For `Square`/`Box` and `Circle`, this picks between a solid filled interior and 
 
 ## Edge cases
 
-- No-op on bad handles.
+- Has no effect when the handle is invalid.
 - The fill color comes from [SetColor](setcolor); the outline color is the same.
 
 ## Example

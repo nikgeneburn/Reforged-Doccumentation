@@ -13,7 +13,7 @@ static proto native int New(string kind);
 
 ## Parameters
 
-- `kind` — object kind (case-insensitive): `"Line"`, `"Square"`, `"Box"` (alias for `"Square"`), `"Circle"`, or `"Text"`.
+- `kind`: object kind (case-insensitive): `"Line"`, `"Square"`, `"Box"` (alias for `"Square"`), `"Circle"`, or `"Text"`.
 
 ## Returns
 
@@ -22,7 +22,7 @@ static proto native int New(string kind);
 
 ## Behavior
 
-The returned handle is opaque to scripts. Newly-created objects default to **hidden** — you must call [SetVisible](setvisible) to render them. Configure with the matching `Set*` calls before flipping visibility; persistent objects are snapshotted each frame.
+The returned handle is opaque to scripts. Newly-created objects default to **hidden**: you must call [SetVisible](setvisible) to render them. Configure the object with the matching `Set*` calls before making it visible. Persistent objects are snapshotted each frame.
 
 ## Edge cases
 

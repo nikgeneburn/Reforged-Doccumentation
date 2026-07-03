@@ -26,7 +26,7 @@ Lowercase hex ciphertext, or `""` on any validation or encryption failure.
 
 ## Behavior
 
-- `key` must decode to **16, 24, or 32 bytes** (AES-128 / AES-192 / AES-256).
+- `key` must decode to **16, 24, or 32 bytes** (AES-128 or AES-192 or AES-256).
 - `iv` must decode to **exactly 16 bytes** (the AES block size).
 - The function selects the AES key size based on the decoded key length.
 

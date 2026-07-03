@@ -3,4 +3,29 @@ title: "Memory.WriteIntRVA"
 description: "Write an int at g_GameBase + rva."
 ---
 
-`WriteInt(g_GameBase + (uint32_t)rva, value)`. Same RVA semantics as [`ReadIntRVA`](./readintrva).
+Writes a 32-bit integer at `Memory.GameBase() + (uint32_t)rva`.
+
+This method uses the same unsigned RVA semantics as [`Memory.ReadIntRVA`](./readintrva). Negative `rva` values wrap because the argument is zero-extended to 32 bits.
+
+## Signature
+
+```enforce
+static proto native void WriteIntRVA(int rva, int value);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `rva` | `int` | Unsigned offset from `Memory.GameBase()`. |
+| `value` | `int` | Value to write. |
+
+## Returns
+
+`void`. The call does nothing if the resolved address is invalid or the write faults.
+
+## Example
+
+```enforce
+Memory.WriteIntRVA(0x1234, 7);
+```

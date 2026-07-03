@@ -3,7 +3,7 @@ title: "Env.SetInt"
 description: "Set an int value by key in the Env store."
 ---
 
-Set the `int` value for `key`. Silent no-op if the pool is full (256 entries).
+Set the `int` value for `key`. If the pool is full at 256 entries, the call has no effect.
 
 ## Signature
 
@@ -14,18 +14,18 @@ static proto native void SetInt(string key, int v);
 ## Parameters
 
 | Name | Type | Description |
-| --- | --- | --- |
+|---|---|---|
 | key | `string` | The key to write. |
 | v | `int` | The int value to store. |
 
 ## Behavior
 
-The store is locked; writes are serialized. If `key` previously held a non-Int kind, the kind is replaced by Int (the old value is lost). If the pool already has 256 entries, the write is silently dropped — there is no error return and no diagnostic.
+The store is locked; writes are serialized. If `key` previously held a non-Int kind, the kind is replaced by Int (the old value is lost). If the pool already has 256 entries, the write is dropped without an error. There is no error return or diagnostic.
 
 ## Edge cases
 
-- Writing past the 256-entry cap is a silent no-op. Use [Env.Erase](./erase) or [Env.Clear](./clear) to free space, and use [Env.AlreadyRan](./alreadyran) to avoid fabricating per-run keys.
-- No way to distinguish a successful write from a dropped write from script. If you need to know, [Env.Has](./has) tells you the key was touched before.
+- Writing past the 256-entry cap has no effect. Use [Env.Erase](./erase) or [Env.Clear](./clear) to free space, and avoid creating unnecessary per-run keys.
+- Scripts cannot directly distinguish a successful write from a dropped write. Use [Env.Has](./has) when you need to check whether a key exists.
 
 ## Example
 

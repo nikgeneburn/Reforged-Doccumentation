@@ -1,9 +1,9 @@
 ---
 title: "Hooking.DiagHook"
-description: "Mode-specific inspection / diagnostic on a slot."
+description: "Mode-specific inspection or diagnostic on a slot."
 ---
 
-Mode-specific inspection / diagnostic on a slot. Useful when an install fails silently or you need to peek at the saved state of a hook.
+Runs a diagnostic query for a hook slot. Use it to inspect install failures or saved hook state.
 
 ## Signature
 
@@ -20,15 +20,15 @@ static proto native int DiagHook(int hookId, int mode);
 
 ## Returns
 
-Mode-specific — see the table. Negative values are diagnostic error codes.
+Mode-specific: see the table. Negative values are diagnostic error codes.
 
 ## Behavior
 
 Negative return values are diagnostic codes:
 
 - `-2` slot inactive
-- `-3` bad function descriptor
-- `-4..-8` bad return-slot pointer
+- `-3` invalid function descriptor
+- `-4..-8` invalid return-slot pointer
 - `-99` unknown mode
 - `-100` fault in handler
 
@@ -38,7 +38,7 @@ Common modes:
 |---|---|
 | `0` | Prints and returns the descriptor's return-slot pointer |
 | `1` | Dereferences the return-slot pointer and returns the int stored there |
-| `2` | Reads the opcode byte of saved bytecodes; returns `1` if it's `0x0B` |
+| `2` | Reads the saved opcode byte and returns `1` if it is `0x0B`. |
 | `3` | Clears the return slot to `0` |
 | `4` | Writes `0x42` into the return slot ("call succeeded" sentinel for re-entry) |
 | `5` | Dumps descriptor fields plus a match flag |

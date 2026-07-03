@@ -3,7 +3,7 @@ title: "Hooking.IsHookNative"
 description: "1 if the target is native-bodied, 0 if script-bodied."
 ---
 
-Reports whether the hooked target is a native-bodied method (the engine's C++ handler) or a script-bodied method (bytecode interpreted by the VM).
+Reports whether the hooked target is native-bodied or script-bodied.
 
 ## Signature
 
@@ -23,7 +23,7 @@ static proto native int IsHookNative(int hookId);
 
 ## Behavior
 
-Use this to decide whether [CallOriginal](./hooking/calloriginal) will route through the C++ handler pointer or fall back to bytecode restore + execute.
+Use this to decide which `CallOriginal` path will be used for the hook.
 
 ## Example
 

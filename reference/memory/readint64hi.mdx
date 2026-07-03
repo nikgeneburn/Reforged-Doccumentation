@@ -1,6 +1,29 @@
 ---
 title: "Memory.ReadInt64Hi"
-description: "int — high 32 bits of a 64-bit value at p."
+description: "Read the high 32 bits of a 64-bit value."
 ---
 
-Returns the **high** 32 bits of the 8-byte value at `p`. See [`ReadInt64Lo`](./readint64lo) for the typical pair.
+Reads eight bytes at `p` and returns the high 32 bits as an `int`. Use it with [`Memory.ReadInt64Lo`](./readint64lo) when a value needs to be reconstructed from two 32-bit parts.
+
+## Signature
+
+```enforce
+static proto native int ReadInt64Hi(pointer p);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `p` | `pointer` | Source address. |
+
+## Returns
+
+`int`. The high 32 bits of the 64-bit value, or `0` on failure.
+
+## Example
+
+```enforce
+int lo = Memory.ReadInt64Lo(addr);
+int hi = Memory.ReadInt64Hi(addr);
+```

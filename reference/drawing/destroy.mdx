@@ -13,17 +13,17 @@ static proto native void Destroy(int handle);
 
 ## Parameters
 
-- `handle` — a handle returned by [Drawing.New](new).
+- `handle`: a handle returned by [Drawing.New](new).
 
 ## Behavior
 
-Marks the slot invalid. Any further setter calls on this handle become safe no-ops. The slot is not backfilled — see the edge-case note on handle reuse.
+Marks the slot invalid. Later setter calls using the same handle have no effect. The slot is not backfilled; see the handle reuse note below.
 
 ## Edge cases
 
-- No-op on a bad id (`0`, unknown handle, or already-destroyed handle).
-- The slot is **not** reused for a new object — handles are monotonic within a session. Use [ClearAll](clearall) for a hard reset.
-- Other script-side references to the destroyed handle do not crash the host.
+- Has no effect for `0`, unknown handles, or already-destroyed handles.
+- The slot is **not** reused for a new object. Handles are monotonic within a session. Use [ClearAll](clearall) for a full reset.
+- Other script-side references to the destroyed handle do not stop the host process.
 
 ## Example
 

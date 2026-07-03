@@ -1,6 +1,30 @@
 ---
 title: "Memory.ReadByteRVA"
-description: "int — read a byte at g_GameBase + rva."
+description: "Read one byte at g_GameBase + rva."
 ---
 
-Same RVA semantics as [`ReadIntRVA`](./readintrva).
+Reads one byte at `Memory.GameBase() + (uint32_t)rva` and returns it as an `int` in `[0, 255]`.
+
+This method uses the same unsigned RVA semantics as [`Memory.ReadIntRVA`](./readintrva). Negative `rva` values wrap because the argument is zero-extended to 32 bits.
+
+## Signature
+
+```enforce
+static proto native int ReadByteRVA(int rva);
+```
+
+## Parameters
+
+| Name | Type | Description |
+|---|---|---|
+| `rva` | `int` | Unsigned offset from `Memory.GameBase()`. |
+
+## Returns
+
+`int`. The byte value, or `0` on failure.
+
+## Example
+
+```enforce
+int opcode = Memory.ReadByteRVA(0x1234);
+```

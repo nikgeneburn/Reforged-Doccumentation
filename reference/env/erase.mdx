@@ -3,7 +3,7 @@ title: "Env.Erase"
 description: "Remove the entry for a key from the Env store."
 ---
 
-Removes any value associated with `key`, regardless of kind. No-op if the key is absent.
+Removes any value associated with `key`, regardless of kind. If the key is absent, the call has no effect.
 
 ## Signature
 
@@ -14,17 +14,17 @@ static proto native void Erase(string key);
 ## Parameters
 
 | Name | Type | Description |
-| --- | --- | --- |
+|---|---|---|
 | key | `string` | The key to remove. |
 
 ## Behavior
 
-The store is locked. After `Erase`, [Env.Has](./has) on the same key returns `0`. Use aggressively when keys are no longer needed — the pool is capped at 256 entries, and writes past the cap are silent no-ops.
+The store is locked while the entry is removed. After `Erase`, [Env.Has](./has) for the same key returns `0`. Remove keys when they are no longer needed; the pool is capped at 256 entries, and writes past the cap have no effect.
 
 ## Edge cases
 
-- No-op if `key` is absent. There is no return value to indicate whether anything was removed.
-- Does not reset kind state for the key (there is no per-key kind state stored on `Erase` — the slot is fully reclaimed).
+- If `key` is absent, the call has no effect. There is no return value to indicate whether anything was removed.
+- Does not reset kind state for the key (there is no per-key kind state stored on `Erase`: the slot is fully reclaimed).
 
 ## Example
 

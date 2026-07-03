@@ -3,7 +3,7 @@ title: "Workspace.ReadFile"
 description: "Read a file's full contents."
 ---
 
-Reads the entire file at `path` and returns it as a string. The path is taken literally — there is no subdirectory recursion.
+Reads the entire file at `path` and returns it as a string. The path is taken literally: there is no subdirectory recursion.
 
 ## Signature
 
@@ -23,11 +23,11 @@ The file contents as a string, or `""` if the file is missing or the path is rej
 
 ## Behavior
 
-The returned string lives in a process-static buffer shared across calls. The pointer is only valid until the next `ReadFile` (or any other call that uses the same buffer). Let the engine copy the C-string into a script-owned string immediately — don't store it across subsequent Workspace calls without re-fetching.
+The returned string lives in a process-static buffer shared across calls. The pointer is only valid until the next `ReadFile` (or any other call that uses the same buffer). Let the engine copy the C-string into a script-owned string immediately: do not store it across subsequent Workspace calls without re-fetching.
 
 ## Edge cases
 
-A return of `""` can mean either "file is empty" or "path was sandbox-rejected / file missing" — there is no error code to distinguish them.
+A return of `""` can mean either "file is empty" or "path was sandbox-rejected or file missing": there is no error code to distinguish them.
 
 ## Example
 

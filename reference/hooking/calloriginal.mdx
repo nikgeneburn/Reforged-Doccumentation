@@ -23,11 +23,11 @@ The captured return value from the original implementation, or `0` on failure.
 
 ## Behavior
 
-For native-bodied hooks, the saved engine handler pointer is re-entered with the captured register set. For script-bodied hooks, the saved bytecodes are temporarily restored, the method is re-executed, the int return slot is read, and the stub is patched back. Use [IsHookNative](./hooking/ishooknative) to learn which path will be taken.
+For native-bodied hooks, Reforged calls the saved engine handler with the captured argument state. For script-bodied hooks, Reforged temporarily restores the original method, executes it, reads the integer return value, and restores the hook. Use [IsHookNative](./ishooknative) to check which path is active.
 
 ## Edge cases
 
-Calling `CallOriginal` from inside a script callback that re-enters the same code path can race with the stub patch.
+Calling `CallOriginal` from a callback that re-enters the same code path can produce undefined hook state. Avoid recursive call-through on the same hook.
 
 ## Example
 

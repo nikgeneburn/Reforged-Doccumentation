@@ -3,7 +3,7 @@ title: "Memory.ReadByte"
 description: "Read a single byte from game memory."
 ---
 
-Reads 1 byte at `addr` and zero-extends it to `int`. Returns `0` on null / invalid / fault.
+Reads 1 byte at `addr` and zero-extends it to `int`. Returns `0` on null, invalid, or faulting input.
 
 ## Signature
 
@@ -19,7 +19,7 @@ static proto native int ReadByte(pointer addr);
 
 ## Returns
 
-`int` — byte value in `[0, 255]`, or `0` on failure.
+`int`: byte value in `[0, 255]`, or `0` on failure.
 
 ## Example
 

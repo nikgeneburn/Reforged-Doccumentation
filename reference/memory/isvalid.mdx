@@ -1,6 +1,6 @@
 ---
 title: "Memory.IsValid"
-description: "int — is this many bytes at this address readable?"
+description: "Return whether a memory range is readable."
 ---
 
 `1` if `size` bytes at `p` are readable, else `0`. Uses `IsValidMemoryPtr` plus fault handling.
@@ -20,7 +20,7 @@ static proto native int IsValid(pointer p, int size);
 
 ## Returns
 
-`int` — `1` if readable, `0` otherwise.
+`int`: `1` if readable, `0` otherwise.
 
 ## Edge cases
 

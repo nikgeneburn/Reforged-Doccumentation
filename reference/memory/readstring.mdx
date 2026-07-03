@@ -3,7 +3,7 @@ title: "Memory.ReadString"
 description: "Read a NUL-terminated string from game memory into a process buffer."
 ---
 
-Reads up to `maxLen` bytes at `p` into a process-static 32 KiB buffer. Re-validates at each 4 KiB page boundary so a partial cross-page string doesn't fault. Returns `""` on null / invalid / fault.
+Reads up to `maxLen` bytes at `p` into a process-static 32 KiB buffer. Re-validates at each 4 KiB page boundary so a partial cross-page string does not fault. Returns `""` on null, invalid, or faulting input.
 
 ## Signature
 
@@ -20,17 +20,17 @@ static proto native string ReadString(pointer p, int maxLen);
 
 ## Returns
 
-`string` — NUL-terminated copy in the static buffer, or `""` on failure.
+`string`: NUL-terminated copy in the static buffer, or `""` on failure.
 
 ## Behavior
 
 - Returns a pointer to a process-static buffer; the engine copies into a script-owned string at the native-call boundary.
-- Walks pages (re-validating at each 4 KiB alignment) so a partial cross-page string doesn't fault.
+- Walks pages (re-validating at each 4 KiB alignment) so a partial cross-page string does not fault.
 
 ## Edge cases
 
 - `maxLen > 32767` is clamped.
-- Same buffer is shared across `ReadString` / `ReadHex` calls. Don't store the returned pointer across another call.
+- Same buffer is shared across `ReadString` or `ReadHex` calls. Do not store the returned pointer across another call.
 
 ## Example
 

@@ -13,8 +13,8 @@ static proto native void SetNumSides(int handle, int n);
 
 ## Parameters
 
-- `handle` — a handle returned by [Drawing.New](new).
-- `n` — number of polygon sides.
+- `handle`: a handle returned by [Drawing.New](new).
+- `n`: number of polygon sides.
 
 ## Behavior
 
@@ -23,7 +23,7 @@ A Circle is rendered as a regular polygon with `n` sides. Higher values look smo
 ## Edge cases
 
 - Clamped to `[4, 128]`.
-- No-op on bad handles or non-Circle kinds.
+- Has no effect when the handle is invalid or the object is not a `Circle`.
 
 ## Example
 

@@ -3,7 +3,7 @@ title: "Memory.ReadPointer"
 description: "Read a full 64-bit pointer from game memory."
 ---
 
-Reads 8 bytes at `addr` as a full-width pointer. Returns `0` on null / invalid / fault.
+Reads 8 bytes at `addr` as a full 64-bit pointer. Returns `0` on null, invalid, or faulting input.
 
 ## Signature
 
@@ -19,7 +19,7 @@ static proto native pointer ReadPointer(pointer addr);
 
 ## Returns
 
-`pointer` — full 64-bit value at `addr`, or `0` on failure.
+`pointer`: full 64-bit value at `addr`, or `0` on failure.
 
 ## Behavior
 

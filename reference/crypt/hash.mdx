@@ -28,7 +28,7 @@ The hash is computed in a single call into the OS crypto provider; the output is
 
 ## Edge cases
 
-- Unknown `algo` returns `""` — there is no error code, just an empty string.
+- Unknown `algo` returns `""`: there is no error code, just an empty string.
 - The return value points into a process-wide buffer that the engine copies at the native-call boundary. If you need to keep the result, capture it into a local string before calling another `Crypt.*` method.
 
 ## Example

@@ -14,26 +14,26 @@ static proto native string Replace(string pattern, string input, string replacem
 ## Parameters
 
 | Name | Type | Description |
-| --- | --- | --- |
+|---|---|---|
 | pattern | `string` | The ECMAScript regex pattern. |
 | input | `string` | The haystack to replace within. |
 | replacement | `string` | The replacement text. `$1..$9` refer to captured groups in `pattern`. |
 
 ## Returns
 
-The result of the replace. Truncated to 128 KiB − 1 (one byte reserved for the NUL) if needed.
+The result of the replace. Truncated to 128 KiB - 1 (one byte reserved for the NUL) if needed.
 
 ## Behavior
 
-Iterates all non-overlapping matches in `input` and substitutes `replacement`. `replacement` is processed for `$1..$9` back-references — anything else is a literal. The result is written into a shared 128 KB buffer; engine copies at the native-call boundary.
+Iterates all non-overlapping matches in `input` and substitutes `replacement`. `replacement` is processed for `$1..$9` back-references: anything else is a literal. The result is written into a shared 128 KB buffer. The engine copies it at the native-call boundary.
 
 ## Edge cases
 
-- Result longer than 128 KiB − 1 is silently truncated.
+- Results longer than 128 KiB - 1 are truncated without an error.
 - A compile or search exception yields `""`.
 - `pattern == null`, `input == null`, or `replacement == null` yields `""`.
 - Back-references beyond `$9` are not supported (ECMAScript semantics).
-- Compiling one pattern in a tight loop is more expensive than running it — cache patterns.
+- Recompiling a pattern repeatedly is expensive. Cache reusable patterns where practical.
 
 ## Example
 

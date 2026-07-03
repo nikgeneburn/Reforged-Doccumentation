@@ -3,7 +3,7 @@ title: "Memory.Offset"
 description: "Pointer arithmetic with signed delta. The sign-safe counterpart to the unsigned *RVA family."
 ---
 
-`base + signExt(delta)`. Sign-extends correctly — negative `delta` returns a pointer below `base`.
+`base + signExt(delta)`. Sign-extends correctly: negative `delta` returns a pointer below `base`.
 
 ## Signature
 
@@ -20,12 +20,12 @@ static proto native pointer Offset(pointer base, int delta);
 
 ## Returns
 
-`pointer` — `base + (uintptr_t)(intptr_t)delta`.
+`pointer`: `base + (uintptr_t)(intptr_t)delta`.
 
 ## Behavior
 
 - Pure pointer arithmetic. No memory access.
-- The `*RVA` family is **not** sign-safe — use `Offset(Memory.GameBase(), rva)` when you have a signed offset.
+- The `*RVA` family is **not** sign-safe: use `Offset(Memory.GameBase(), rva)` when you have a signed offset.
 
 ## Example
 

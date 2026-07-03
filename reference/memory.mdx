@@ -1,38 +1,38 @@
 ---
 title: "Memory"
-description: "Pointer R/W, AOB scans, allocations, hex utilities, and pointer-chaining. Backs every other memory-touching class."
+description: "Pointer reads and writes, AOB scans, allocations, hex helpers, and pointer chains."
 ---
 
-`Memory` is the workhorse. It handles reads, writes, allocations, protection changes, hex paste, AOB scans, and the helper-pointer arithmetic that everything else rests on.
+`Memory` provides low-level helpers for reading, writing, scanning, allocating, and walking process memory. Use the `pointer` type for all addresses and keep address arithmetic explicit.
 
 ## Pointer ABI
 
-Every `pointer` argument and return is the full 64-bit address. **Never** pass addresses through `int` — `pointer` lives as a full 8-byte qword; truncating to `int` and dereferencing the result points at random memory.
+Every `pointer` argument and return value is a full 64-bit address. Do not pass addresses through `int`; that truncates the address and can make later reads or writes target the wrong location.
 
 ## Sign and overflow semantics
 
-The signed `int delta` passed to `Offset` and `Chain` is sign-extended properly. The unsigned `int rva` passed to the `*RVA` family is **zero-extended to 32 bits** — negative offsets wrap. If you need signed offsets, compute `Memory.GameBase() + offset` instead.
+`Offset` and `Chain` sign-extend their `int delta` arguments. The `*RVA` methods zero-extend their `int rva` arguments to 32 bits, so negative offsets wrap. For signed offsets, use `Memory.Offset(Memory.GameBase(), offset)`.
 
 ## Categories
 
-- [Building blocks](./memory#building-blocks) — `GameBase`, `Offset`, `Virtual2Native`
-- [Scalar reads and writes](./memory#scalar-reads-and-writes) — `ReadInt`, `WriteInt`, ...
-- [Strings and hex](./memory#strings-and-hex) — `ReadString`, `WriteHex`, ...
-- [Allocation](./memory#allocation) — `Alloc`, `Free`, `Protect`
-- [AOB scanning](./memory#aob-scanning) — `AobScan`, `AobScanModule`, `ModuleBase`, `ModuleSize`
-- [Validation and walking](./memory#validation-and-walking) — `IsValid`, `Chain`, `ResolveRip`
-- [Bulk operations](./memory#bulk-operations) — `MemCopy`, `MemSet`
-- [64-bit split helpers](./memory#64-bit-split-helpers) — `ReadInt64Lo`, `ReadInt64Hi`, `WriteInt64`
-- [RVA variants](./memory#rva-variants) — `ReadIntRVA`, `WriteByteRVA`, ...
+- [Building blocks](./memory#building-blocks): `GameBase`, `Offset`, `Virtual2Native`
+- [Scalar reads and writes](./memory#scalar-reads-and-writes): `ReadInt`, `WriteInt`, and related methods
+- [Strings and hex](./memory#strings-and-hex): `ReadString`, `WriteHex`, and related methods
+- [Allocation](./memory#allocation): `Alloc`, `Free`, `Protect`
+- [AOB scanning](./memory#aob-scanning): `AobScan`, `AobScanModule`, `ModuleBase`, `ModuleSize`
+- [Validation and walking](./memory#validation-and-walking): `IsValid`, `Chain`, `ResolveRip`
+- [Bulk operations](./memory#bulk-operations): `MemCopy`, `MemSet`
+- [64-bit split helpers](./memory#64-bit-split-helpers): `ReadInt64Lo`, `ReadInt64Hi`, `WriteInt64`
+- [RVA variants](./memory#rva-variants): `ReadIntRVA`, `WriteByteRVA`, and related methods
 
-## Putting it together
+## Example
 
 ```enforce
 class Demo {
     void Run() {
         pointer base = Memory.GameBase();
-        int one = Memory.ReadInt(Memory.Offset(base, 0x1234));
-        Memory.WriteInt(Memory.Offset(base, 0x1234), one + 1);
+        int value = Memory.ReadInt(Memory.Offset(base, 0x1234));
+        Memory.WriteInt(Memory.Offset(base, 0x1234), value + 1);
         Memory.Nop(Memory.Offset(base, 0x5678), 5);
     }
 }
@@ -46,10 +46,10 @@ class Demo {
 - [`Memory.Virtual2Native`](./memory/virtual2native)
 
 ### Scalar reads and writes
-- [`Memory.ReadInt`](./memory/readint) / [`Memory.WriteInt`](./memory/writeint)
-- [`Memory.ReadFloat`](./memory/readfloat) / [`Memory.WriteFloat`](./memory/writefloat)
-- [`Memory.ReadByte`](./memory/readbyte) / [`Memory.WriteByte`](./memory/writebyte)
-- [`Memory.ReadPointer`](./memory/readpointer) / [`Memory.WritePointer`](./memory/writepointer)
+- [`Memory.ReadInt`](./memory/readint) or [`Memory.WriteInt`](./memory/writeint)
+- [`Memory.ReadFloat`](./memory/readfloat) or [`Memory.WriteFloat`](./memory/writefloat)
+- [`Memory.ReadByte`](./memory/readbyte) or [`Memory.WriteByte`](./memory/writebyte)
+- [`Memory.ReadPointer`](./memory/readpointer) or [`Memory.WritePointer`](./memory/writepointer)
 - [`Memory.Nop`](./memory/nop)
 
 ### Strings and hex
@@ -84,6 +84,6 @@ class Demo {
 - [`Memory.WriteInt64`](./memory/writeint64)
 
 ### RVA variants
-- [`Memory.ReadIntRVA`](./memory/readintrva) / [`Memory.WriteIntRVA`](./memory/writeintrva)
+- [`Memory.ReadIntRVA`](./memory/readintrva) or [`Memory.WriteIntRVA`](./memory/writeintrva)
 - [`Memory.ReadFloatRVA`](./memory/readfloatrva)
-- [`Memory.ReadByteRVA`](./memory/readbyterva) / [`Memory.WriteByteRVA`](./memory/writebyterva)
+- [`Memory.ReadByteRVA`](./memory/readbyterva) or [`Memory.WriteByteRVA`](./memory/writebyterva)

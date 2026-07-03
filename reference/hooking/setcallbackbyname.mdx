@@ -20,9 +20,9 @@ static proto native void SetCallbackByName(int hookId, string funcName);
 
 ## Behavior
 
-`funcName` **must be a `static` method**. Non-static callbacks are silently rejected.
+`funcName` **must be a `static` method**. Non-static callbacks are rejected without an error.
 
-When the engine dispatches the hook, control re-enters the named static method. The script method's declared signature is ignored by the engine — only the int return slot is captured. Use [GetHookInstance](./hooking/gethookinstance) and [GetHookParam](./hooking/gethookparam) inside the callback to read captured registers.
+When the engine dispatches the hook, control re-enters the named static method. The script method's declared signature is ignored by the engine: only the int return slot is captured. Use [GetHookInstance](./gethookinstance) and [GetHookParam](./gethookparam) inside the callback to read captured registers.
 
 ## Edge cases
 

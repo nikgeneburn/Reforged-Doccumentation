@@ -1,6 +1,6 @@
 ---
 title: "Drawing.SetTo"
-description: "Sets the second anchor of a Line or the size of a Square/Bobx."
+description: "Sets the second anchor of a Line or the size of a Square or Box."
 ---
 
 `Drawing.SetTo` has two related meanings depending on object kind.
@@ -13,18 +13,18 @@ static proto native void SetTo(int handle, int x, int y);
 
 ## Parameters
 
-- `handle` — a handle returned by [Drawing.New](new).
-- `x`, `y` — end point for `Line`; width/height for `Square` / `Box`.
+- `handle`: a handle returned by [Drawing.New](new).
+- `x`, `y`: end point for `Line`; width/height for `Square` or `Box`.
 
 ## Behavior
 
-- `Line` — sets the end point (paired with [SetPosition](setposition) for the start).
-- `Square` / `Box` — alias for [SetSize](setsize) (width, height).
+- `Line`: sets the endpoint (paired with [SetPosition](setposition) for the start).
+- `Square` or `Box`: acts as an alias for [SetSize](setsize) (width, height).
 
 ## Edge cases
 
-- No-op on bad handles.
-- On kinds that don't have a "second anchor" the call is a safe no-op.
+- Has no effect when the handle is invalid.
+- On object kinds without a second anchor, the call has no effect.
 
 ## Example
 

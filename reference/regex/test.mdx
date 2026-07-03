@@ -14,7 +14,7 @@ static proto native int Test(string pattern, string input);
 ## Parameters
 
 | Name | Type | Description |
-| --- | --- | --- |
+|---|---|---|
 | pattern | `string` | The ECMAScript regex pattern. |
 | input | `string` | The haystack to test. |
 
@@ -24,7 +24,7 @@ static proto native int Test(string pattern, string input);
 
 ## Behavior
 
-The pattern is compiled on every call (no caching at the native layer — cache via [Env.SetString](../env/setstring) if you reuse one). Any compile or search exception is mapped to `0`.
+The pattern is compiled on every call (no caching at the native layer: cache via [Env.SetString](../env/setstring) if you reuse one). Any compile or search exception is mapped to `0`.
 
 ## Edge cases
 

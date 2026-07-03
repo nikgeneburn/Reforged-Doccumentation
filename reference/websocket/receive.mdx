@@ -3,7 +3,7 @@ title: "WebSocket.Receive"
 description: "Return the next queued inbound text message from a WebSocket connection."
 ---
 
-Returns the next queued inbound text message on `handle`, or `""` if the queue is empty. There is no callback path — you must call this periodically from script to drain inbound traffic.
+Returns the next queued inbound text message on `handle`, or `""` if the queue is empty. There is no callback path: you must call this periodically from script to drain inbound traffic.
 
 ## Signature
 
@@ -14,7 +14,7 @@ static proto native string Receive(int handle);
 ## Parameters
 
 | Name | Type | Description |
-| --- | --- | --- |
+|---|---|---|
 | handle | `int` | The connection handle from [WebSocket.Connect](./connect). |
 
 ## Returns
@@ -23,13 +23,13 @@ The next queued inbound text message, or `""` if the queue is empty (including i
 
 ## Behavior
 
-Only text frames and the final fragment of continuation frames are surfaced — close frames and pings are handled by the pump internally. If the per-connection ring buffer (16 messages) is full when a new message arrives, the oldest message is dropped head-first to make room. Inbound frames larger than 4 KiB are truncated on enqueue. The result is written into a 4 KiB shared buffer valid until the next `Receive` on any handle; copy it into a script-owned string immediately if you want to retain it.
+Only text frames and the final fragment of continuation frames are surfaced. Close frames and pings are handled internally. Each connection keeps a 16-message inbound queue. When the queue is full, the oldest message is dropped to make room. Inbound frames larger than 4 KiB are truncated when queued. The result is written into a 4 KiB shared buffer that is valid until the next `Receive` call on any handle. Copy it into a script-owned string if you need to retain it.
 
 ## Edge cases
 
 - Each handle has its own 16-message ring.
-- Inbound frame cap is 4 KiB; over-cap is silently truncated.
-- No notification path — you must poll.
+- Inbound frames are capped at 4 KiB. Larger frames are truncated without an error.
+- No notification path: you must poll.
 - `""` from `Receive` is ambiguous: it can mean "queue empty" or "no messages yet".
 
 ## Example

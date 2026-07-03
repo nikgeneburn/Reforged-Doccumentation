@@ -1,9 +1,11 @@
 ---
 title: "Input"
-description: "Keyboard and mouse polling via Win32 virtual-key codes. Static methods, no handles."
+description: "Keyboard and mouse polling with Win32 virtual-key codes."
 ---
 
-`Input` exposes the keyboard and mouse state at the moment of the call. All methods are static. There are no events — poll `IsKeyDown` from a hook callback or a tight loop. Calls ignore window focus: when the OS thinks the key is down, the script sees it as down.
+`Input` reads keyboard and mouse state at the time of the call. All methods are static and polling-based. There are no input events, so scripts should poll from a hook callback or loop.
+
+Input state follows the OS key state and does not filter by window focus.
 
 ## Methods
 
@@ -11,23 +13,23 @@ description: "Keyboard and mouse polling via Win32 virtual-key codes. Static met
 
 | Method | Returns | Summary |
 |---|---|---|
-| [Input.IsKeyDown](./input/iskeydown) | int | `1` while a key (by virtual-key code) is held |
-| [Input.WasKeyPressed](./input/waskeypressed) | int | OS latch for a key's most recent down edge |
-| [Input.VK](./input/vk) | int | Look up a virtual-key code by name (e.g. `"F1"`, `"SHIFT"`, `"LBUTTON"`) |
+| [Input.IsKeyDown](./input/iskeydown) | `int` | Return `1` while a virtual-key code is held. |
+| [Input.WasKeyPressed](./input/waskeypressed) | `int` | Return the OS latch for a key's most recent down edge. |
+| [Input.VK](./input/vk) | `int` | Resolve a virtual-key code by name, such as `"F1"`, `"SHIFT"`, or `"LBUTTON"`. |
 
 ### Mouse
 
 | Method | Returns | Summary |
 |---|---|---|
-| [Input.MouseX](./input/mousex) | int | Cursor X in full-virtual-desktop screen coordinates |
-| [Input.MouseY](./input/mousey) | int | Cursor Y in full-virtual-desktop screen coordinates |
-| [Input.IsMouse1Down](./input/ismouse1down) | int | `1` while the left mouse button is held |
-| [Input.IsMouse2Down](./input/ismouse2down) | int | `1` while the right mouse button is held |
-| [Input.IsMouse3Down](./input/ismouse3down) | int | `1` while the middle mouse button is held |
-| [Input.IsMouse4Down](./input/ismouse4down) | int | `1` while mouse button 4 (X1) is held |
-| [Input.IsMouse5Down](./input/ismouse5down) | int | `1` while mouse button 5 (X2) is held |
+| [Input.MouseX](./input/mousex) | `int` | Cursor X in full virtual desktop screen coordinates. |
+| [Input.MouseY](./input/mousey) | `int` | Cursor Y in full virtual desktop screen coordinates. |
+| [Input.IsMouse1Down](./input/ismouse1down) | `int` | Return `1` while the left mouse button is held. |
+| [Input.IsMouse2Down](./input/ismouse2down) | `int` | Return `1` while the right mouse button is held. |
+| [Input.IsMouse3Down](./input/ismouse3down) | `int` | Return `1` while the middle mouse button is held. |
+| [Input.IsMouse4Down](./input/ismouse4down) | `int` | Return `1` while mouse button 4, X1, is held. |
+| [Input.IsMouse5Down](./input/ismouse5down) | `int` | Return `1` while mouse button 5, X2, is held. |
 
-## Putting it together
+## Example
 
 ```enforce
 class Demo {

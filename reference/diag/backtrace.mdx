@@ -19,16 +19,16 @@ static proto native string Backtrace(int depth);
 
 ## Returns
 
-A newline-separated string of hex addresses, e.g. `"0x7FF6A1B0C2D0\n0x7FF6A1B12F80\n..."`.
+A newline-separated string of hex addresses, for example `"0x7FF6A1B0C2D0\n0x7FF6A1B12F80\n..."`.
 
 ## Behavior
 
-The first frame is the helper itself and is elided. The first several frames after that are usually engine-side (interpreter loop, native dispatcher) rather than script — use [Diag.ModuleForAddress](./moduleforaddress) to disambiguate.
+The first frame is the helper itself and is elided. The first several frames after that are usually engine-side (interpreter loop, native dispatcher) rather than script: use [Diag.ModuleForAddress](./moduleforaddress) to disambiguate.
 
 ## Edge cases
 
 - `depth <= 0` defaults to 16.
-- `depth > 62` is silently clamped to 62.
+- `depth > 62` is clamp without an errored to 62.
 - Return shares the process-wide buffer with other `Diag.*` string returns.
 
 ## Example

@@ -14,7 +14,7 @@ static proto native void Close(int handle);
 ## Parameters
 
 | Name | Type | Description |
-| --- | --- | --- |
+|---|---|---|
 | handle | `int` | The connection handle from [WebSocket.Connect](./connect). |
 
 ## Behavior
@@ -23,7 +23,7 @@ The send of the close control frame is serialized against [WebSocket.Send](./sen
 
 ## Edge cases
 
-- No-op for unknown or out-of-range handles. There is no return value.
+- Unknown or out-of-range handles have no effect. There is no return value.
 - State may continue to report `2` (open) for a short interval after `Close` returns; poll [WebSocket.State](./state) if you need to wait for the slot to fully free.
 
 ## Example

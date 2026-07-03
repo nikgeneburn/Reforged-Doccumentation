@@ -25,7 +25,7 @@ The virtual-key code, or `0` if `name` is empty or unrecognised.
 
 The name is uppercased before comparison. Accepted forms:
 
-- A–Z (also 0–9)
+- A-Z (also 0-9)
 - `F1..F24`
 - `NUMPAD0..NUMPAD9`
 - Mouse: `LBUTTON`, `RBUTTON`, `MBUTTON`, `XBUTTON1`, `XBUTTON2`, plus `MOUSE1..5` as synonyms
@@ -39,7 +39,7 @@ The name is uppercased before comparison. Accepted forms:
 
 ## Edge cases
 
-- Unknown name returns `0` silently — no log, no exception.
+- Unknown names return `0` without logging or throwing an exception.
 - Whitespace inside the name is not stripped; `VK("F 1")` does not match `F1`.
 
 ## Example

@@ -3,7 +3,7 @@ title: "Memory.WriteByte"
 description: "Write a single byte to game memory."
 ---
 
-Writes the low 8 bits of `value` at `addr`. Flips protection to RWX, writes, restores.
+Writes the low 8 bits of `value` at `addr`. Temporarily updates page protection, writes the value, and restores the previous protection.
 
 ## Signature
 
@@ -20,7 +20,7 @@ static proto native void WriteByte(pointer addr, int value);
 
 ## Returns
 
-`void`. Silent no-op on bad address / fault.
+`void`. Has no effect when the address is invalid or the operation faults.
 
 ## Example
 

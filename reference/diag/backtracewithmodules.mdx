@@ -3,7 +3,7 @@ title: "Diag.BacktraceWithModules"
 description: "Backtrace annotated with the module each frame lives in."
 ---
 
-Like [Diag.Backtrace](./backtrace), but each line is annotated with the module containing that frame: either `"<moduleFilename>+0x<offset>"` when the address falls inside a loaded module, or `"0x<hex>"` when it doesn't.
+Like [Diag.Backtrace](./backtrace), but each line is annotated with the module containing that frame: either `"<moduleFilename>+0x<offset>"` when the address falls inside a loaded module, or `"0x<hex>"` when it does not.
 
 ## Signature
 
@@ -27,7 +27,7 @@ Each frame is resolved independently against the loaded modules of the current p
 
 ## Edge cases
 
-- `depth > 62` is silently clamped to 62.
+- `depth > 62` is clamp without an errored to 62.
 - Return shares the process-wide buffer with other `Diag.*` string returns.
 
 ## Example
