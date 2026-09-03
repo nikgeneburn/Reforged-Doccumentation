@@ -18,14 +18,13 @@ static proto native void SetText(int handle, string text);
 
 ## Behavior
 
-Stored in a fixed internal buffer. The persistent Text object shares the same deferred rendering path as transient [Drawing.Text](text).
+Stored in a fixed internal buffer and rendered through the same atlas path as transient [Drawing.Text](text).
 
 ## Edge cases
 
-- Strings `>= 127` characters are truncated.
-- Pass `""` to clear.
+- Strings longer than 1023 bytes are truncated.
+- Pass `""` to clear the object and stop emitting text geometry.
 - Has no effect when the handle is invalid or the object is not `Text`.
-- **Currently deferred.** Text rendering is disabled until font atlas support is available.
 
 ## Example
 

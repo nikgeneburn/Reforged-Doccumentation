@@ -25,8 +25,9 @@ Transient: queued for the next frame only. Internally tessellates to a regular p
 
 ## Edge cases
 
-- `segments < 4` is clamped to 4.
-- Very high `segments` values clamp without an error to 128.
+- A nonpositive `radius` drops the complete primitive.
+- `segments < 4` uses the default of 24.
+- Values above 128 clamp to 128 without an error.
 - Uses the same coordinate and color conventions as the rest of `Drawing`. See the [overview](../drawing).
 
 ## Example

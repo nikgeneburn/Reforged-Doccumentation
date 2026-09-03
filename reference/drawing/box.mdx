@@ -26,7 +26,7 @@ Transient: the rectangle is queued for the next frame only. If `filled != 0`, th
 ## Edge cases
 
 - `thickness <= 0` is clamped to 1 for the outline pass.
-- Negative `w`/`h` are accepted but produce zero-area or flipped geometry.
+- Nonpositive `w` or `h` drops the complete primitive.
 - Uses the same coordinate and color conventions as the rest of `Drawing`. See the [overview](../drawing).
 
 ## Example

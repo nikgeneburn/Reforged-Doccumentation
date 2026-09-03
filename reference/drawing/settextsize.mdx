@@ -1,9 +1,9 @@
 ---
 title: "Drawing.SetTextSize"
-description: "Sets the point size of a persistent Text object."
+description: "Sets the glyph height of a persistent Text object."
 ---
 
-`Drawing.SetTextSize` configures the rendered point size of a persistent Text object.
+`Drawing.SetTextSize` configures the rendered glyph height of a persistent Text object.
 
 ## Signature
 
@@ -14,17 +14,16 @@ static proto native void SetTextSize(int handle, int size);
 ## Parameters
 
 - `handle`: a handle returned by [Drawing.New](new) with kind `"Text"`.
-- `size`: point size.
+- `size`: rendered glyph height in pixels.
 
 ## Behavior
 
-Persistent Text objects share the same deferred rendering path as transient [Drawing.Text](text). Default is 14 if never set.
+Persistent Text objects share the atlas rendering path used by transient [Drawing.Text](text). Default is 14 if never set.
 
 ## Edge cases
 
 - Clamped to >= 1.
 - Has no effect when the handle is invalid or the object is not `Text`.
-- **Currently deferred.** see [Drawing.SetText](settext).
 
 ## Example
 

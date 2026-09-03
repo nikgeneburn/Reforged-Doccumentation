@@ -122,6 +122,8 @@
             "pages": [
               "reference/drawing/line",
               "reference/drawing/box",
+              "reference/drawing/rect",
+              "reference/drawing/filledrect",
               "reference/drawing/circle",
               "reference/drawing/text",
               "reference/drawing/isoverlayready"

@@ -1,9 +1,9 @@
 ---
 title: "Drawing.SetSize"
-description: "Sets the width and height of a persistent Square or Box."
+description: "Sets the width and height of a persistent rectangle."
 ---
 
-`Drawing.SetSize` configures the dimensions of a Square/Box object.
+`Drawing.SetSize` configures the dimensions of a `Square`, `Box`, `Rect`, or `FilledRect` object.
 
 ## Signature
 
@@ -24,8 +24,8 @@ Width and height in screen-space pixels, measured from the anchor set by [SetPos
 ## Edge cases
 
 - Has no effect when the handle is invalid.
-- Has no effect when the object is not a `Square` or `Box`.
-- Negative or zero dimensions produce degenerate geometry and are accepted without error.
+- Has no effect when the object is not a `Square`, `Box`, `Rect`, or `FilledRect`.
+- Nonpositive dimensions are retained but do not emit geometry while the object is visible.
 
 ## Example
 

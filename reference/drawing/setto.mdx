@@ -1,6 +1,6 @@
 ---
 title: "Drawing.SetTo"
-description: "Sets the second anchor of a Line or the size of a Square or Box."
+description: "Sets the second anchor of a Line or the dimensions of a persistent rectangle."
 ---
 
 `Drawing.SetTo` has two related meanings depending on object kind.
@@ -14,12 +14,12 @@ static proto native void SetTo(int handle, int x, int y);
 ## Parameters
 
 - `handle`: a handle returned by [Drawing.New](new).
-- `x`, `y`: end point for `Line`; width/height for `Square` or `Box`.
+- `x`, `y`: end point for `Line`; width and height for `Square`, `Box`, `Rect`, or `FilledRect`.
 
 ## Behavior
 
 - `Line`: sets the endpoint (paired with [SetPosition](setposition) for the start).
-- `Square` or `Box`: acts as an alias for [SetSize](setsize) (width, height).
+- `Square`, `Box`, `Rect`, or `FilledRect`: acts as an alias for [SetSize](setsize) using width and height.
 
 ## Edge cases
 

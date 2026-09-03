@@ -17,12 +17,12 @@ static proto native void Destroy(int handle);
 
 ## Behavior
 
-Marks the slot invalid. Later setter calls using the same handle have no effect. The slot is not backfilled; see the handle reuse note below.
+Invalidates the handle and frees its slot for reuse. Later setter calls using the destroyed handle have no effect, even if a new object occupies the same slot.
 
 ## Edge cases
 
 - Has no effect for `0`, unknown handles, or already-destroyed handles.
-- The slot is **not** reused for a new object. Handles are monotonic within a session. Use [ClearAll](clearall) for a full reset.
+- A later object can reuse the slot with a different handle generation.
 - Other script-side references to the destroyed handle do not stop the host process.
 
 ## Example

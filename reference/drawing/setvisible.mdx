@@ -18,7 +18,7 @@ static proto native void SetVisible(int handle, int visible);
 
 ## Behavior
 
-Newly-created objects are hidden by default; call this once your configuration is in place. The renderer snapshots visible objects each frame, so toggling this on/off is cheap.
+Newly-created objects are hidden by default; call this once configuration is complete. A visible object remains visible without refresh calls until explicitly hidden, destroyed, or cleared. Repeating the same value does not invalidate cached rendering state.
 
 ## Edge cases
 

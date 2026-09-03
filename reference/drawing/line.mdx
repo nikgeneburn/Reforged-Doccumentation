@@ -25,6 +25,7 @@ The segment is queued for the next frame only. The call does not return a handle
 ## Edge cases
 
 - `thickness <= 0` is clamped to 1.
+- A zero-length line is dropped.
 - Coordinates are top-left screen pixels, not world space.
 - If the overlay is not ready, the call is dropped without an error. Gate drawing on [Drawing.IsOverlayReady](isoverlayready).
 

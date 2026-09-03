@@ -1,9 +1,9 @@
 ---
 title: "Drawing.Text"
-description: "Draws a text label once on the next render (currently deferred)."
+description: "Draws an atlas-rendered text label once on the next render."
 ---
 
-`Drawing.Text` is the transient text primitive: intended to push a string into the overlay for the next frame.
+`Drawing.Text` queues a text string for the next overlay frame.
 
 ## Signature
 
@@ -16,15 +16,17 @@ static proto native void Text(int x, int y, string text, int argb, int size);
 - `x`, `y`: top-left in screen-space pixels.
 - `text`: string to render.
 - `argb`: color in `0xAARRGGBB` form.
-- `size`: point size.
+- `size`: rendered glyph height in pixels.
 
 ## Behavior
 
-Transient: queued for the next frame only. Persistent `Text` objects (configured via [New](new) and [SetText](settext)) share the same rendering path.
+Transient: queued for the next frame only. Text is emitted as indexed glyph quads from the built-in atlas. Persistent `Text` objects configured with [New](new) and [SetText](settext) share the same rendering path.
 
 ## Edge cases
 
-- **Currently deferred.** Text rendering is disabled until font atlas support is available. This affects both transient text and persistent `Text` objects.
+- Empty strings are dropped.
+- Printable ASCII uses the built-in 5 by 7 glyph set. Unsupported characters fall back to `?`.
+- `\n` starts a new line and `\r` is ignored.
 - `size <= 0` defaults to 14.
 - Coordinates use top-left screen pixels. See the [overview](../drawing).
 

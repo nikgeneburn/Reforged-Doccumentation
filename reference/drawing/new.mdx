@@ -13,7 +13,7 @@ static proto native int New(string kind);
 
 ## Parameters
 
-- `kind`: object kind (case-insensitive): `"Line"`, `"Square"`, `"Box"` (alias for `"Square"`), `"Circle"`, or `"Text"`.
+- `kind`: object kind (case-insensitive): `"Line"`, `"Square"`, `"Box"`, `"Rect"`, `"FilledRect"`, `"Circle"`, `"Text"`, or `"Font"`. `"Box"` and `"Rect"` alias `"Square"`. `"FilledRect"` aliases `"Square"` with filling enabled by default.
 
 ## Returns
 
@@ -22,12 +22,14 @@ static proto native int New(string kind);
 
 ## Behavior
 
-The returned handle is opaque to scripts. Newly-created objects default to **hidden**: you must call [SetVisible](setvisible) to render them. Configure the object with the matching `Set*` calls before making it visible. Persistent objects are snapshotted each frame.
+The returned handle is opaque to scripts. Newly-created objects default to **hidden**: configure the object with the matching `Set*` calls, then call [SetVisible](setvisible). Once visible, the object remains visible until explicitly hidden, destroyed, or cleared.
+
+`"Font"` reserves a font object kind, but the current public `Drawing` surface does not expose font configuration methods. Text uses the built-in atlas font.
 
 ## Edge cases
 
 - The pool cap is 1024 entries across all kinds. Beyond that, calls return `0`.
-- Handles are monotonic and **never reused** within a session, so a stale handle in a long-running script won't collide with a new one.
+- Freed slots can be reused. A reused slot receives a new handle generation, so setters using a stale handle have no effect.
 - Unknown kinds return `0` without raising an error.
 
 ## Example

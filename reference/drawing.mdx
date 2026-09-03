@@ -9,9 +9,10 @@ description: "Overlay primitives and persistent drawing objects."
 
 - Coordinates use screen-space pixels. The origin is top-left, +X moves right, and +Y moves down.
 - Colors use ARGB format: `0xAARRGGBB`.
-- Persistent handles are monotonic integers starting at `1`. `0` means no object.
+- Persistent handles are opaque positive integers. `0` means no object.
 - The persistent object pool holds up to 1024 objects.
-- `Destroy(handle)` and `ClearAll()` invalidate handles. Handles are not reused during a session.
+- `Destroy(handle)` and `ClearAll()` invalidate handles. Reused slots receive a new generation, so stale handles remain invalid.
+- A visible persistent object remains visible until `SetVisible(handle, 0)`, `Destroy(handle)`, or `ClearAll()`.
 - Invalid handles and invalid pointers return safe defaults instead of stopping the host process.
 - Wait for `Drawing.IsOverlayReady()` before drawing the first frame.
 
@@ -23,8 +24,10 @@ description: "Overlay primitives and persistent drawing objects."
 |---|---|
 | [Line](drawing/line) | Draw a line segment for one frame. |
 | [Box](drawing/box) | Draw an outlined or filled rectangle for one frame. |
+| [Rect](drawing/rect) | Draw an outlined rectangle for one frame. |
+| [FilledRect](drawing/filledrect) | Draw a filled rectangle for one frame. |
 | [Circle](drawing/circle) | Draw an outlined or filled circle for one frame. |
-| [Text](drawing/text) | Draw a text label for one frame. Text rendering is currently deferred. |
+| [Text](drawing/text) | Draw an atlas-rendered text label for one frame. |
 | [IsOverlayReady](drawing/isoverlayready) | Return `1` once the overlay is initialized. |
 
 ### Persistent objects

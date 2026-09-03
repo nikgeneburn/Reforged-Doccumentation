@@ -18,7 +18,7 @@ static proto native void SetFilled(int handle, int filled);
 
 ## Behavior
 
-For `Square`/`Box` and `Circle`, this picks between a solid filled interior and an outline at [SetThickness](setthickness) pixels.
+For `Square`, `Box`, `Rect`, `FilledRect`, and `Circle`, this picks between a solid interior and an outline at [SetThickness](setthickness) pixels. Objects created with `Drawing.New("FilledRect")` start with filling enabled.
 
 ## Edge cases
 

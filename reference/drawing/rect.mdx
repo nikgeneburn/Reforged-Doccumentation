@@ -1,0 +1,37 @@
+---
+title: "Drawing.Rect"
+description: "Draws an outlined rectangle once on the next render."
+---
+
+`Drawing.Rect` queues one transient outlined rectangle for the next overlay frame. It is the outlined convenience form of [Drawing.Box](box).
+
+## Signature
+
+```enforce
+static proto native void Rect(int x, int y, int w, int h, int argb, int thickness);
+```
+
+## Parameters
+
+- `x`, `y`: top-left in screen-space pixels.
+- `w`, `h`: width and height in pixels.
+- `argb`: color in `0xAARRGGBB` form.
+- `thickness`: outline width in pixels.
+
+## Behavior
+
+Equivalent to `Drawing.Box(x, y, w, h, argb, thickness, 0)`. The rectangle is retained for one frame only.
+
+For a persistent outlined rectangle, use `Drawing.New("Rect")`.
+
+## Edge cases
+
+- `thickness <= 0` is clamped to 1.
+- Nonpositive `w` or `h` drops the complete primitive.
+- The call does not create a persistent handle.
+
+## Example
+
+```enforce
+Drawing.Rect(50, 50, 200, 80, 0xFF22AACC, 2);
+```

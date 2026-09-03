@@ -1,0 +1,35 @@
+---
+title: "Drawing.FilledRect"
+description: "Draws a filled rectangle once on the next render."
+---
+
+`Drawing.FilledRect` queues one transient filled rectangle for the next overlay frame. It is the filled convenience form of [Drawing.Box](box).
+
+## Signature
+
+```enforce
+static proto native void FilledRect(int x, int y, int w, int h, int argb);
+```
+
+## Parameters
+
+- `x`, `y`: top-left in screen-space pixels.
+- `w`, `h`: width and height in pixels.
+- `argb`: color in `0xAARRGGBB` form.
+
+## Behavior
+
+Equivalent to `Drawing.Box(x, y, w, h, argb, 1, 1)`. The rectangle is retained for one frame only.
+
+For a persistent filled rectangle, use `Drawing.New("FilledRect")`.
+
+## Edge cases
+
+- Nonpositive `w` or `h` drops the complete primitive.
+- The call does not create a persistent handle.
+
+## Example
+
+```enforce
+Drawing.FilledRect(50, 50, 200, 80, 0xCC2266AA);
+```
